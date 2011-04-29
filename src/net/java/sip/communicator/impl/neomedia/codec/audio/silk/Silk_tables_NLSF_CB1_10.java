@@ -14,8 +14,8 @@ import java.util.Arrays;
 /**
  * This file has been automatically generated
  * ROM usage:  0.19 + 1.61 kB
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_tables_NLSF_CB1_10 
 {

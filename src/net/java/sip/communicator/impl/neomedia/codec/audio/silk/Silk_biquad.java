@@ -8,9 +8,9 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 /**
  * Second order ARMA filter 
- * Can handle slowly varying filter coefficients 
- * @author 
+ * Can handle slowly varying filter coefficients
  *
+ * @author Jing Dai
  */
 public class Silk_biquad 
 {

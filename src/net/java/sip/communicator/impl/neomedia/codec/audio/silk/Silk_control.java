@@ -8,9 +8,8 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_control 
 {
@@ -21,7 +20,8 @@ public class Silk_control
 /***********************************************/
 /**
  * Structure for controlling encoder operation
- * @author
+ *
+ * @author Jing Dai
  */
 class SKP_SILK_SDK_EncControlStruct
 {

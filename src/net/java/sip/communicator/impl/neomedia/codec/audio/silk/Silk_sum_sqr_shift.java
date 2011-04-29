@@ -6,11 +6,12 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_sum_sqr_shift.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
  * compute number of bits to right shift the sum of squares of a vector 
- * of int16s to make it fit in an int32 
- * @author 
- *
+ * of int16s to make it fit in an int32
+ * 
+ * @author Jing Dai
  */
 public class Silk_sum_sqr_shift 
 {

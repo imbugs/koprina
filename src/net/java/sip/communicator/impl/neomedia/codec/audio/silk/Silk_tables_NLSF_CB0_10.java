@@ -12,10 +12,10 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 import java.util.Arrays;
 
 /**
- *  This file has been automatically generated
- *  ROM usage:  0.29 + 2.66 kB      
- * @author 
+ * This file has been automatically generated
+ * ROM usage:  0.29 + 2.66 kB
  *
+ * @author Jing Dai
  */
 public class Silk_tables_NLSF_CB0_10
 {

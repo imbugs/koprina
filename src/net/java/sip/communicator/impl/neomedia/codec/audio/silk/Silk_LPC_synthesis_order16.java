@@ -8,10 +8,10 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_LPC_synthesis_order16.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_LPC_synthesis_order16
 {

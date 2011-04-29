@@ -5,13 +5,11 @@
  * Class "Silk_SDK_API" is mainly based on 
  *../SILK_SDK_SRC_FLP_v1.0.6/interface/SKP_Silk_SDK_API.h
  */
-
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_SDK_API 
 {

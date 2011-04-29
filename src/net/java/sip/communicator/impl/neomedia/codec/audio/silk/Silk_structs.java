@@ -8,9 +8,8 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_structs
 {	
@@ -18,8 +17,9 @@ public class Silk_structs
 }
 /************************************/
 /**
- *  Noise shaping quantization state 
- *  @author 
+ * Noise shaping quantization state
+ *
+ * @author Jing Dai
  */
 /************************************/
 class SKP_Silk_nsq_state

@@ -6,10 +6,10 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_NLSF_MSVQ_decode.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_NLSF_MSVQ_decode 
 {

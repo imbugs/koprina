@@ -8,8 +8,8 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author djinn
  *
+ * @author Jing Dai
  */
 public class Silk_resampler_private_AR2 
 {

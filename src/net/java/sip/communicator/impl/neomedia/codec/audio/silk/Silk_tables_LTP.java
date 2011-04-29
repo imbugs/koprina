@@ -4,11 +4,12 @@
  * 
  * Class "Silk_tables_LTP" is mainly based on 
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_tables_LTP.c
- */package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+ */
+package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_tables_LTP 
 {

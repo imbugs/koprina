@@ -9,8 +9,8 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  * Decode frame
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_decode_frame 
 {

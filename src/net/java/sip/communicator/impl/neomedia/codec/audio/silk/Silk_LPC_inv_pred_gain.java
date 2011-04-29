@@ -6,11 +6,12 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_LPC_inv_pred_gain.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
  * Compute inverse of LPC prediction gain, and                          
  * test if LPC coefficients are stable (all poles within unit circle)
- * @author
  *
+ * @author Jing Dai
  */
 public class Silk_LPC_inv_pred_gain 
 {

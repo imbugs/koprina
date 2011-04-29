@@ -10,8 +10,9 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 import java.io.*;
 
 /**
- * @author
  *
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 class Encoder_constants
 {

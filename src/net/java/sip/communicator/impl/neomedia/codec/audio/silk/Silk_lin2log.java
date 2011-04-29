@@ -8,10 +8,11 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_lin2log.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
- * Convert input to a log scale  
- * @author
- *
+ * Convert input to a log scale
+ *  
+ * @author Jing Dai
  */
 public class Silk_lin2log
 {

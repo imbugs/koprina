@@ -6,10 +6,11 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_MA.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
  * Variable order MA filter 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_MA 
 {

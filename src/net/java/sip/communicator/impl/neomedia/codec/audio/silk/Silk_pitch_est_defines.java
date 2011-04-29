@@ -6,10 +6,11 @@
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_pitch_est_defines.c
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
  * Definitions For Fix pitch estimator
- * @author
  *
+ * @author Jing Dai
  */
 public class Silk_pitch_est_defines 
 {

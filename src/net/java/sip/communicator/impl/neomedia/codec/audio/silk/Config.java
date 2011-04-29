@@ -8,15 +8,12 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
  *
+ * @author Jing Dai
  */
 public class Config
 {
 	static  boolean _SYSTEM_IS_BIG_ENDIAN = true;
 
 	static final boolean SKP_USE_DOUBLE_PRECISION_FLOATS = false;
-	
-	
-
 }

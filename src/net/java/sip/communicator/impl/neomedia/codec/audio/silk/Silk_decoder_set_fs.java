@@ -5,15 +5,13 @@
  * Class "Silk_decoder_set_fs" is mainly based on 
  *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_decoder_set_fs.c
  */
-
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 import java.util.Arrays;
 
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_decoder_set_fs
 {

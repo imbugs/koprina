@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 /**
  * Decode quantization indices of excitation
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_decode_pulses
 {

@@ -12,8 +12,8 @@ import java.util.*;
 
 /**
  * Silk decoder test program
- * @author 
  *
+ * @author Jing Dai
  */
 public class Decoder 
 {

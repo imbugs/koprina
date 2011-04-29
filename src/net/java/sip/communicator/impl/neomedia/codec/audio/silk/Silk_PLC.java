@@ -12,9 +12,8 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 import java.util.Arrays;
 
 /**
- * 
- * @author 
  *
+ * @author Jing Dai
  */
 public class Silk_PLC
 {

@@ -10,9 +10,9 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 import java.util.Arrays;
 
 /**
- *  Core decoder. Performs inverse NSQ operation LTP + LPC
- * @author 
+ * Core decoder. Performs inverse NSQ operation LTP + LPC
  *
+ * @author Jing Dai
  */
 public class Silk_decode_core 
 {

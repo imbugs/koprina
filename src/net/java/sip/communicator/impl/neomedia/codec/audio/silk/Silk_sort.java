@@ -1,15 +1,15 @@
 /**
-	 * Translated from the C code of Skype SILK codec (ver. 1.0.6)
-	 * Downloaded from  http://developer.skype.com/silk/
-	 * 
-	 * Class "Silk_sort" is mainly based on 
-	 *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_sort.c
-	 */
-package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
-/**
+ * Translated from the C code of Skype SILK codec (ver. 1.0.6)
+ * Downloaded from  http://developer.skype.com/silk/
  * 
- * @author 
+ * Class "Silk_sort" is mainly based on 
+ *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_sort.c
+ */
+package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
+/**
  *
+ * @author Jing Dai
  */
 public class Silk_sort 
 {

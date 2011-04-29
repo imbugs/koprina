@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 /**
  * Decode parameters from payload
- * @author xdxn
  *
+ * @author Jing Dai
  */
 public class Silk_decode_parameters
 {

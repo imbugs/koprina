@@ -8,8 +8,8 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
  *
+ * @author Jing Dai
  */
 class Silk_SigProc_FLP_constants
 {

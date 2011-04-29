@@ -8,8 +8,8 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
  *
+ * @author Jing Dai
  */
 public class Silk_LBRR_reset 
 {

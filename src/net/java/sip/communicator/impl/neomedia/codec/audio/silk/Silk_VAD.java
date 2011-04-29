@@ -8,8 +8,9 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
  *
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_VAD 
 {
