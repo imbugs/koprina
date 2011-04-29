@@ -65,14 +65,14 @@ class SKP_Silk_predict_state_FLP
 /* structure for one stage of MSVQ */
 class SKP_Silk_NLSF_CBS_FLP
 {
-    int   nVectors;
+    final int   nVectors;
     float[]     CB;
     float[]     Rates;
 } 
 
 class SKP_Silk_NLSF_CB_FLP 
 {
-    int                         nStages;
+    final int                         nStages;
 
     /* fields for (de)quantizing */
     SKP_Silk_NLSF_CBS_FLP CBStages;
@@ -108,11 +108,10 @@ class SKP_Silk_encoder_state_FLP
     SKP_Silk_nsq_state                  sNSQ_LBRR;                  /* Noise Shape Quantizer State ( for low bitrate redundancy )*/
 
     /* Function pointer to noise shaping quantizer (will be set to SKP_Silk_NSQ or SKP_Silk_NSQ_del_dec) */
-//    void    (* NoiseShapingQuantizer)( SKP_Silk_encoder_state *, SKP_Silk_encoder_control *, SKP_Silk_nsq_state *, const SKP_int16 *, 
-//                                       SKP_int8 *, const SKP_int, const SKP_int16 *, const SKP_int16 *, const SKP_int16 *, const SKP_int *, 
-//                                        const SKP_int *, const SKP_int32 *, const SKP_int32 *, SKP_int, const SKP_int
-//    );
-    String NoiseShapingQuantizer;
+    void    (* NoiseShapingQuantizer)( SKP_Silk_encoder_state *, SKP_Silk_encoder_control *, SKP_Silk_nsq_state *, const SKP_int16 *, 
+                                       SKP_int8 *, const SKP_int, const SKP_int16 *, const SKP_int16 *, const SKP_int16 *, const SKP_int *, 
+                                        const SKP_int *, const SKP_int32 *, const SKP_int32 *, SKP_int, const SKP_int
+    );
 
     /* Buffer for find pitch and noise shape analysis */
     float[]                         x_buf = new float[ 2 * Silk_define.MAX_FRAME_LENGTH + Silk_define.LA_SHAPE_MAX ];/* Buffer for find pitch and noise shape analysis */
@@ -151,15 +150,15 @@ class SKP_Silk_encoder_control_FLP
 
     /* Prediction and coding parameters */
     int[]                   Gains_Q16 = new int[ Silk_define.NB_SUBFR ];
-//    SKP_array_of_int16_4_byte_aligned( PredCoef_Q12[ 2 ], MAX_LPC_ORDER );TODO:4-byte aligned
-    short[][] PredCoef_Q12 = new short[2][Silk_define.MAX_LPC_ORDER];
+//    SKP_array_of_int16_4_byte_aligned( PredCoef_Q12[ 2 ], MAX_LPC_ORDER );
+??    short[][] PredCoef_Q12 = new short[2][Silk_define.MAX_LPC_ORDER];
     short[]                   LTPCoef_Q14 = new short[ Silk_define.LTP_ORDER * Silk_define.NB_SUBFR ];
     int                     LTP_scale_Q14;
 
     /* Noise shaping parameters */
     /* Testing */
-//    SKP_array_of_int16_4_byte_aligned( AR2_Q13, NB_SUBFR * SHAPE_LPC_ORDER_MAX );TODO:4-byte aligned
-    short[] AR2_Q13 = new short[Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX];
+//    SKP_array_of_int16_4_byte_aligned( AR2_Q13, NB_SUBFR * SHAPE_LPC_ORDER_MAX );
+??    short[] AR2_Q13 = new short[Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX];
     int[]                     LF_shp_Q14 = new int[        Silk_define.NB_SUBFR ];      /* Packs two int16 coefficients per int32 value             */
     int[]                     Tilt_Q14 = new int[          Silk_define.NB_SUBFR ];
     int[]                     HarmShapeGain_Q14 = new int[ Silk_define.NB_SUBFR ];

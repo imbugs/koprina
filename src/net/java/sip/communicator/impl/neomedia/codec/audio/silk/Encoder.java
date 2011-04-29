@@ -77,21 +77,21 @@ public class Encoder
 	
 	public static void main( String[] argv )
 	{
-	    int    counter = 0;
+	    int    counter;
 	    int k, args, totPackets, totActPackets, ret;
 	    short[] nBytes = new short[1];
 	    double    sumBytes, sumActBytes, avg_rate, act_rate, nrg;
 //	    SKP_uint8 payload[ MAX_BYTES_PER_FRAME * MAX_INPUT_FRAMES ];
 	    byte[] payload = new byte[ MAX_BYTES_PER_FRAME * MAX_INPUT_FRAMES ];
 	    short[] in = new short[ FRAME_LENGTH_MS * MAX_API_FS_KHZ * MAX_INPUT_FRAMES ];
-	    byte[] in_djinn = new byte[ 2*FRAME_LENGTH_MS * MAX_API_FS_KHZ * MAX_INPUT_FRAMES ];
+	    byte[] in_tmp = new byte[ 2*FRAME_LENGTH_MS * MAX_API_FS_KHZ * MAX_INPUT_FRAMES ];
 //	    char      speechInFileName[ 150 ], bitOutFileName[ 150 ];
 	    String speechInFileName, bitOutFileName;
 //	    FILE      *bitOutFile, *speechInFile;
-	    FileInputStream speechInFile = null;
-	    DataInputStream speechInData = null;
-	    FileOutputStream bitOutFile = null;
-	    DataOutputStream bitOutData = null;
+	    FileInputStream speechInFile;
+	    DataInputStream speechInData;
+	    FileOutputStream bitOutFile;
+	    DataOutputStream bitOutData;
 	    int[] encSizeBytes = new int[1];
 //	    void      *psEnc;
 	    SKP_Silk_encoder_state psEnc;
@@ -107,7 +107,7 @@ public class Encoder
 		int frameSizeReadFromFile_ms = 20;
 		int packetLoss_perc = 0, complexity_mode = 2, smplsSinceLastPacket;
 		int INBandFEC_enabled = 0, DTX_enabled = 0, quiet = 0;
-	    SKP_SILK_SDK_EncControlStruct encControl = new SKP_SILK_SDK_EncControlStruct(); // Struct for input to encoder
+	    SKP_SILK_SDK_EncControlStruct encControl; // Struct for input to encoder
 	        
 	    if( argv.length < 2 ) 
 	    {
@@ -235,7 +235,7 @@ public class Encoder
 	    }
 
 	    /* Create Encoder */
-	    ret = Silk_enc_API.SKP_Silk_SDK_Get_Encoder_Size( encSizeBytes );
+??	    ret = Silk_enc_API.SKP_Silk_SDK_Get_Encoder_Size( encSizeBytes );
 	    if( ret!=0 ) 
 	    {
 	    	System.out.printf( "\nSKP_Silk_create_encoder returned %d", ret );
@@ -245,7 +245,7 @@ public class Encoder
 	    psEnc = new SKP_Silk_encoder_state();
 
 	    /* Reset Encoder */
-	    ret = Silk_enc_API.SKP_Silk_SDK_InitEncoder( psEnc, encControl );
+	    ret = Silk_enc_API.SKP_Silk_SDK_InitEncoder( psEnc, &encControl );
 	    if( ret!=0 ) 
 	    {
 	    	System.out.printf( "\nSKP_Silk_reset_encoder returned %d", ret );
@@ -277,12 +277,8 @@ public class Encoder
 	    {
 	        /* Read input from file */
 //	        counter = fread( in, sizeof( SKP_int16 ), ( frameSizeReadFromFile_ms * API_fs_Hz ) / 1000, speechInFile );
-	    	try
-	    	{
-	    		counter = speechInData.read(in_djinn, 0, 2*( frameSizeReadFromFile_ms * API_fs_Hz ) / 1000) >> 1;
-	    	}
-	    	catch(IOException e) {}
-	    	byteToShortArray(in_djinn, 0, in, 0, counter);
+	    	counter = speechInData.read(in_tmp, 0, 2*( frameSizeReadFromFile_ms * API_fs_Hz ) / 1000) >> 1;
+	    	byteToShortArray(in_tmp, 0, in, 0, counter);
 	    	
 //	#ifdef _SYSTEM_IS_BIG_ENDIAN
 	        if(Config._SYSTEM_IS_BIG_ENDIAN)
@@ -297,7 +293,7 @@ public class Encoder
 	        nBytes[0] = MAX_BYTES_PER_FRAME * MAX_INPUT_FRAMES;
 
 	        /* Silk Encoder */
-	        ret = Silk_enc_API.SKP_Silk_SDK_Encode( psEnc, encControl, in,0, (short)counter, payload,0, nBytes );
+	        ret = Silk_enc_API.SKP_Silk_SDK_Encode( psEnc, &encControl, in, (SKP_int16)counter, payload, &nBytes );
 	        if( ret!=0 )
 	        {
 	        	System.out.printf( "\nSKP_Silk_Encode returned %d", ret );
@@ -317,12 +313,10 @@ public class Encoder
 	            totPackets++;
 	            sumBytes  += nBytes[0];
 	            nrg = 0.0;
-	            for( k = 0; k < ( int )counter; k++ ) 
-	            {
+	            for( k = 0; k < ( int )counter; k++ ) {
 	                nrg += in[ k ] * (double)in[ k ];
 	            }
-	            if( ( nrg / ( int )counter ) > 1e3 ) 
-	            {
+	            if( ( nrg / ( int )counter ) > 1e3 ) {
 	                sumActBytes += nBytes[0];
 	                totActPackets++;
 	            }
@@ -334,31 +328,17 @@ public class Encoder
 	            nBytes_LE[0] = nBytes[0];
 	            swap_endian( nBytes_LE, 1 );
 //	            fwrite( &nBytes_LE, sizeof( SKP_int16 ), 1, bitOutFile );
-	            try
-	            {
-	            	bitOutData.writeShort(nBytes_LE[0]);
-	            }
-	    	    catch(IOException e) {}
+	            bitOutData.writeShort(nBytes_LE[0]);
 	            }
 //	#else
 	            else
-	            {
-	            try
-	            {
 //	            fwrite( &nBytes, sizeof( SKP_int16 ), 1, bitOutFile );
-	            	bitOutData.writeShort(nBytes[0]);
-	            }
-	    	    catch(IOException e) {}
-	            }
+	            bitOutData.writeShort(nBytes[0]);
 //	#endif
 
 	            /* Write payload */
 //	            fwrite( payload, sizeof( SKP_uint8 ), nBytes, bitOutFile );
-	            try
-	            {
-	            	bitOutData.write(payload, 0, nBytes[0]);
-	            }
-	    	    catch(IOException e) {}
+	            bitOutData.write(payload, 0, nBytes[0]);
 	        
 	            if( quiet==0 )
 	            {
@@ -373,25 +353,17 @@ public class Encoder
 
 	    /* Write payload size */
 //	    fwrite( &nBytes, sizeof( SKP_int16 ), 1, bitOutFile );
-	    try
-	    {
-	    	bitOutData.writeShort(nBytes[0]);
-	    }
-	    catch(IOException e) {}
+	    bitOutData.writeShort(nBytes[0]);
 
 	    /* Free Encoder */
 //	    free( psEnc );
 
-	    try
-	    {
 //	    fclose( speechInFile );
-	    	speechInFile.close();
-	    	speechInData.close();
+	    speechInFile.close();
+	    speechInData.close();
 //	    fclose( bitOutFile   );
-	    	bitOutFile.close();
-	    	bitOutData.close();
-	    }
-	    catch(IOException e) {}
+	    bitOutFile.close();
+	    bitOutData.close();
 
 	    avg_rate  = 8.0 / packetSize_ms * sumBytes       / totPackets;
 	    act_rate  = 8.0 / packetSize_ms * sumActBytes    / totActPackets;

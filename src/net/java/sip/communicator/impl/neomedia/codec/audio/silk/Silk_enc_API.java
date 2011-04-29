@@ -21,8 +21,7 @@ public class Silk_enc_API
 	{
 	    int ret = 0;
 	    
-//	    encSizeBytes[0] = sizeof( SKP_Silk_encoder_state_FLP );
-	    System.out.println("SKP_Silk_SDK_Get_Encoder_Size is meaningless in java");
+	    encSizeBytes[0] = sizeof( SKP_Silk_encoder_state_FLP );
 	    
 	    return ret;
 	}
@@ -93,13 +92,14 @@ public class Silk_enc_API
 	    int                            nSamplesIn,    /* I:   Number of samples in input vector               */
 	    byte[]                         outData,       /* O:   Encoded output vector                           */
 	    int outData_offset,
-	    short[]                        nBytesOut      /* I/O: Number of bytes in outData (input: Max bytes)   */
+	    short[]                        nBytesOut,      /* I/O: Number of bytes in outData (input: Max bytes)   */
+	    int nBytesOut_offset
 	)
 	{
 	    int   max_internal_fs_kHz, PacketSize_ms, PacketLoss_perc, UseInBandFEC, UseDTX, ret = 0;
 	    int   nSamplesToBuffer, Complexity, input_ms, nSamplesFromInput = 0;
 	    int TargetRate_bps, API_fs_Hz;
-	    short MaxBytesOut[] = new short[1];
+	    short MaxBytesOut;
 	    SKP_Silk_encoder_state_FLP psEnc = ( SKP_Silk_encoder_state_FLP )encState;
 
 	    assert( encControl != null );
@@ -165,7 +165,7 @@ public class Silk_enc_API
 	    }
 
 	    /* Input buffering/resampling and encoding */
-	    MaxBytesOut[0] = 0;                    /* return 0 output bytes if no encoder called */
+	    MaxBytesOut = 0;                    /* return 0 output bytes if no encoder called */
 	    while( true )
 	    {
 	        nSamplesToBuffer = psEnc.sCmn.frame_length - psEnc.sCmn.inputBufIx;
@@ -174,16 +174,14 @@ public class Silk_enc_API
 	            nSamplesToBuffer  = Math.min( nSamplesToBuffer, nSamplesIn );
 	            nSamplesFromInput = nSamplesToBuffer;
 	            /* Copy to buffer */
-//	            SKP_memcpy( &psEnc->sCmn.inputBuf[ psEnc->sCmn.inputBufIx ], samplesIn, nSamplesFromInput * sizeof( SKP_int16 ) );
-	            for(int i_djinn=0; i_djinn<nSamplesFromInput; i_djinn++)
-	            	psEnc.sCmn.inputBuf[ psEnc.sCmn.inputBufIx + i_djinn ] = samplesIn[samplesIn_offset+i_djinn];	            
+	            SKP_memcpy( &psEnc->sCmn.inputBuf[ psEnc->sCmn.inputBufIx ], samplesIn, nSamplesFromInput * sizeof( SKP_int16 ) );
 	        } 
 	        else 
 	        {  
 	            nSamplesToBuffer  = Math.min( nSamplesToBuffer, ( int )nSamplesIn * psEnc.sCmn.fs_kHz * 1000 / API_fs_Hz );
 	            nSamplesFromInput = (int)( nSamplesToBuffer * API_fs_Hz / ( psEnc.sCmn.fs_kHz * 1000 ) );
 	            /* Resample and write to buffer */
-	            ret += Silk_resampler.SKP_Silk_resampler( psEnc.sCmn.resampler_state, psEnc.sCmn.inputBuf,psEnc.sCmn.inputBufIx, samplesIn,samplesIn_offset, nSamplesFromInput );
+	            ret += Silk_resampler.SKP_Silk_resampler( psEnc.sCmn.resampler_state, psEnc.sCmn.inputBuf[ psEnc.sCmn.inputBufIx ], samplesIn, nSamplesFromInput );
 	        } 
 	        samplesIn_offset              += nSamplesFromInput;
 	        nSamplesIn             -= nSamplesFromInput;
@@ -193,11 +191,11 @@ public class Silk_enc_API
 	        if( psEnc.sCmn.inputBufIx >= psEnc.sCmn.frame_length ) 
 	        {
 	            /* Enough data in input buffer, so encode */
-	            if( MaxBytesOut[0] == 0 ) 
+	            if( MaxBytesOut == 0 ) 
 	            {
 	                /* No payload obtained so far */
-	                MaxBytesOut[0] = nBytesOut[0];
-	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData,outData_offset, MaxBytesOut, psEnc.sCmn.inputBuf,0 ) ) != 0 )
+	                MaxBytesOut = nBytesOut[nBytesOut_offset];
+	                if( ( ret = SKP_Silk_encode_frame_FLP( psEnc, outData, &MaxBytesOut, psEnc->sCmn.inputBuf ) ) != 0 )
 	                {
 	                    assert( false );
 	                }
@@ -205,12 +203,12 @@ public class Silk_enc_API
 	            else
 	            {
 	                /* outData already contains a payload */
-	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData,outData_offset, nBytesOut, psEnc.sCmn.inputBuf,0 ) ) != 0 ) 
+	                if( ( ret = SKP_Silk_encode_frame_FLP( psEnc, outData, nBytesOut, psEnc->sCmn.inputBuf ) ) != 0 ) 
 	                {
 	                    assert( false );
 	                }
 	                /* Check that no second payload was created */
-	                assert( nBytesOut[0] == 0 );
+	                assert( nBytesOut[nBytesOut_offset] == 0 );
 	            }
 	            psEnc.sCmn.inputBufIx = 0;
 	        } 
@@ -220,11 +218,11 @@ public class Silk_enc_API
 	        }
 	    }
 
-	    nBytesOut[0] = MaxBytesOut[0];
+	    nBytesOut[nBytesOut_offset] = MaxBytesOut;
 	    if( psEnc.sCmn.useDTX!=0 && psEnc.sCmn.inDTX!=0 )
 	    {
 	        /* DTX simulation */
-	        nBytesOut[0] = 0;
+	        nBytesOut[nBytesOut_offset] = 0;
 	    }
 
 	    return ret;

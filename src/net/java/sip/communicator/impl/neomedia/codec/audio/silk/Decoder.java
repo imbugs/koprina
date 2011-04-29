@@ -148,22 +148,7 @@ public class Decoder
 	    speechOutFileName = argv[args];
 	    args++;
 	    
-//	    while( args < argc ) {
-//	        if( SKP_STR_CASEINSENSITIVE_COMPARE( argv[ args ], "-loss" ) == 0 ) {
-//	            sscanf( argv[ args + 1 ], "%f", &loss_prob );
-//	            args += 2;
-//	        } else if( SKP_STR_CASEINSENSITIVE_COMPARE( argv[ args ], "-Fs_API" ) == 0 ) {
-//	            sscanf( argv[ args + 1 ], "%d", &API_Fs_Hz );
-//	            args += 2;
-//	        } else if( SKP_STR_CASEINSENSITIVE_COMPARE( argv[ args ], "-quiet" ) == 0 ) {
-//	            quiet = 1;
-//	            args++;
-//	        } else {
-//	            printf( "Error: unrecognized setting: %s\n\n", argv[ args ] );
-//	            print_usage( argv );
-//	            exit( 0 );
-//	        }
-//	    }
+
 	    while(args<argv.length)
 	    {
 	    	if(argv[args].compareToIgnoreCase("-loss") == 0)
@@ -189,12 +174,7 @@ public class Decoder
 	    	}
 	    }
 
-//	    if( !quiet ) {
-//	        printf("******************* Silk Decoder v %s ****************\n", SKP_Silk_SDK_get_version());
-//	        printf("******************* Compiled for %d bit cpu ********* \n", (int)sizeof(void*) * 8 );
-//	        printf( "Input:                       %s\n", bitInFileName );
-//	        printf( "Output:                      %s\n", speechOutFileName );
-//	    }
+
 
 	    if( quiet ==0 ) {
 	        System.out.print("******************* Silk Decoder v " + Silk_dec_API.SKP_Silk_SDK_get_version()
