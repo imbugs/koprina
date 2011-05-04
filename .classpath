@@ -2,5 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="lib" path="/home/xdxn/workspace/Eclipse/koprina_silk4j/lib/installer-exclude/fmj.jar"/>
+	<classpathentry kind="lib" path="/home/xdxn/workspace/Eclipse/koprina_silk4j/lib/installer-exclude/jmf.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

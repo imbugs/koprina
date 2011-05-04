@@ -1,51 +1,66 @@
-/***********************************************************************
-Copyright (c) 2006-2010, Skype Limited. All rights reserved. 
-Redistribution and use in source and binary forms, with or without 
-modification, (subject to the limitations in the disclaimer below) 
-are permitted provided that the following conditions are met:
-- Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright 
-notice, this list of conditions and the following disclaimer in the 
-documentation and/or other materials provided with the distribution.
-- Neither the name of Skype Limited, nor the names of specific 
-contributors, may be used to endorse or promote products derived from 
-this software without specific prior written permission.
-NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED 
-BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
-CONTRIBUTORS ''AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
-BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF 
-USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-***********************************************************************/
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 import java.io.*;
 import java.util.*;
 
+import net.java.sip.communicator.util.*;
+
 /**
  * Silk decoder test program
- * @author Xu Dingxin
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Decoder 
 {
+    /**
+     * The <tt>Logger</tt> used by the <tt>Decoder</tt> class and its
+     * instances for logging output.
+     */
+    private static final Logger logger = Logger.getLogger(Decoder.class);
+    
+    /**
+     * the maximum bytes per frame.
+     */
     static final int MAX_BYTES_PER_FRAME =    1024;
+    
+    /**
+     * the maximum input frames in each packet.
+     */
     static final int MAX_INPUT_FRAMES =       5;
+    
+    /**
+     * the maximum frame length in samples.
+     */
     static final int MAX_FRAME_LENGTH =       480;
+    
+    /**
+     * the internal frame length is 20ms.
+     */
     static final int FRAME_LENGTH_MS =        20;
+    
+    /**
+     * the maximum external sampling frequency supported.
+     */
     static final int MAX_API_FS_KHZ =         48;
+    
+    /**
+     * the maximum LBRR delay.
+     */
     static final int MAX_LBRR_DELAY =         2;
 
     /**
      * convert a little endian int16 to a big endian int16
-     * or vica verca
+     * or vice versa.
+     * 
+     * @param vec the input short vector which to be converted.
+     * @param len the length of the vector.
      */
     static void swap_endian(
         short       vec[],
@@ -62,6 +77,11 @@ public class Decoder
         }
     }
     
+    /**
+     * print the usage information
+     * 
+     * @param argv the command line arguments.
+     */
     static void print_usage(String[] argv) {
         System.out.printf( "\nusage:  in.bit out.pcm [settings]\n" );
         System.out.printf( "\nin.bit       : Bitstream input to decoder" );
@@ -72,6 +92,11 @@ public class Decoder
         System.out.printf( "\n" );
     }
     
+    /**
+     * starts the Decoder test program.
+     * 
+     * @param argv command line arguments if any.
+     */
     public static void main(String[] argv)
     {
         long      counter = 0;
@@ -171,8 +196,7 @@ public class Decoder
                             new BufferedInputStream(
                                     new FileInputStream(bitInFileName)));
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("file not found", e);
         }   
         if( bitInFile == null ) {
             System.out.println( "Error: could not open input file " + bitInFileName );
@@ -183,8 +207,7 @@ public class Decoder
                                 new BufferedOutputStream(
                                         new FileOutputStream(speechOutFileName)));
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("file not found", e);
         }
         if( speechOutFile == null ) {
             System.out.println( "Error: could not open output file " + speechOutFileName );
@@ -225,8 +248,7 @@ public class Decoder
             try {
                 nBytes = bitInFile.readShort();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("error when read from input file", e);
             }           
             if(Config._SYSTEM_IS_BIG_ENDIAN)
             {
@@ -239,8 +261,7 @@ public class Decoder
             try {
                 counter = bitInFile.read(payloadEnd, payloadEnd_offset+0, nBytes);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("error when read from input file", e);
             }
     
             if( ( short )counter < nBytes ) {
@@ -255,8 +276,7 @@ public class Decoder
             try {
                 nBytes = bitInFile.readShort();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("error when read from input file", e);
             }       
             if(Config._SYSTEM_IS_BIG_ENDIAN)
             {
@@ -278,8 +298,7 @@ public class Decoder
             try {
                 counter = bitInFile.read(payloadEnd, payloadEnd_offset, nBytes);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("error when read from input file", e);
             }
             
             if( ( short )counter < nBytes ) {
@@ -380,8 +399,7 @@ public class Decoder
                 try {
                     speechOutFile.writeShort(out[write]);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    logger.error("error when write to the output file", e);
                 }
             }
 
@@ -485,8 +503,7 @@ public class Decoder
                 try {
                     speechOutFile.writeShort(out[write]);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    logger.error("error when write to the output file", e);
                 }
             }
             
@@ -512,8 +529,7 @@ public class Decoder
         try {
             speechOutFile.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("error when close the output file", e);
         }
         return ;
     }
