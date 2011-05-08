@@ -1,15 +1,18 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_errors" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_define.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
+ *This class contains a number of defines that controls the operation of SILK.
+ *Most of these should be left alone for ensuring proper operation. 
+ *However, a few can be changed if operation different from the default is desired.
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_define 
 {
@@ -75,8 +78,6 @@ public class Silk_define
 	static final int LOW_COMPLEXITY_ONLY =                    0;
 
 	/* Activate bandwidth transition filtering for mode switching */
-//djinn ?	
-//	#  define SWITCH_TRANSITION_FILTERING =          1;
 	static final int SWITCH_TRANSITION_FILTERING =            1;
 	
 	/* Decoder Parameters */
@@ -113,9 +114,6 @@ public class Silk_define
 	static final int FIND_PITCH_LPC_WIN_MS =                  (30 + (LA_PITCH_MS << 1));
 	static final int FIND_PITCH_LPC_WIN_MAX =                 (FIND_PITCH_LPC_WIN_MS * MAX_FS_KHZ);
 
-//	static final int PITCH_EST_COMPLEXITY_HC_MODE =           SKP_Silk_PITCH_EST_MAX_COMPLEX;
-//	static final int PITCH_EST_COMPLEXITY_MC_MODE =           SKP_Silk_PITCH_EST_MID_COMPLEX;
-//	static final int PITCH_EST_COMPLEXITY_LC_MODE =           SKP_Silk_PITCH_EST_MIN_COMPLEX;
 	static final int PITCH_EST_COMPLEXITY_HC_MODE =           Silk_SigProc_FIX.SKP_Silk_PITCH_EST_MAX_COMPLEX;
 	static final int PITCH_EST_COMPLEXITY_MC_MODE =           Silk_SigProc_FIX.SKP_Silk_PITCH_EST_MID_COMPLEX;
 	static final int PITCH_EST_COMPLEXITY_LC_MODE =           Silk_SigProc_FIX.SKP_Silk_PITCH_EST_MIN_COMPLEX;
@@ -200,12 +198,7 @@ public class Silk_define
 
 	static final int MAX_MATRIX_SIZE =                        MAX_LPC_ORDER; /* Max of LPC Order and LTP order */
 
-//	#if( MAX_LPC_ORDER > DECISION_DELAY )
-//	# define NSQ_LPC_BUF_LENGTH                     MAX_LPC_ORDER
-//	#else
-//	# define NSQ_LPC_BUF_LENGTH                     DECISION_DELAY
-//	#endif
-//djinn ??
+//TODO: convert a macro to a method.	
 	static int NSQ_LPC_BUF_LENGTH()
 	{
 		if(MAX_LPC_ORDER > DECISION_DELAY)
@@ -239,11 +232,6 @@ public class Silk_define
 	/******************/
 	/* NLSF quantizer */
 	/******************/
-//djinn ?
-//	#   define NLSF_MSVQ_MAX_CB_STAGES                      10  /* Update manually when changing codebooks      */
-//	#   define NLSF_MSVQ_MAX_VECTORS_IN_STAGE               128 /* Update manually when changing codebooks      */
-//	#   define NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END    16  /* Update manually when changing codebooks      */
-
 	static final int NLSF_MSVQ_MAX_CB_STAGES =                     10;  /* Update manually when changing codebooks      */
 	static final int NLSF_MSVQ_MAX_VECTORS_IN_STAGE =              128;/* Update manually when changing codebooks      */
 	static final int NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END =   16;  /* Update manually when changing codebooks      */
@@ -254,12 +242,6 @@ public class Silk_define
 	static final int MAX_NLSF_MSVQ_SURVIVORS_MC_MODE =        4;
 
 	/* Based on above defines, calculate how much memory is necessary to allocate */
-//	#if( NLSF_MSVQ_MAX_VECTORS_IN_STAGE > ( MAX_NLSF_MSVQ_SURVIVORS_LC_MODE * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END ) )
-//	#   define NLSF_MSVQ_TREE_SEARCH_MAX_VECTORS_EVALUATED_LC_MODE  NLSF_MSVQ_MAX_VECTORS_IN_STAGE
-//	#else
-//	#   define NLSF_MSVQ_TREE_SEARCH_MAX_VECTORS_EVALUATED_LC_MODE  MAX_NLSF_MSVQ_SURVIVORS_LC_MODE * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END
-//	#endif
-//djinn ??
 	static int NLSF_MSVQ_TREE_SEARCH_MAX_VECTORS_EVALUATED_LC_MODE()
 	{
 		if(NLSF_MSVQ_MAX_VECTORS_IN_STAGE > ( MAX_NLSF_MSVQ_SURVIVORS_LC_MODE * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END ))
@@ -268,38 +250,17 @@ public class Silk_define
 			return MAX_NLSF_MSVQ_SURVIVORS_LC_MODE * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END;
 	}
 
-//	#if( NLSF_MSVQ_MAX_VECTORS_IN_STAGE > ( MAX_NLSF_MSVQ_SURVIVORS * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END ) )
-//	#   define NLSF_MSVQ_TREE_SEARCH_MAX_VECTORS_EVALUATED  NLSF_MSVQ_MAX_VECTORS_IN_STAGE
-//	#else
-//	#   define NLSF_MSVQ_TREE_SEARCH_MAX_VECTORS_EVALUATED  MAX_NLSF_MSVQ_SURVIVORS * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END
-//	#endif
-//djinn ??
 	static int NLSF_MSVQ_TREE_SEARCH_MAX_VECTORS_EVALUATED()
 	{
 		if( NLSF_MSVQ_MAX_VECTORS_IN_STAGE > ( MAX_NLSF_MSVQ_SURVIVORS * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END ) )
 			return NLSF_MSVQ_MAX_VECTORS_IN_STAGE;
 		else
 			return MAX_NLSF_MSVQ_SURVIVORS * NLSF_MSVQ_MAX_VECTORS_IN_STAGE_TWO_TO_END;
-			
-			
 	}
 	
 	static final int NLSF_MSVQ_SURV_MAX_REL_RD  =             4;
 
 	/* Transition filtering for mode switching */
-//	#if SWITCH_TRANSITION_FILTERING
-//	#  define TRANSITION_TIME_UP_MS             5120 // 5120 = 64 * FRAME_LENGTH_MS * ( TRANSITION_INT_NUM - 1 ) = 64*(20*4)
-//	#  define TRANSITION_TIME_DOWN_MS           2560 // 2560 = 32 * FRAME_LENGTH_MS * ( TRANSITION_INT_NUM - 1 ) = 32*(20*4)
-//	#  define TRANSITION_NB                     3 /* Hardcoded in tables */
-//	#  define TRANSITION_NA                     2 /* Hardcoded in tables */
-//	#  define TRANSITION_INT_NUM                5 /* Hardcoded in tables */
-//	#  define TRANSITION_FRAMES_UP          ( TRANSITION_TIME_UP_MS   / FRAME_LENGTH_MS )
-//	#  define TRANSITION_FRAMES_DOWN        ( TRANSITION_TIME_DOWN_MS / FRAME_LENGTH_MS )
-//	#  define TRANSITION_INT_STEPS_UP       ( TRANSITION_FRAMES_UP    / ( TRANSITION_INT_NUM - 1 )  )
-//	#  define TRANSITION_INT_STEPS_DOWN     ( TRANSITION_FRAMES_DOWN  / ( TRANSITION_INT_NUM - 1 )  )
-//	#endif
-//djinn	??
-//	#if SWITCH_TRANSITION_FILTERING
 	static final int TRANSITION_TIME_UP_MS =            5120; // 5120 = 64 * FRAME_LENGTH_MS * ( TRANSITION_INT_NUM - 1 ) = 64*(20*4)
 	static final int TRANSITION_TIME_DOWN_MS =          2560; // 2560 = 32 * FRAME_LENGTH_MS * ( TRANSITION_INT_NUM - 1 ) = 32*(20*4)
 	static final int TRANSITION_NB =                    3; /* Hardcoded in tables */
@@ -309,16 +270,13 @@ public class Silk_define
 	static final int TRANSITION_FRAMES_DOWN =       ( TRANSITION_TIME_DOWN_MS / FRAME_LENGTH_MS );
 	static final int TRANSITION_INT_STEPS_UP =      ( TRANSITION_FRAMES_UP    / ( TRANSITION_INT_NUM - 1 )  );
 	static final int TRANSITION_INT_STEPS_DOWN =    ( TRANSITION_FRAMES_DOWN  / ( TRANSITION_INT_NUM - 1 )  );
-//	#endif
 	
-	
+//TODO:no need to convert from C to Java?	
 	/* Row based */
-//djinn	???
 //	#define matrix_ptr(Matrix_base_adr, row, column, N)         *(Matrix_base_adr + ((row)*(N)+(column)))
 //	#define matrix_adr(Matrix_base_adr, row, column, N)          (Matrix_base_adr + ((row)*(N)+(column)))
 
 	/* Column based */
-//djinn ???	
 //	#ifndef matrix_c_ptr
 //	#   define matrix_c_ptr(Matrix_base_adr, row, column, M)    *(Matrix_base_adr + ((row)+(M)*(column)))
 //	#endif
@@ -331,5 +289,4 @@ public class Silk_define
 	static final int CNG_BUF_MASK_MAX  =                              255;             /* 2^floor(log2(MAX_FRAME_LENGTH))  */
 	static final int CNG_GAIN_SMTH_Q16 =                              4634;            /* 0.25^(1/4)                       */
 	static final int CNG_NLSF_SMTH_Q16 =                              16348;           /* 0.25                             */
-
 }

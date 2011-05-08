@@ -8,8 +8,8 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author 
- *
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_decimate2_coarsest_FLP 
 {
@@ -17,18 +17,29 @@ public class Silk_decimate2_coarsest_FLP
 	/* note that these differ from the interpolator with the same filter orders! */
 	static float A20cst_FLP[  ] = {0.289001464843750f};
 	static float A21cst_FLP[  ] = {0.780487060546875f};
-
-	/* downsample by a factor 2, coarsest */
+	
+	/**
+	 * downsample by a factor 2, coarsest.
+	 * @param in 16 kHz signal [2*len].
+	 * @param in_offset offset of the valid data.
+	 * @param S state vector [2].
+	 * @param S_offset offset of the valid data.
+	 * @param out 8 kHz signal [len].
+	 * @param out_offset offset of the valid data.
+	 * @param scratch scratch memory [3*len].
+	 * @param scratch_offset offset of the valid data.
+	 * @param len number of OUTPUT samples.
+	 */
 	static void SKP_Silk_decimate2_coarsest_FLP(
-	    float[]     in,        /* I:   16 kHz signal [2*len]       */
-	    int in_offset,
+	    float[]           in,        /* I:   16 kHz signal [2*len]       */
+	    int               in_offset,
 	    float[]           S,         /* I/O: state vector [2]            */
-	    int S_offset,
+	    int               S_offset,
 	    float[]           out,       /* O:   8 kHz signal [len]          */
-	    int out_offset,
+	    int               out_offset,
 	    float[]           scratch,   /* I:   scratch memory [3*len]      */
-	    int scratch_offset,
-	    final int     len         /* I:   number of OUTPUT samples    */
+	    int               scratch_offset,
+	    final int         len         /* I:   number of OUTPUT samples    */
 	)
 	{
 	    int k;

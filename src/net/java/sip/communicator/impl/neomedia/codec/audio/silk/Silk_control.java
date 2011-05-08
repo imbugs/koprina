@@ -1,76 +1,98 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_control" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_control.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Silk codec encoder/decoder control class.
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_control 
 {
 }
 
-/***********************************************/
-/* Structure for controlling encoder operation */
-/***********************************************/
 /**
- * Structure for controlling encoder operation
+ * Class for controlling encoder operation
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 class SKP_SILK_SDK_EncControlStruct
 {
-    /* I:   Input signal sampling rate in Hertz; 8000/12000/16000/24000                     */
+    /**
+     * (Input) Input signal sampling rate in Hertz; 8000/12000/16000/24000.
+     */
     int API_sampleRate;
 
-    /* I:   Maximum internal sampling rate in Hertz; 8000/12000/16000/24000                 */
+    /**
+     * (Input) Maximum internal sampling rate in Hertz; 8000/12000/16000/24000.
+     */
     int maxInternalSampleRate;
 
-    /* I:   Number of samples per packet; must be equivalent of 20, 40, 60, 80 or 100 ms    */
+    /**
+     * (Input) Number of samples per packet; must be equivalent of 20, 40, 60, 80 or 100 ms.
+     */
     int packetSize;
 
-    /* I:   Bitrate during active speech in bits/second; internally limited                 */
+    /**
+     * (Input) Bitrate during active speech in bits/second; internally limited.
+     */
     int bitRate;                        
 
-    /* I:   Uplink packet loss in percent (0-100)                                           */
+    /**
+     * (Inpupt) Uplink packet loss in percent (0-100).
+     */
     int packetLossPercentage;
     
-    /* I:   Complexity mode; 0 is lowest; 1 is medium and 2 is highest complexity           */
+    /**
+     * (Input) Complexity mode; 0 is lowest; 1 is medium and 2 is highest complexity.
+     */
     int complexity;
 
-    /* I:   Flag to enable in-band Forward Error Correction (FEC); 0/1                      */
+    /**
+     * (Input) Flag to enable in-band Forward Error Correction (FEC); 0/1
+     */
     int useInBandFEC;
 
-    /* I:   Flag to enable discontinuous transmission (DTX); 0/1                            */
+    /**
+     * (Input) Flag to enable discontinuous transmission (DTX); 0/1
+     */
     int useDTX;
 }
 
-/**************************************************************************/
-/* Structure for controlling decoder operation and reading decoder status */
-/**************************************************************************/
 /**
- * Structure for controlling decoder operation and reading decoder status
- * @author
+ * Class for controlling decoder operation and reading decoder status.
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 class SKP_SILK_SDK_DecControlStruct
 {
-    /* I:   Output signal sampling rate in Hertz; 8000/12000/16000/24000                    */
+    /**
+     * (Input) Output signal sampling rate in Hertz; 8000/12000/16000/24000.
+     */
     int API_sampleRate;
 
-    /* O:   Number of samples per frame                                                     */
+    /**
+     * (Output) Number of samples per frame.
+     */
     int frameSize;
 
-    /* O:   Frames per packet 1, 2, 3, 4, 5                                                 */
+    /**
+     * (Output) Frames per packet 1, 2, 3, 4, 5.
+     */
     int framesPerPacket;
 
-    /* O:   Flag to indicate that the decoder has remaining payloads internally             */
+    /**
+     * (Output) Flag to indicate that the decoder has remaining payloads internally.
+     */
     int moreInternalDecoderFrames;
 
-    /* O:   Distance between main payload and redundant payload in packets                  */
+    /**
+     * (Output) Distance between main payload and redundant payload in packets.
+     */
     int inBandFECOffset;
 } 

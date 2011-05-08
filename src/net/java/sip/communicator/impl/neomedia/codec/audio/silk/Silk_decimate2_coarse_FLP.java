@@ -1,15 +1,15 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_decimate2_coarse_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_decimate2_coarse_FLP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_decimate2_coarse_FLP 
 {
@@ -17,17 +17,28 @@ public class Silk_decimate2_coarse_FLP
 	static float A20c_FLP[  ] = {0.064666748046875f, 0.508514404296875f};
 	static float A21c_FLP[  ] = {0.245666503906250f, 0.819732666015625f};
 
-	/* downsample by a factor 2, coarser */
+	/**
+	 * downsample by a factor 2, coarser.
+	 * @param in 16 kHz signal [2*len].
+	 * @param in_offset offset of the valid data.
+	 * @param S state vector [4]. 
+	 * @param S_offset offset of the valid data.
+	 * @param out 8 kHz signal [len]
+	 * @param out_offset offset of the valid data.
+	 * @param scratch scratch memory [3*len].
+	 * @param scratch_offset offset of the valid data.
+	 * @param len number of OUTPUT samples.
+	 */
 	static void SKP_Silk_decimate2_coarse_FLP
 	(
 	    float[]        in,        /* I:   16 kHz signal [2*len]       */
-	    int in_offset,
+	    int            in_offset,
 	    float[]        S,         /* I/O: state vector [4]            */
-	    int S_offset,
+	    int            S_offset,
 	    float[]        out,       /* O:   8 kHz signal [len]          */
-	    int out_offset,
+	    int            out_offset,
 	    float[]        scratch,   /* I:   scratch memory [3*len]      */
-	    int scratch_offset,
+	    int            scratch_offset,
 	    final int      len        /* I:   number of OUTPUT samples    */
 	)
 	{

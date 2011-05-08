@@ -1,28 +1,26 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_decode_pitch" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_decode_pitch.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * Pitch analyser function
+ * Pitch analyzer function.
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_decode_pitch 
 {
-	/***********************************************************
-	* Pitch analyser function
-	********************************************************** */
-//	void SKP_Silk_decode_pitch(
-//	    SKP_int          lagIndex,                        /* I                             */
-//	    SKP_int          contourIndex,                    /* O                             */
-//	    SKP_int          pitch_lags[],                    /* O 4 pitch values              */
-//	    SKP_int          Fs_kHz                           /* I sampling frequency (kHz)    */
-//	)
+    /**
+     * Pitch analyzer function.
+     * @param lagIndex 
+     * @param contourIndex
+     * @param pitch_lags 4 pitch values.
+     * @param Fs_kHz sampling frequency(kHz).
+     */
 	static void SKP_Silk_decode_pitch(
 		    int          lagIndex,                        /* I                             */
 		    int          contourIndex,                    /* O                             */
@@ -32,7 +30,6 @@ public class Silk_decode_pitch
 	{
 	    int lag, i, min_lag;
 
-//djinn ??	    min_lag = SKP_SMULBB( PITCH_EST_MIN_LAG_MS, Fs_kHz );
 	    min_lag = Silk_macros.SKP_SMULBB(Silk_common_pitch_est_defines.PITCH_EST_MIN_LAG_MS, Fs_kHz);
 
 	    /* Only for 24 / 16 kHz version for now */
@@ -48,5 +45,4 @@ public class Silk_decode_pitch
 	        }
 	    }
 	}
-
 }

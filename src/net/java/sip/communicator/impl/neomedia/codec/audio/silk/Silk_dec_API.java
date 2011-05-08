@@ -1,62 +1,76 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_dec_API" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_dec_API.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
-import java.util.Arrays;
+import java.util.*;
+
+import net.java.sip.communicator.util.*;
 
 /**
+ *The Decoder API.
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_dec_API 
 {
-	/*********************/
-	/* Decoder functions */
-	/*********************/
-//djinn ?
+    /**
+     * The <tt>Logger</tt> used by the <tt>Silk_dec_API</tt> class and its
+     * instances for logging output.
+     */
+    private static final Logger logger = Logger.getLogger(Silk_dec_API.class);
+
+    /**
+     * Get the memory size for the decoder state struct. 
+     * It's not required in Java.
+     * 
+     * @deprecated
+     * @param decSizeBytes the decoder state size in bytes
+     * @return
+     */
 	static int SKP_Silk_SDK_Get_Decoder_Size( int[] decSizeBytes ) 
 	{
 	    int ret = 0;
-
-//djinn TODO:???	    decSizeBytes = sizeof( SKP_Silk_decoder_state );
-//	    decSizeBytes[0] = ??
-	    System.err.println("Silk_dec_API.SKP_Silk_SDK_Get_Decoder_Size is usless??");
 	    return ret;
 	}
 
-	/* Reset decoder state */
-//	int SKP_Silk_SDK_InitDecoder(
-//	    void* decState                                      /* I/O: State                                          */
-//	)
+	/**
+	 * Reset the decoder state.
+	 * 
+	 * @param decState the decoder state
+	 * @return ret 
+	 */
 	static int SKP_Silk_SDK_InitDecoder(
 		    Object decState                                      /* I/O: State                                          */
 	)
 	{
 	    int ret = 0;
-//	    SKP_Silk_decoder_state *struc;
 	    SKP_Silk_decoder_state struc;
-//	    struc = (SKP_Silk_decoder_state *)decState;
 	    struc = (SKP_Silk_decoder_state )decState;
 	    ret  = Silk_create_init_destroy.SKP_Silk_init_decoder( struc );
 
 	    return ret;
 	}
 
-	/* Decode a frame */
-//	int SKP_Silk_SDK_Decode(
-//	    void*                               decState,       /* I/O: State                                           */
-//	    SKP_SILK_SDK_DecControlStruct*      decControl,     /* I/O: Control structure                               */
-//	    int                             lostFlag,       /* I:   0: no loss, 1 loss                              */
-//	    const SKP_uint8                     *inData,        /* I:   Encoded input vector                            */
-//	    const int                       nBytesIn,       /* I:   Number of input Bytes                           */
-//	    SKP_int16                           *samplesOut,    /* O:   Decoded output speech vector                    */
-//	    SKP_int16                           *nSamplesOut    /* I/O: Number of samples (vector/decoded)              */
-//	)
+	/**
+	 * Decode a frame.
+	 * 
+	 * @param decState the decoder state.
+	 * @param decControl the decoder control.
+	 * @param lostFlag the lost flag. 0: no loss; 1: loss.
+	 * @param inData encoding input vector.
+	 * @param inData_offset the actual data offset in the input vector.
+	 * @param nBytesIn number of input bytes.
+	 * @param samplesOut decoded output speech vector.
+	 * @param samplesOut_offset the actual data offset in the output vector.
+	 * @param nSamplesOut number of samples.
+	 * @return the returned value carries the error message. 
+	 * 0 indicates OK; other indicates error.
+	 */
 	static int SKP_Silk_SDK_Decode(
 		    Object                               decState,       /* I/O: State                                           */
 		    SKP_SILK_SDK_DecControlStruct        decControl,     /* I/O: Control structure                               */
@@ -70,10 +84,8 @@ public class Silk_dec_API
 	)
 	{
 	    int ret = 0, used_bytes, prev_fs_kHz;
-//	    SKP_Silk_decoder_state *psDec;
 	    SKP_Silk_decoder_state psDec;
 	    
-//	    psDec = (SKP_Silk_decoder_state *)decState;
 	    psDec = (SKP_Silk_decoder_state )decState;
 
 	    /**********************************/
@@ -96,8 +108,6 @@ public class Silk_dec_API
 	    prev_fs_kHz = psDec.fs_kHz;
 	    
 	    /* Call decoder for one frame */
-//	    ret += SKP_Silk_decode_frame( psDec, samplesOut, nSamplesOut, inData, nBytesIn, 
-//	            lostFlag, &used_bytes );
 	    int[] used_bytes_ptr =new int[1];
 	    ret += Silk_decode_frame.SKP_Silk_decode_frame( psDec, samplesOut, samplesOut_offset, nSamplesOut, inData, inData_offset,
 	    		nBytesIn, lostFlag, used_bytes_ptr );
@@ -139,25 +149,20 @@ public class Silk_dec_API
 
 	    /* Resample if needed */
 	    if( psDec.fs_kHz * 1000 != decControl.API_sampleRate ) { 
-//	        SKP_int16 samplesOut_tmp[ MAX_API_FS_KHZ * FRAME_LENGTH_MS ];
 	    	short[] samplesOut_tmp = new short[Silk_define.MAX_API_FS_KHZ * Silk_define.FRAME_LENGTH_MS];
 	        Silk_typedef.SKP_assert( psDec.fs_kHz <= Silk_define.MAX_API_FS_KHZ );
 
 	        /* Copy to a tmp buffer as the resampling writes to samplesOut */
-//djinn ??	        SKP_memcpy( samplesOut_tmp, samplesOut, *nSamplesOut * sizeof( SKP_int16 ) );
 	        System.arraycopy(samplesOut, samplesOut_offset+0, samplesOut_tmp, 0, nSamplesOut[0]);
 	        /* (Re-)initialize resampler state when switching internal sampling frequency */
 	        if( prev_fs_kHz != psDec.fs_kHz || psDec.prev_API_sampleRate != decControl.API_sampleRate ) {
-//	            ret = SKP_Silk_resampler_init( &psDec.resampler_state, SKP_SMULBB( psDec.fs_kHz, 1000 ), decControl.API_sampleRate );
 	        	ret = Silk_resampler.SKP_Silk_resampler_init( psDec.resampler_state, psDec.fs_kHz*1000, decControl.API_sampleRate );
 	        }
 
 	        /* Resample the output to API_sampleRate */
-//	        ret += SKP_Silk_resampler( &psDec.resampler_state, samplesOut, samplesOut_tmp, *nSamplesOut );
-	        ret += Silk_resampler.SKP_Silk_resampler( psDec.resampler_state, samplesOut, samplesOut_offset, samplesOut_tmp, 0, nSamplesOut[0] );
+	        ret += Silk_resampler.SKP_Silk_resampler( psDec.resampler_state, samplesOut, samplesOut_offset, samplesOut_tmp, 0, nSamplesOut[0]);
 
 	        /* Update the number of output samples */
-//	        *nSamplesOut = SKP_DIV32( ( int )*nSamplesOut * decControl.API_sampleRate, psDec.fs_kHz * 1000 );
 	        nSamplesOut[0] = (short)((int)(nSamplesOut[0] * decControl.API_sampleRate) / (psDec.fs_kHz * 1000));
 	    }
 
@@ -172,14 +177,17 @@ public class Silk_dec_API
 	    return ret;
 	}
 
-	/* Function to find LBRR information in a packet */
-//	void SKP_Silk_SDK_search_for_LBRR(
-//	    const SKP_uint8                     *inData,        /* I:   Encoded input vector                            */
-//	    const SKP_int16                     nBytesIn,       /* I:   Number of input Bytes                           */
-//	    int                             lost_offset,    /* I:   Offset from lost packet                         */
-//	    SKP_uint8                           *LBRRData,      /* O:   LBRR payload                                    */
-//	    SKP_int16                           *nLBRRBytes     /* O:   Number of LBRR Bytes                            */
-//	)
+	/**
+	 * Find LBRR information in a packet.
+	 * 
+	 * @param inData encoded input vector.
+	 * @param inData_offset offset of the valid data.
+	 * @param nBytesIn number of input bytes.
+	 * @param lost_offset offset from lost packet.
+	 * @param LBRRData LBRR payload.
+	 * @param LBRRData_offset offset of the valid data.
+	 * @param nLBRRBytes number of LBRR bytes.
+	 */
 	static void SKP_Silk_SDK_search_for_LBRR(
 		    byte[]                          inData,        /* I:   Encoded input vector                            */
 		    int 							inData_offset,
@@ -190,47 +198,37 @@ public class Silk_dec_API
 		    short[]                         nLBRRBytes     /* O:   Number of LBRR Bytes                            */
 	)
 	{
-//	    SKP_Silk_decoder_state   sDec; // Local decoder state to avoid interfering with running decoder */
-//djinn ??? the local sDec must be initialized in Java???
 		SKP_Silk_decoder_state   sDec = new SKP_Silk_decoder_state(); // Local decoder state to avoid interfering with running decoder */
-//	    SKP_Silk_decoder_control sDecCtrl;
-//djinn ???
 		SKP_Silk_decoder_control sDecCtrl = new SKP_Silk_decoder_control();
 	    int[] TempQ = new int[ Silk_define.MAX_FRAME_LENGTH ];
 
 	    if( lost_offset < 1 || lost_offset > Silk_define.MAX_LBRR_DELAY ) {
 	        /* No useful FEC in this packet */
-//	        *nLBRRBytes = 0;
 	    	nLBRRBytes[0] = 0;
 	        return;
 	    }
 
 	    sDec.nFramesDecoded = 0;
 	    sDec.fs_kHz         = 0; /* Force update parameters LPC_order etc */
-//djinn ?	    SKP_memset( sDec.prevNLSF_Q15, 0, MAX_LPC_ORDER * sizeof( int ) );
 	    Arrays.fill(sDec.prevNLSF_Q15, 0, Silk_define.MAX_LPC_ORDER, 0);
 	    
 	    for(int i=0; i<Silk_define.MAX_LPC_ORDER; i++)
 	    	sDec.prevNLSF_Q15[i] = 0;
 	    
-//	    SKP_Silk_range_dec_init( &sDec.sRC, inData, ( int )nBytesIn );
 	    Silk_range_coder.SKP_Silk_range_dec_init( sDec.sRC, inData, inData_offset, ( int )nBytesIn );
 	    
 	    while(true) {
-//	        SKP_Silk_decode_parameters( &sDec, &sDecCtrl, TempQ, 0 );
 	    	Silk_decode_parameters.SKP_Silk_decode_parameters(sDec, sDecCtrl, TempQ, 0);
 	        if( sDec.sRC.error!=0 ) {
 	            /* Corrupt stream */
-//	            *nLBRRBytes = 0;
 	        	nLBRRBytes[0] = 0;
 	            return;
 	        }
-//djinn ???	        };//djinn TODO: ; ??? 
+//TODO:note the semicolon;
+//          };
 	        if( (( sDec.FrameTermination - 1 ) & lost_offset)!=0 && sDec.FrameTermination > 0 && sDec.nBytesLeft >= 0 ) {
 	            /* The wanted FEC is present in the packet */
-//	            *nLBRRBytes = sDec.nBytesLeft;
 	            nLBRRBytes[0] = (short)sDec.nBytesLeft;
-//	            SKP_memcpy( LBRRData, &inData[ nBytesIn - sDec.nBytesLeft ], sDec.nBytesLeft * sizeof( SKP_uint8 ) );
 	            System.arraycopy(inData, inData_offset+nBytesIn - sDec.nBytesLeft, LBRRData, LBRRData_offset+0, sDec.nBytesLeft);
 	            break;
 	        }
@@ -238,42 +236,34 @@ public class Silk_dec_API
 	            sDec.nFramesDecoded++;
 	        } else {
 	            LBRRData = null;
-//	            *nLBRRBytes = 0;
 	            nLBRRBytes[0] = 0;
 	            break;
 	        }
 	    }
 	}
 
-	/* Getting type of content for a packet */
-//	void SKP_Silk_SDK_get_TOC(
-//	    const SKP_uint8                     *inData,        /* I:   Encoded input vector                            */
-//	    const SKP_int16                     nBytesIn,       /* I:   Number of input bytes                           */
-//	    SKP_Silk_TOC_struct                 *Silk_TOC       /* O:   Type of content                                 */
-//	)
+	/**
+	 * Getting type of content for a packet.
+	 * @param inData encoded input vector.
+	 * @param nBytesIn number of input bytes.
+	 * @param Silk_TOC type of content.
+	 */
 	static void SKP_Silk_SDK_get_TOC(
 		     byte[]                        inData,        /* I:   Encoded input vector                            */
 		     final short                   nBytesIn,       /* I:   Number of input bytes                           */
 		    SKP_Silk_TOC_struct            Silk_TOC       /* O:   Type of content                                 */
 		)
 	{
-		
-//	    SKP_Silk_decoder_state      sDec; // Local Decoder state to avoid interfering with running decoder */
-//djinn ??? the local sDec must be initialized in Java???
 		SKP_Silk_decoder_state      sDec = new SKP_Silk_decoder_state();
-//		SKP_Silk_decoder_control    sDecCtrl;
-//djinn ???
 		SKP_Silk_decoder_control    sDecCtrl = new SKP_Silk_decoder_control();
 		int[] TempQ = new int[ Silk_define.MAX_FRAME_LENGTH ];
 
 	    sDec.nFramesDecoded = 0;
 	    sDec.fs_kHz         = 0; /* Force update parameters LPC_order etc */
-//	    SKP_Silk_range_dec_init( &sDec.sRC, inData, ( int )nBytesIn );
 	    Silk_range_coder.SKP_Silk_range_dec_init( sDec.sRC, inData, 0,  ( int )nBytesIn );
 
 	    Silk_TOC.corrupt = 0;
 	    while( true ) {
-//	        SKP_Silk_decode_parameters( &sDec, &sDecCtrl, TempQ, 0 );
 	    	Silk_decode_parameters.SKP_Silk_decode_parameters( sDec, sDecCtrl, TempQ, 0 );
 	        
 	        Silk_TOC.vadFlags[     sDec.nFramesDecoded ] = sDec.vadFlag;
@@ -283,9 +273,9 @@ public class Silk_dec_API
 	            /* Corrupt stream */
 	            Silk_TOC.corrupt = 1;
 	            break;
-	        }
-//djinn ???	        };//djinn TODO: ; ???
-	    
+	        }	
+//TODO:note the semicolon;
+//          };
 	        if( sDec.nBytesLeft > 0 && sDec.FrameTermination == Silk_define.SKP_SILK_MORE_FRAMES ) {
 	            sDec.nFramesDecoded++;
 	        } else {
@@ -294,9 +284,7 @@ public class Silk_dec_API
 	    }
 	    if( Silk_TOC.corrupt !=0 || sDec.FrameTermination == Silk_define.SKP_SILK_MORE_FRAMES || 
 	        sDec.nFramesInPacket > Silk_SDK_API.SILK_MAX_FRAMES_PER_PACKET ) {
-	        /* Corrupt packet */
-//	        SKP_memset( Silk_TOC, 0, sizeof( SKP_Silk_TOC_struct ) );
-//djinn TODO: ???	    	
+	        /* Corrupt packet */	
 	    	{
 	    		Silk_TOC.corrupt = 0;
 	    		Silk_TOC.framesInPacket = 0;
@@ -308,7 +296,6 @@ public class Silk_dec_API
 	    		for(int i=0; i<Silk_TOC.sigtypeFlags.length; i++)
 	    			Silk_TOC.sigtypeFlags[i] = 0;
 	    	}
-	    	
 	        Silk_TOC.corrupt = 1;
 	    } else {
 	        Silk_TOC.framesInPacket = sDec.nFramesDecoded + 1;
@@ -320,18 +307,14 @@ public class Silk_dec_API
 	        }
 	    }
 	}
-
-	/**************************/
-	/* Get the version number */
-	/**************************/
-	/* Return a pointer to string specifying the version */ 
-//	const char *SKP_Silk_SDK_get_version()
-//djinn ?	
+	
+	/**
+	 * Get the version number.
+	 * @return the string specifying the version number.
+	 */
 	static String SKP_Silk_SDK_get_version()
 	{
-//	    static const char version[] = "1.0.6";
 		String version = "1.0.6";
 	    return version;
 	}
-
 }
