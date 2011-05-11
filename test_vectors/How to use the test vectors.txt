@@ -1,0 +1,12 @@
+Use the following scripts to verify the decoder implementation:
+
+o test_decoder.sh
+  run the test_decoder.sh(in Linux).
+  This will run the decoder and compare the output audio file with the reference audio files. 
+  The result is written to test_decoder_report.txt.
+  For each file, the bitstreams are either BIT-EXACT or they match up to a certain
+  AVERAGE WEIGHTED SNR.
+
+
+NOTE: When using the shell script, make sure it is marked as executable.
+      This can be done by: chmod +x *.sh
