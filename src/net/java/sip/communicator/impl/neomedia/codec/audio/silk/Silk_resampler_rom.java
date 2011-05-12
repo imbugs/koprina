@@ -1,25 +1,25 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_resampler_rom" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_resampler_rom.h & .c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Filter coefficients for IIR/FIR polyphase resampling.
+ * Total size: 550 Words (1.1 kB).
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_resampler_rom 
 {
 	static final int RESAMPLER_DOWN_ORDER_FIR =               12;
 	static final int RESAMPLER_ORDER_FIR_144 =                6;
 
-
 	/* Tables for 2x downsampler. Values above 32767 intentionally wrap to a negative value. */
 	static final short SKP_Silk_resampler_down2_0 = 9872;
-//	static final short SKP_Silk_resampler_down2_1 = 39809;
 	static final short SKP_Silk_resampler_down2_1 = (short) 39809;
 	
 	/* Tables for 2x upsampler, low quality. Values above 32767 intentionally wrap to a negative value. */
@@ -33,7 +33,6 @@ public class Silk_resampler_rom
 	/* B = [1, 0.12, 1];  A = [1, 0.055, 0.8]; G = 0.87; freqz(G * B, A, 2^14, 16e3); axis([0, 8000, -10, 1]);  */
 	/* fprintf('\t%6d, %6d, %6d, %6d\n', round(B(2)*2^16), round(-A(2)*2^16), round((1-A(3))*2^16), round(G*2^15)) */
 	static short[] SKP_Silk_resampler_up2_hq_notch = { 7864,  -3604,  13107,  28508 };
-
 
 	/* Tables with IIR and FIR coefficients for fractional downsamplers (70 Words) */
 	static short[] SKP_Silk_Resampler_3_4_COEFS =
@@ -84,7 +83,6 @@ public class Silk_resampler_rom
 		   890,   1614,   2148,
 	};
 
-
 	/* Tables with coefficients for 4th order ARMA filter (35 Words), in a packed format:       */
 	/*    { B1_Q14[1], B2_Q14[1], -A1_Q14[1], -A1_Q14[2], -A2_Q14[1], -A2_Q14[2], gain_Q16 }    */
 	/* where it is assumed that B*_Q14[0], B*_Q14[2], A*_Q14[0] are all 16384                   */
@@ -104,7 +102,7 @@ public class Silk_resampler_rom
 	};
 
 	static short[] SKP_Silk_Resampler_120_441_ARMA4_COEFS =
-{
+    {
 		 19311, -15569,  19489,  -6950,  21441, -13559,   2370
 	};
 
@@ -262,6 +260,3 @@ public class Silk_resampler_rom
 		{   73,  -851,  2207},
 	};
 }
-
-
-

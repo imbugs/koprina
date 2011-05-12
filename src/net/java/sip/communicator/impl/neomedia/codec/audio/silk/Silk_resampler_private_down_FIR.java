@@ -1,22 +1,31 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_resampler_private_down_FIR" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_resampler_private_down_FIR.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Resample with a 2x downsampler (optional), a 2nd order AR filter followed by FIR interpolation.
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_resampler_private_down_FIR 
 {
-	/* Resample with a 2x downsampler (optional), a 2nd order AR filter followed by FIR interpolation */
-	static void SKP_Silk_resampler_private_down_FIR(
-//		void	                        *SS,
-		SKP_Silk_resampler_state_struct S,	        /* I/O: Resampler state 						*/
+    /**
+     * Resample with a 2x downsampler (optional), 
+     * a 2nd order AR filter followed by FIR interpolation.
+     * @param SS Resampler state.
+     * @param out Output signal.
+     * @param out_offset offset of valid data.
+     * @param in Input signal.
+     * @param in_offset offset of valid data.
+     * @param inLen Number of input samples.
+     */
+    static void SKP_Silk_resampler_private_down_FIR(
+		Object                      SS,	           /* I/O: Resampler state 						*/
 		short[]						out,		    /* O:	Output signal 							*/
 		int out_offset,
 		short[]					    in, 		    /* I:	Input signal							*/
@@ -24,7 +33,7 @@ public class Silk_resampler_private_down_FIR
 		int 					    inLen		    /* I:	Number of input samples					*/
 	)
 	{
-//	    SKP_Silk_resampler_state_struct *S = (SKP_Silk_resampler_state_struct *)SS;
+        SKP_Silk_resampler_state_struct S = (SKP_Silk_resampler_state_struct)SS;
 		int nSamplesIn, interpol_ind;
 		int max_index_Q16, index_Q16, index_increment_Q16, res_Q6;
 		short[] buf1 = new short[ Silk_resampler_private.RESAMPLER_MAX_BATCH_SIZE_IN / 2 ];
@@ -35,6 +44,7 @@ public class Silk_resampler_private_down_FIR
 		int interpol_ptr_offset, FIR_Coefs_offset;
 
 		/* Copy buffered samples to start of buffer */	
+//TODO: arrayCopy();		
 //		SKP_memcpy( buf2, S->sFIR, RESAMPLER_DOWN_ORDER_FIR * sizeof( SKP_int32 ) );
 		for(int i_djinn=0; i_djinn<Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR; i_djinn++)
 			buf2[i_djinn] = S.sFIR[i_djinn];
@@ -127,6 +137,7 @@ public class Silk_resampler_private_down_FIR
 			if( inLen > S.input2x ) 
 			{
 				/* More iterations to do; copy last part of filtered signal to beginning of buffer */
+//TODO: arrayCopy();
 //				SKP_memcpy( buf2, &buf2[ nSamplesIn ], RESAMPLER_DOWN_ORDER_FIR * sizeof( SKP_int32 ) );
 				for(int i_djinn=0; i_djinn<Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR; i_djinn++)
 					buf2[i_djinn] = buf2[nSamplesIn+i_djinn];
@@ -138,6 +149,7 @@ public class Silk_resampler_private_down_FIR
 		}
 
 		/* Copy last part of filtered signal to the state for the next call */
+//TODO: arrayCopy();		
 //		SKP_memcpy( S->sFIR, &buf2[ nSamplesIn ], RESAMPLER_DOWN_ORDER_FIR * sizeof( SKP_int32 ) );
 		for(int i_djinn=0; i_djinn<Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR; i_djinn++)
 			S.sFIR[i_djinn] = buf2[nSamplesIn+i_djinn];

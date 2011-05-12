@@ -1,21 +1,31 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_resampler_down2_3" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_resampler_down2_3.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
- * @author Jing Dai
+ * Downsample by a factor 2/3, low quality.
+ * 
+ * @author Jing Dai.
+ * @author Dingxin Xu
  */
 public class Silk_resampler_down2_3 
 {
 	static final int ORDER_FIR =                  4;
 	
-	/* Downsample by a factor 2/3, low quality */
+	/**
+	 * Downsample by a factor 2/3, low quality.
+	 * @param S State vector [ 6 ]
+	 * @param S_offset offset of valid data.
+	 * @param out Output signal [ floor(2*inLen/3) ]
+	 * @param out_offset offset of valid data.
+	 * @param in Input signal [ inLen ]
+	 * @param in_offset offset of valid data.
+	 * @param inLen Number of input samples
+	 */
 	static void SKP_Silk_resampler_down2_3(
 	    int[]                           S,         /* I/O: State vector [ 6 ]                  */
 	    int S_offset,
@@ -31,7 +41,6 @@ public class Silk_resampler_down2_3
 		int buf_ptr;
 
 		/* Copy buffered samples to start of buffer */	
-//		SKP_memcpy( buf, S, ORDER_FIR * sizeof( SKP_int32 ) );
 		for(int i_djinn=0; i_djinn<ORDER_FIR; i_djinn++)
 			buf[i_djinn] = S[S_offset+i_djinn];
 
@@ -45,7 +54,6 @@ public class Silk_resampler_down2_3
 		    		Silk_resampler_rom.SKP_Silk_Resampler_2_3_COEFS_LQ,0, nSamplesIn );
 
 			/* Interpolate filtered signal */
-//	        buf_ptr = buf;
 		    buf_ptr = 0;
 	        counter = nSamplesIn;
 	        while( counter > 2 ) 
@@ -77,7 +85,6 @@ public class Silk_resampler_down2_3
 			if( inLen > 0 )
 			{
 				/* More iterations to do; copy last part of filtered signal to beginning of buffer */
-//				SKP_memcpy( buf, &buf[ nSamplesIn ], ORDER_FIR * sizeof( SKP_int32 ) );
 				for(int i_djinn=0; i_djinn<ORDER_FIR; i_djinn++)
 					buf[i_djinn] = buf[nSamplesIn+i_djinn];
 			} 
@@ -88,7 +95,6 @@ public class Silk_resampler_down2_3
 		}
 
 		/* Copy last part of filtered signal to the state for the next call */
-//		SKP_memcpy( S, &buf[ nSamplesIn ], ORDER_FIR * sizeof( SKP_int32 ) );
 		for(int i_djinn=0; i_djinn<ORDER_FIR; i_djinn++)
 			S[S_offset+i_djinn] = buf[nSamplesIn+i_djinn];
 	}

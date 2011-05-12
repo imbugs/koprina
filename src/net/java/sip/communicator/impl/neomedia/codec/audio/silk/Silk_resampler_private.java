@@ -8,11 +8,15 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * class for IIR/FIR resamplers.
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_resampler_private 
 {
-	/* Number of input samples to process in the inner loop */
-	static final int RESAMPLER_MAX_BATCH_SIZE_IN =            480;
+    /**
+     * Number of input samples to process in the inner loop.
+     */
+	static final int RESAMPLER_MAX_BATCH_SIZE_IN = 480;
 }

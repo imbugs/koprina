@@ -1,21 +1,29 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_resampler_private_copy" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_resampler_private_copy.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Simple opy.
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_resampler_private_copy 
 {
-	/* Copy */
+	/**
+	 * Simple copy.
+	 * @param SS Resampler state (unused).
+	 * @param out Output signal
+	 * @param out_offset offset of valid data.
+	 * @param in Input signal
+	 * @param in_offset offset of valid data.
+	 * @param inLen Number of input samples
+	 */
 	static void SKP_Silk_resampler_private_copy(
-//		void	                        *SS,		    /* I/O: Resampler state (unused)				*/
+		Object	                    SS,		    /* I/O: Resampler state (unused)				*/
 		short[]						out,		/* O:	Output signal 							*/
 		int out_offset,
 		short[]					    in,		    /* I:	Input signal							*/
@@ -23,7 +31,6 @@ public class Silk_resampler_private_copy
 		int	    				    inLen       /* I:	Number of input samples					*/
 	)
 	{
-//	    SKP_memcpy( out, in, inLen * sizeof( SKP_int16 ) );
 		for(int k=0; k<inLen; k++)
 			out[out_offset+k] = in[in_offset+k];
 	}

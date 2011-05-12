@@ -1,20 +1,32 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_resampler_private_AR2" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_resampler_private_AR2.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Second order AR filter with single delay elements.
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_resampler_private_AR2 
 {
-	/* Second order AR filter with single delay elements */
-	static void SKP_Silk_resampler_private_AR2(
+    /**
+     * Second order AR filter with single delay elements.
+     * @param S State vector [ 2 ].
+     * @param S_offset offset of valid data.
+     * @param out_Q8 Output signal.
+     * @param out_Q8_offset offset of valid data.
+     * @param in Input signal.
+     * @param in_offset offset of valid data.
+     * @param A_Q14 AR coefficients, Q14.
+     * @param A_Q14_offset offset of valid data.
+     * @param len Signal length.
+     */
+    static void SKP_Silk_resampler_private_AR2(
 		int[]					    S,		    /* I/O: State vector [ 2 ]			    	    */
 		int S_offset,
 		int[]					    out_Q8,		/* O:	Output signal				    	    */

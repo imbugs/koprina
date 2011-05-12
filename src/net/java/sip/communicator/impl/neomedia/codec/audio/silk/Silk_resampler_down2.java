@@ -1,19 +1,29 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_resampler_down2" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_resampler_down2.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Downsample by a factor 2, mediocre quality.
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_resampler_down2 
 {
-	/* Downsample by a factor 2, mediocre quality */
+    /**
+     * Downsample by a factor 2, mediocre quality.
+     * @param S State vector [ 2 ].
+     * @param S_offset offset of valid data.
+     * @param out Output signal [ len ].
+     * @param out_offset offset of valid data.
+     * @param in Input signal [ floor(len/2) ].
+     * @param in_offset offset of valid data.
+     * @param inLen Number of input samples.
+     */
 	static void SKP_Silk_resampler_down2(
 	    int[]                           S,         /* I/O: State vector [ 2 ]                  */
 	    int S_offset,
