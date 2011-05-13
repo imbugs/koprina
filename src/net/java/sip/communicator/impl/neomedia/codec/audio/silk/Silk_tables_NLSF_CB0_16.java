@@ -1,35 +1,25 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_tables_NLSF_CB0_16" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_tables_NLSF_CB0_16.c
- *and 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_tables_NLSF_CB0_16.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * This file has been automatically generated
  * ROM usage:  0.51 + 7.38 kB
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_tables_NLSF_CB0_16
 {
 	static final int  NLSF_MSVQ_CB0_16_STAGES =      10;
 	static final int  NLSF_MSVQ_CB0_16_VECTORS =     216;
-	
 
-	/**********************************************/
-	/* This file has been automatically generated */
-	/*                                            */
-	/* ROM usage:  0.51 + 7.38 kB                 */
-	/**********************************************/
-
-//	const SKP_uint16 SKP_Silk_NLSF_MSVQ_CB0_16_CDF[ NLSF_MSVQ_CB0_16_VECTORS + NLSF_MSVQ_CB0_16_STAGES ] =
 	static final int[] SKP_Silk_NLSF_MSVQ_CB0_16_CDF =
 	{
 	            0,
@@ -280,7 +270,7 @@ public class Silk_tables_NLSF_CB0_16
 		= Arrays.copyOfRange(SKP_Silk_NLSF_MSVQ_CB0_16_CDF, 200, SKP_Silk_NLSF_MSVQ_CB0_16_CDF.length);
 	static private int [] SKP_Silk_NLSF_MSVQ_CB0_16_CDF_209 
 		= Arrays.copyOfRange(SKP_Silk_NLSF_MSVQ_CB0_16_CDF, 209, SKP_Silk_NLSF_MSVQ_CB0_16_CDF.length);
-//	const SKP_uint16 * const SKP_Silk_NLSF_MSVQ_CB0_16_CDF_start_ptr[ NLSF_MSVQ_CB0_16_STAGES ] =
+	
 	static final int[][] SKP_Silk_NLSF_MSVQ_CB0_16_CDF_start_ptr = 
 	{
 	     SKP_Silk_NLSF_MSVQ_CB0_16_CDF_0,
@@ -295,7 +285,6 @@ public class Silk_tables_NLSF_CB0_16
 	     SKP_Silk_NLSF_MSVQ_CB0_16_CDF_209
 	};
 
-//	const SKP_int SKP_Silk_NLSF_MSVQ_CB0_16_CDF_middle_idx[ NLSF_MSVQ_CB0_16_STAGES ] =
 	static final int[] SKP_Silk_NLSF_MSVQ_CB0_16_CDF_middle_idx =	
 	{
 	      42,
@@ -310,7 +299,6 @@ public class Silk_tables_NLSF_CB0_16
 	       9
 	};
 
-//	const SKP_int16 SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ NLSF_MSVQ_CB0_16_VECTORS ] =
 	static final short[] SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5 =	
 	{
 	              176,              181,
@@ -423,7 +411,6 @@ public class Silk_tables_NLSF_CB0_16
 	              131,              132
 	};
 
-//	const SKP_int SKP_Silk_NLSF_MSVQ_CB0_16_ndelta_min_Q15[ 16 + 1 ] =
 	static final int[] SKP_Silk_NLSF_MSVQ_CB0_16_ndelta_min_Q15 =
 	{
 	              266,
@@ -445,7 +432,6 @@ public class Silk_tables_NLSF_CB0_16
 	              632
 	};
 
-//	const SKP_int16 SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * NLSF_MSVQ_CB0_16_VECTORS ] =
 	static final short[]SKP_Silk_NLSF_MSVQ_CB0_16_Q15 =
 	{
 	             1170,             2278,             3658,             5374,
@@ -1314,20 +1300,6 @@ public class Silk_tables_NLSF_CB0_16
 	             -186,             -261,              131,             -197
 	};
 
-//	const SKP_Silk_NLSF_CBS SKP_Silk_NLSF_CB0_16_Stage_info[ NLSF_MSVQ_CB0_16_STAGES ] =
-//	
-//	{
-//	        { 128, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 *   0 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[   0 ] },
-//	        {  16, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 128 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 128 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 144 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 144 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 152 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 152 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 160 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 160 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 168 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 168 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 176 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 176 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 184 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 184 ] },
-//	        {   8, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 192 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 192 ] },
-//	        {  16, &SKP_Silk_NLSF_MSVQ_CB0_16_Q15[ 16 * 200 ], &SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5[ 200 ] }
-//	};
 	static final  SKP_Silk_NLSF_CBS[] SKP_Silk_NLSF_CB0_16_Stage_info =
 	{
 		new SKP_Silk_NLSF_CBS(128, SKP_Silk_NLSF_MSVQ_CB0_16_Q15, 16 *   0, SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5, 0),
@@ -1341,15 +1313,6 @@ public class Silk_tables_NLSF_CB0_16
 		new SKP_Silk_NLSF_CBS(8,   SKP_Silk_NLSF_MSVQ_CB0_16_Q15, 16 * 192, SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5, 192),
 		new SKP_Silk_NLSF_CBS(16,  SKP_Silk_NLSF_MSVQ_CB0_16_Q15, 16 * 200, SKP_Silk_NLSF_MSVQ_CB0_16_rates_Q5, 200),
 	};
-//	const SKP_Silk_NLSF_CB_struct SKP_Silk_NLSF_CB0_16 =
-//	{
-//	        NLSF_MSVQ_CB0_16_STAGES,
-//	        SKP_Silk_NLSF_CB0_16_Stage_info,
-//	        SKP_Silk_NLSF_MSVQ_CB0_16_ndelta_min_Q15,
-//	        SKP_Silk_NLSF_MSVQ_CB0_16_CDF,
-//	        SKP_Silk_NLSF_MSVQ_CB0_16_CDF_start_ptr,
-//	        SKP_Silk_NLSF_MSVQ_CB0_16_CDF_middle_idx
-//	};
 
 	static final  SKP_Silk_NLSF_CB_struct SKP_Silk_NLSF_CB0_16 =
 		new SKP_Silk_NLSF_CB_struct

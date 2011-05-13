@@ -1,22 +1,23 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_VAD" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_VAD.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
+ * 
  * @author Jing Dai
  * @author Dingxin Xu
- *
  */
 public class Silk_VAD 
 {
-    /**********************************/
-    /* Initialization of the Silk VAD */
-    /**********************************/
+	/**
+	 * Initialization of the Silk VAD.
+	 * @param psSilk_VAD Silk VAD state.
+	 * @return return 0 if success.
+	 */
     static int SKP_Silk_VAD_Init(                              /* O    Return value, 0 if success                  */ 
         SKP_Silk_VAD_state              psSilk_VAD         /* I/O  Pointer to Silk VAD state                   */ 
     )
@@ -52,20 +53,28 @@ public class Silk_VAD
 
     /* Weighting factors for tilt measure */
     static int[] tiltWeights = { 30000, 6000, -12000, -12000 };
-
-    /***************************************/
-    /* Get the speech activity level in Q8 */
-    /***************************************/
-    static int SKP_Silk_VAD_GetSA_Q8(                                      /* O    Return value, 0 if success      */
-        SKP_Silk_VAD_state              psSilk_VAD,                    /* I/O  Silk VAD state                  */
+    
+    /**
+     * Get the speech activity level in Q8.
+     * @param psSilk_VAD Silk VAD state.
+     * @param pSA_Q8 Speech activity level in Q8.
+     * @param pSNR_dB_Q7 SNR for current frame in Q7.
+     * @param pQuality_Q15 Smoothed SNR for each band.
+     * @param pTilt_Q15 Smoothed SNR for each band.
+     * @param pIn PCM input[framelength].
+     * @param pIn_offset offset of valid data.
+     * @param framelength Input frame length.
+     * @return Return value, 0 if success.
+     */
+    static int SKP_Silk_VAD_GetSA_Q8(                                /* O    Return value, 0 if success      */
+        SKP_Silk_VAD_state            psSilk_VAD,                    /* I/O  Silk VAD state                  */
         int[]                         pSA_Q8,                        /* O    Speech activity level in Q8     */
         int[]                         pSNR_dB_Q7,                    /* O    SNR for current frame in Q7     */
-//      SKP_int                         pQuality_Q15[ VAD_N_BANDS ],
-        int[]                           pQuality_Q15,               /* O    Smoothed SNR for each band      */
+        int[]                         pQuality_Q15,                  /* O    Smoothed SNR for each band      */
         int[]                         pTilt_Q15,                     /* O    current frame's frequency tilt  */
-        short[]                 pIn,                          /* I    PCM input       [framelength]   */
-        int pIn_offset,
-        int                   framelength                     /* I    Input frame length              */
+        short[]                       pIn,                           /* I    PCM input       [framelength]   */
+        int                           pIn_offset,
+        int                           framelength                    /* I    Input frame length              */
     )
     {
         int   SA_Q15, input_tilt;
@@ -260,15 +269,16 @@ public class Silk_VAD
 
         return( ret );
     }
-
-    /**************************/
-    /* Noise level estimation */
-    /**************************/
+    
+    /**
+     * Noise level estimation.
+     * @param pX subband energies.
+     * @param psSilk_VAD Silk VAD state.
+     */
     static void SKP_Silk_VAD_GetNoiseLevels
     (
-//      const SKP_int32                 pX[ VAD_N_BANDS ], 
-        int[]                 pX,  /* I    subband energies                            */
-        SKP_Silk_VAD_state              psSilk_VAD         /* I/O  Pointer to Silk VAD state                   */ 
+        int[]                 pX,                /* I    subband energies                            */
+        SKP_Silk_VAD_state    psSilk_VAD         /* I/O  Pointer to Silk VAD state                   */ 
     )
     {
         int   k;
@@ -335,5 +345,3 @@ public class Silk_VAD
         psSilk_VAD.counter++;
     }
 }
-
-

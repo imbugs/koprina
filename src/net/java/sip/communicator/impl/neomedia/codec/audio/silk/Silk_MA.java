@@ -1,40 +1,30 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_MA" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_MA.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * Variable order MA filter 
+ * Variable order MA filter.
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_MA 
 {
-	
-
-	/*                                                                      *
-	 * SKP_Silk_MA.c                                                      *
-	 *                                                                      *
-	 * Variable order MA filter                                             *
-	 *                                                                      *
-	 * Copyright 2006 (c), Skype Limited                                    *
-	 * Date: 060221                                                         *
-	 *                                                                      */
-	
-
-	/* Variable order MA filter */
-//	void SKP_Silk_MA(
-//	    const SKP_int16      *in,            /* I:   input signal                                */
-//	    const SKP_int16      *B,             /* I:   MA coefficients, Q13 [order+1]              */
-//	    SKP_int32            *S,             /* I/O: state vector [order]                        */
-//	    SKP_int16            *out,           /* O:   output signal                               */
-//	    const SKP_int32      len,            /* I:   signal length                               */
-//	    const SKP_int32      order           /* I:   filter order                                */
-//	)
+	/**
+	 * Variable order MA filter.
+	 * @param in input signal.
+	 * @param in_offset offset of valid data.
+	 * @param B MA coefficients, Q13 [order+1].
+	 * @param S state vector [order].
+	 * @param out output signal.
+	 * @param out_offset offset of valid data.
+	 * @param len signal length.
+	 * @param order filter order.
+	 */
 	static void SKP_Silk_MA(
 		    short[]    in,            /* I:   input signal                                */
 		    int        in_offset,
@@ -51,9 +41,7 @@ public class Silk_MA
 	    
 	    for( k = 0; k < len; k++ ) {
 	        in16 = in[ in_offset + k ];
-//	        out32 = SKP_SMLABB( S[ 0 ], in16, B[ 0 ] );
 	        out32 = Silk_macros.SKP_SMLABB(S[0], in16, B[ 0 ]);
-//	        out32 = SKP_RSHIFT_ROUND( out32, 13 );
 	        out32 = Silk_SigProc_FIX.SKP_RSHIFT_ROUND( out32, 13 );
 	        
 	        for( d = 1; d < order; d++ ) {
@@ -65,15 +53,18 @@ public class Silk_MA
 	        out[ out_offset + k ] = (short)Silk_SigProc_FIX.SKP_SAT16( out32 );
 	    }
 	}
-	/* Variable order MA prediction error filter */
-//	void SKP_Silk_MA_Prediction(
-//	    const SKP_int16      *in,            /* I:   Input signal                                */
-//	    const SKP_int16      *B,             /* I:   MA prediction coefficients, Q12 [order]     */
-//	    int            *S,             /* I/O: State vector [order]                        */
-//	    SKP_int16            *out,           /* O:   Output signal                               */
-//	    const int      len,            /* I:   Signal length                               */
-//	    const int      order           /* I:   Filter order                                */
-//	)
+	
+	/**
+	 * Variable order MA prediction error filter.
+	 * @param in Input signal.
+	 * @param in_offset offset of valid data.
+	 * @param B MA prediction coefficients, Q12 [order].
+	 * @param S State vector [order].
+	 * @param out Output signal.
+	 * @param out_offset offset of valid data.
+	 * @param len Signal length.
+	 * @param order Filter order.
+	 */
 	static void SKP_Silk_MA_Prediction(
 		    short[]      in,            /* I:   Input signal                                */
 		    int          in_offset,
@@ -90,7 +81,6 @@ public class Silk_MA
 
 	    for( k = 0; k < len; k++ ) {
 	        in16 = in[ in_offset + k ];
-//	        out32 = SKP_LSHIFT( in16, 12 ) - S[ 0 ];
 	        out32 = ( in16 << 12 ) - S[ 0 ];
 	        out32 = Silk_SigProc_FIX.SKP_RSHIFT_ROUND( out32, 12 );
 	        
@@ -103,15 +93,18 @@ public class Silk_MA
 	        out[ out_offset + k ] = (short)Silk_SigProc_FIX.SKP_SAT16( out32 );
 	    }
 	}
-
-//	void SKP_Silk_MA_Prediction_Q13(
-//	    const SKP_int16      *in,            /* I:   input signal                                */
-//	    const SKP_int16      *B,             /* I:   MA prediction coefficients, Q13 [order]     */
-//	    SKP_int32            *S,             /* I/O: state vector [order]                        */
-//	    SKP_int16            *out,           /* O:   output signal                               */
-//	    SKP_int32            len,            /* I:   signal length                               */
-//	    SKP_int32            order           /* I:   filter order                                */
-//	)
+	
+	/**
+	 * 
+	 * @param in input signal.
+	 * @param in_offset offset of valid data.
+	 * @param B MA prediction coefficients, Q13 [order].
+	 * @param S state vector [order].
+	 * @param out output signal.
+	 * @param out_offset offset of valid data.
+	 * @param len signal length.
+	 * @param order filter order.
+	 */
 	static void SKP_Silk_MA_Prediction_Q13(
 		    short      []in,            /* I:   input signal                                */
 		    int          in_offset,
@@ -127,7 +120,6 @@ public class Silk_MA
 	    int out32;
 	    for( k = 0; k < len; k++ ) {
 	        in16 = in[ in_offset + k ];
-//	        out32 = SKP_LSHIFT( in16, 13 ) - S[ 0 ];
 	        out32 = ( in16 << 13 ) - S[ 0 ];
 	        out32 = Silk_SigProc_FIX.SKP_RSHIFT_ROUND( out32, 13 );
 	        
@@ -140,15 +132,18 @@ public class Silk_MA
 	        out[ out_offset + k ] = ( short )Silk_SigProc_FIX.SKP_SAT16( out32 );
 	    }
 	}
-
-//	void SKP_Silk_LPC_analysis_filter(
-//	    const SKP_int16      *in,            /* I:   Input signal                                */
-//	    const SKP_int16      *B,             /* I:   MA prediction coefficients, Q12 [order]     */
-//	    SKP_int16            *S,             /* I/O: State vector [order]                        */
-//	    SKP_int16            *out,           /* O:   Output signal                               */
-//	    const SKP_int32      len,            /* I:   Signal length                               */
-//	    const SKP_int32      Order           /* I:   Filter order                                */
-//	)
+	
+	/**
+	 * 
+	 * @param in Input signal.
+	 * @param in_offset offset of valid data.
+	 * @param B MA prediction coefficients, Q12 [order].
+	 * @param S State vector [order].
+	 * @param out Output signal.
+	 * @param out_offset offset of valid data.
+	 * @param len Signal length.
+	 * @param Order Filter order.
+	 */
 	static void SKP_Silk_LPC_analysis_filter(
 		    short      []in,            /* I:   Input signal                                */
 		    int        in_offset,
@@ -160,7 +155,6 @@ public class Silk_MA
 		    final int  Order           /* I:   Filter order                                */
 		)
 	{
-//	    int   k, j, idx, Order_half = SKP_RSHIFT( Order, 1 );
 		int   k, j, idx, Order_half = ( Order >> 1 );
 	    int out32_Q12, out32;
 	    short SA, SB;
@@ -189,7 +183,6 @@ public class Silk_MA
 	        out32_Q12 = Silk_macros.SKP_SMLABB( out32_Q12, SB, B[ Order - 1 ] );
 
 	        /* Subtract prediction */
-//	        out32_Q12 = SKP_SUB_SAT32( SKP_LSHIFT( (int)in[ k ], 12 ), out32_Q12 );
 	        out32_Q12 = Silk_macros.SKP_SUB_SAT32( ( (int)in[ in_offset + k ] << 12 ), out32_Q12 );
 
 	        /* Scale to Q0 */
@@ -202,5 +195,4 @@ public class Silk_MA
 	        S[ 0 ] = in[ in_offset + k ];
 	    }
 	}
-
 }

@@ -1,20 +1,18 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_tables_pitch_lag" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_tables_pitch_lag.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_tables_pitch_lag 
 {
-
-//	const SKP_uint16 SKP_Silk_pitch_lag_NB_CDF[ 8 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) + 2 ] = {
 	static int[] SKP_Silk_pitch_lag_NB_CDF = {
 			0,    194,    395,    608,    841,   1099,   1391,   1724,
 	      2105,   2544,   3047,   3624,   4282,   5027,   5865,   6799,
@@ -35,19 +33,15 @@ public class Silk_tables_pitch_lag
 	     65492,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_lag_NB_CDF_offset = 43;
 	static final int SKP_Silk_pitch_lag_NB_CDF_offset = 43;
 
-//	const SKP_uint16 SKP_Silk_pitch_contour_NB_CDF[ 12 ] = {
 	static int[] SKP_Silk_pitch_contour_NB_CDF = {
 	         0,  14445,  18587,  25628,  30013,  34859,  40597,  48426,
 	     54460,  59033,  62990,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_contour_NB_CDF_offset = 5;
 	static final int SKP_Silk_pitch_contour_NB_CDF_offset = 5;
 
-//	const SKP_uint16 SKP_Silk_pitch_lag_MB_CDF[ 12 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) + 2 ] = {
 	static int[] SKP_Silk_pitch_lag_MB_CDF = {
 	         0,    132,    266,    402,    542,    686,    838,    997,
 	      1167,   1349,   1546,   1760,   1993,   2248,   2528,   2835,
@@ -76,10 +70,8 @@ public class Silk_tables_pitch_lag
 	     65490,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_lag_MB_CDF_offset = 64;
 	static final int SKP_Silk_pitch_lag_MB_CDF_offset = 64;
 
-//	const SKP_uint16 SKP_Silk_pitch_lag_WB_CDF[ 16 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) + 2 ] = {
 	static final int[] SKP_Silk_pitch_lag_WB_CDF = {
 	         0,    106,    213,    321,    429,    539,    651,    766,
 	       884,   1005,   1132,   1264,   1403,   1549,   1705,   1870,
@@ -116,11 +108,8 @@ public class Silk_tables_pitch_lag
 	     65514,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_lag_WB_CDF_offset = 86;
 	static final int SKP_Silk_pitch_lag_WB_CDF_offset = 86;
 
-
-//	const SKP_uint16 SKP_Silk_pitch_lag_SWB_CDF[ 24 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) + 2 ] = {
 	static int[] SKP_Silk_pitch_lag_SWB_CDF = {
 	         0,    253,    505,    757,   1008,   1258,   1507,   1755,
 	      2003,   2249,   2494,   2738,   2982,   3225,   3469,   3713,
@@ -173,11 +162,8 @@ public class Silk_tables_pitch_lag
 	     65521,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_lag_SWB_CDF_offset = 128;
 	static final int SKP_Silk_pitch_lag_SWB_CDF_offset = 128;
 
-
-//	const SKP_uint16 SKP_Silk_pitch_contour_CDF[ 35 ] = {
 	static int[] SKP_Silk_pitch_contour_CDF = {
 	         0,    372,    843,   1315,   1836,   2644,   3576,   4719,
 	      6088,   7621,   9396,  11509,  14245,  17618,  20777,  24294,
@@ -186,17 +172,13 @@ public class Silk_tables_pitch_lag
 	     64729,  65099,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_contour_CDF_offset = 17;
 	static final int SKP_Silk_pitch_contour_CDF_offset = 17;
 
-//	const SKP_uint16 SKP_Silk_pitch_delta_CDF[23] = {
 	static int[] SKP_Silk_pitch_delta_CDF = {
 	         0,    343,    740,   1249,   1889,   2733,   3861,   5396,
 	      7552,  10890,  16053,  24152,  30220,  34680,  37973,  40405,
 	     42243,  43708,  44823,  45773,  46462,  47055,  65535
 	};
 
-//	const SKP_int SKP_Silk_pitch_delta_CDF_offset = 11;
 	static final int SKP_Silk_pitch_delta_CDF_offset = 11;
-
 }

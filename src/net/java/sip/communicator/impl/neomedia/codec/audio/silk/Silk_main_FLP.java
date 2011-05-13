@@ -1,19 +1,23 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_main_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/Silk_main_FLP.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_main_FLP 
 {
-	/* using log2() helps the fixed-point conversion */
+	/**
+	 * using log2() helps the fixed-point conversion.
+	 * @param x
+	 * @return
+	 */
 	static float SKP_Silk_log2( double x ) 
 	{ 
 		return ( float )( 3.32192809488736 * Math.log10( x ) ); 

@@ -1,25 +1,22 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_tables_pulses_per_block" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_tables_pulses_per_block.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_tables_pulses_per_block 
 {
-
-//	const SKP_int SKP_Silk_max_pulses_table[ 4 ] = {
 	static int[] SKP_Silk_max_pulses_table = {
 	         6,      8,     12,     18
 	};
 
-//	const SKP_uint16 SKP_Silk_pulses_per_block_CDF[ 10 ][ 21 ] = 
 	static int[][] SKP_Silk_pulses_per_block_CDF  = 
 	{
 	{
@@ -74,11 +71,8 @@ public class Silk_tables_pulses_per_block
 	}
 	};
 
-//	const SKP_int SKP_Silk_pulses_per_block_CDF_offset = 6;
 	static final int SKP_Silk_pulses_per_block_CDF_offset = 6;
 
-
-//	const SKP_int16 SKP_Silk_pulses_per_block_BITS_Q6[ 9 ][ 20 ] = 
 	static short[][]  SKP_Silk_pulses_per_block_BITS_Q6  = 
 	{
 	{
@@ -128,7 +122,6 @@ public class Silk_tables_pulses_per_block
 	}
 	};
 
-//	const SKP_uint16 SKP_Silk_rate_levels_CDF[ 2 ][ 10 ] = 
 	static int[][] SKP_Silk_rate_levels_CDF  = 
 	{
 	{
@@ -141,11 +134,8 @@ public class Silk_tables_pulses_per_block
 	}
 	};
 
-//	const SKP_int SKP_Silk_rate_levels_CDF_offset = 4;
 	static final int SKP_Silk_rate_levels_CDF_offset = 4;
 
-
-//	const SKP_int16 SKP_Silk_rate_levels_BITS_Q6[ 2 ][ 9 ] = 
 	static short[][] SKP_Silk_rate_levels_BITS_Q6  = 
 	{
 	{
@@ -158,7 +148,6 @@ public class Silk_tables_pulses_per_block
 	}
 	};
 
-//	const SKP_uint16 SKP_Silk_shell_code_table0[ 33 ] = {
 	static int[] SKP_Silk_shell_code_table0 = {
 	         0,  32748,  65535,      0,   9505,  56230,  65535,      0,
 	      4093,  32204,  61720,  65535,      0,   2285,  16207,  48750,
@@ -167,7 +156,6 @@ public class Silk_tables_pulses_per_block
 	     65535
 	};
 
-//	const SKP_uint16 SKP_Silk_shell_code_table1[ 52 ] = {
 	static int[]  SKP_Silk_shell_code_table1 = {
 	         0,  32691,  65535,      0,  12782,  52752,  65535,      0,
 	      4847,  32665,  60899,  65535,      0,   2500,  17305,  47989,
@@ -178,7 +166,6 @@ public class Silk_tables_pulses_per_block
 	     56317,  65535,  65535,  65535
 	};
 
-//	const SKP_uint16 SKP_Silk_shell_code_table2[ 102 ] = {
 	static int[] SKP_Silk_shell_code_table2 = {
 	         0,  32615,  65535,      0,  14447,  50912,  65535,      0,
 	      6301,  32587,  59361,  65535,      0,   3038,  18640,  46809,
@@ -195,7 +182,6 @@ public class Silk_tables_pulses_per_block
 	     54426,  65535,  65535,  65535,  65535,  65535
 	};
 
-//	const SKP_uint16 SKP_Silk_shell_code_table3[ 207 ] = {
 	static int[] SKP_Silk_shell_code_table3 = {
 	         0,  32324,  65535,      0,  15328,  49505,  65535,      0,
 	      7474,  32344,  57955,  65535,      0,   3944,  19450,  45364,
@@ -225,12 +211,9 @@ public class Silk_tables_pulses_per_block
 	     65535,  65535,  65535,  65535,  65535,  65535,  65535
 	};
 
-//	const SKP_uint16 SKP_Silk_shell_code_table_offsets[ 19 ] = {
 	static int[] SKP_Silk_shell_code_table_offsets = {
 	         0,      0,      3,      7,     12,     18,     25,     33,
 	        42,     52,     63,     75,     88,    102,    117,    133,
 	       150,    168,    187
 	};
-
-
 }

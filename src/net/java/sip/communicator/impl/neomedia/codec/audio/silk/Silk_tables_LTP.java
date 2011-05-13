@@ -1,41 +1,35 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_tables_LTP" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_tables_LTP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_tables_LTP 
 {
-//	const SKP_uint16 SKP_Silk_LTP_per_index_CDF[ 4 ] = {
 	static int[] SKP_Silk_LTP_per_index_CDF = {
 	         0,  20992,  40788,  65535
 	};
 
-//	const SKP_int SKP_Silk_LTP_per_index_CDF_offset = 1;
 	static final int SKP_Silk_LTP_per_index_CDF_offset = 1;
 
-
-//	const SKP_uint16 SKP_Silk_LTP_gain_CDF_0[ 11 ] = {
 	static int[] SKP_Silk_LTP_gain_CDF_0 = {
 	         0,  49380,  54463,  56494,  58437,  60101,  61683,  62985,
 	     64066,  64823,  65535
 	};
 
-//	const SKP_uint16 SKP_Silk_LTP_gain_CDF_1[ 21 ] = {
 	static int[] SKP_Silk_LTP_gain_CDF_1 = {
 	         0,  25290,  30654,  35710,  40386,  42937,  45250,  47459,
 	     49411,  51348,  52974,  54517,  55976,  57423,  58865,  60285,
 	     61667,  62895,  63827,  64724,  65535
 	};
 
-//	const SKP_uint16 SKP_Silk_LTP_gain_CDF_2[ 41 ] = {
 	static int[] SKP_Silk_LTP_gain_CDF_2 = {
 	         0,   4958,   9439,  13581,  17638,  21651,  25015,  28025,
 	     30287,  32406,  34330,  36240,  38130,  39790,  41281,  42764,
@@ -45,28 +39,23 @@ public class Silk_tables_LTP
 	     65535
 	};
 
-//	const SKP_int SKP_Silk_LTP_gain_CDF_offsets[ 3 ] = {
 	static  int[] SKP_Silk_LTP_gain_CDF_offsets = {
 	         1,     3,     10
 	};
 
-//	const SKP_int32 SKP_Silk_LTP_gain_middle_avg_RD_Q14 = 11010;
 	static final int SKP_Silk_LTP_gain_middle_avg_RD_Q14 = 11010;
 
-//	const SKP_int16 SKP_Silk_LTP_gain_BITS_Q6_0[ 10 ] = {
 	static short[] SKP_Silk_LTP_gain_BITS_Q6_0 = {
 	        26,    236,    321,    325,    339,    344,    362,    379,
 	       412,    418
 	};
 
-//	const SKP_int16 SKP_Silk_LTP_gain_BITS_Q6_1[ 20 ] = {
 	static short[]  SKP_Silk_LTP_gain_BITS_Q6_1 = {
 	        88,    231,    237,    244,    300,    309,    313,    324,
 	       325,    341,    346,    351,    352,    352,    354,    356,
 	       367,    393,    396,    406
 	};
 
-//	const SKP_int16 SKP_Silk_LTP_gain_BITS_Q6_2[ 40 ] = {
 	static short[] SKP_Silk_LTP_gain_BITS_Q6_2 = {
 	       238,    248,    255,    257,    258,    274,    284,    311,
 	       317,    326,    326,    327,    339,    349,    350,    351,
@@ -75,25 +64,18 @@ public class Silk_tables_LTP
 	       413,    422,    426,    432,    434,    449,    454,    455
 	};
 
-////	const SKP_uint16 * const SKP_Silk_LTP_gain_CDF_ptrs[ NB_LTP_CBKS ] = {
-//	    SKP_Silk_LTP_gain_CDF_0,
-//	    SKP_Silk_LTP_gain_CDF_1,
-//	    SKP_Silk_LTP_gain_CDF_2
-//	};
 	static int[][] SKP_Silk_LTP_gain_CDF_ptrs = {
     SKP_Silk_LTP_gain_CDF_0,
     SKP_Silk_LTP_gain_CDF_1,
     SKP_Silk_LTP_gain_CDF_2
 	};
 
-//	const SKP_int16 * const SKP_Silk_LTP_gain_BITS_Q6_ptrs[ NB_LTP_CBKS ] = {
 	static short[][] SKP_Silk_LTP_gain_BITS_Q6_ptrs = {
 	    SKP_Silk_LTP_gain_BITS_Q6_0,
 	    SKP_Silk_LTP_gain_BITS_Q6_1,
 	    SKP_Silk_LTP_gain_BITS_Q6_2
 	};
 
-//	const SKP_int16 SKP_Silk_LTP_gain_vq_0_Q14[ 10 ][ 5 ] = 
 	static short[][] SKP_Silk_LTP_gain_vq_0_Q14 = 
 	{
 	{
@@ -128,7 +110,6 @@ public class Silk_tables_LTP
 	}
 	};
 
-//	const SKP_int16 SKP_Silk_LTP_gain_vq_1_Q14[ 20 ][ 5 ] = 
 	static short[][]  SKP_Silk_LTP_gain_vq_1_Q14 = 
 	{
 	{
@@ -193,7 +174,6 @@ public class Silk_tables_LTP
 	}
 	};
 
-//	const SKP_int16 SKP_Silk_LTP_gain_vq_2_Q14[ 40 ][ 5 ] = 
 	static short[][] SKP_Silk_LTP_gain_vq_2_Q14 = 
 	{
 	{
@@ -317,14 +297,7 @@ public class Silk_tables_LTP
 	       518,    -66,   1718,    415,  11435
 	}
 	};
-
-
-//	const SKP_int16 * const SKP_Silk_LTP_vq_ptrs_Q14[ NB_LTP_CBKS ] = {
-//		    &SKP_Silk_LTP_gain_vq_0_Q14[ 0 ][ 0 ],
-//		    &SKP_Silk_LTP_gain_vq_1_Q14[ 0 ][ 0 ],
-//		    &SKP_Silk_LTP_gain_vq_2_Q14[ 0 ][ 0 ]
-//		};
-//djinn ??? 	
+	
 	private static final short[] SKP_Silk_LTP_gain_vq_0_Q14_00 =
 		{
 //		{
@@ -544,20 +517,14 @@ public class Silk_tables_LTP
 		       518,    -66,   1718,    415,  11435
 //		}
 	};
-//	static short[][] SKP_Silk_LTP_vq_ptrs_Q14 = {
-//	    SKP_Silk_LTP_gain_vq_0_Q14[ 0 ],
-//	    SKP_Silk_LTP_gain_vq_1_Q14[ 0 ],
-//	    SKP_Silk_LTP_gain_vq_2_Q14[ 0 ]
-//	};
+
 	static short[][] SKP_Silk_LTP_vq_ptrs_Q14 = {
 		SKP_Silk_LTP_gain_vq_0_Q14_00,
 		SKP_Silk_LTP_gain_vq_1_Q14_00,
 		SKP_Silk_LTP_gain_vq_2_Q14_00
 	};
 	 
-//	const SKP_int SKP_Silk_LTP_vq_sizes[ NB_LTP_CBKS ] = {
 	static int[] SKP_Silk_LTP_vq_sizes = {
 	    10, 20, 40 
 	};
-
 }

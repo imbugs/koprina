@@ -1,25 +1,26 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_NLSF_MSVQ_decode" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_NLSF_MSVQ_decode.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * NLSF vector decoder.
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_NLSF_MSVQ_decode 
 {
-	/* NLSF vector decoder */
-//	void SKP_Silk_NLSF_MSVQ_decode(
-//	    SKP_int                         *pNLSF_Q15,     /* O    Pointer to decoded output vector [LPC_ORDER x 1]    */
-//	    const SKP_Silk_NLSF_CB_struct   *psNLSF_CB,     /* I    Pointer to NLSF codebook struct                     */
-//	    const SKP_int                   *NLSFIndices,   /* I    Pointer to NLSF indices          [nStages x 1]      */
-//	    const SKP_int                   LPC_order       /* I    LPC order used                                      */
-//	) 
+	/**
+	 * NLSF vector decoder.
+	 * @param pNLSF_Q15 decoded output vector [LPC_ORDER x 1].
+	 * @param psNLSF_CB NLSF codebook struct.
+	 * @param NLSFIndices NLSF indices          [nStages x 1].
+	 * @param LPC_order LPC order used.
+	 */ 
 	static void SKP_Silk_NLSF_MSVQ_decode(
 		    int                         []pNLSF_Q15,     /* O    Pointer to decoded output vector [LPC_ORDER x 1]    */
 		    SKP_Silk_NLSF_CB_struct     psNLSF_CB,     /* I    Pointer to NLSF codebook struct                     */
@@ -27,17 +28,15 @@ public class Silk_NLSF_MSVQ_decode
 		    final int                   LPC_order       /* I    LPC order used                                      */
 	)
 	{
-//	    const short *pCB_element;
 	    short[] pCB_element;
 	    int     pCB_element_offset;
-	          int    s;
-	          int    i;
+	    int    s;
+	    int    i;
 
 	    /* Check that each index is within valid range */
 	    Silk_typedef.SKP_assert( 0 <= NLSFIndices[ 0 ] && NLSFIndices[ 0 ] < psNLSF_CB.CBStages[ 0 ].nVectors );
 
 	    /* Point to the first vector element */
-//	    pCB_element = &psNLSF_CB.CBStages[ 0 ].CB_NLSF_Q15[ SKP_MUL( NLSFIndices[ 0 ], LPC_order ) ];
 	    pCB_element = psNLSF_CB.CBStages[ 0 ].CB_NLSF_Q15;
 	    pCB_element_offset =  ( NLSFIndices[ 0 ] * LPC_order );
 	    
@@ -52,7 +51,6 @@ public class Silk_NLSF_MSVQ_decode
 
 	        if( LPC_order == 16 ) {
 	            /* Point to the first vector element */
-//	            pCB_element = &psNLSF_CB.CBStages[ s ].CB_NLSF_Q15[ SKP_LSHIFT( NLSFIndices[ s ], 4 ) ];
 	        	pCB_element = psNLSF_CB.CBStages[ s ].CB_NLSF_Q15;
 	        	pCB_element_offset =  ( NLSFIndices[ s ] << 4 );
 
@@ -75,7 +73,6 @@ public class Silk_NLSF_MSVQ_decode
 	            pNLSF_Q15[ 15 ] += pCB_element[ pCB_element_offset + 15 ];
 	        } else {
 	            /* Point to the first vector element */
-//	            pCB_element = &psNLSF_CB.CBStages[ s ].CB_NLSF_Q15[ SKP_SMULBB( NLSFIndices[ s ], LPC_order ) ];
 	        	pCB_element = psNLSF_CB.CBStages[ s ].CB_NLSF_Q15;
 	        	pCB_element_offset = Silk_macros.SKP_SMULBB( NLSFIndices[ s ], LPC_order );
 
@@ -87,8 +84,6 @@ public class Silk_NLSF_MSVQ_decode
 	    }
 
 	    /* NLSF stabilization */
-//	    SKP_Silk_NLSF_stabilize( pNLSF_Q15, psNLSF_CB.NDeltaMin_Q15, LPC_order );
 	    Silk_NLSF_stabilize.SKP_Silk_NLSF_stabilize( pNLSF_Q15, 0, psNLSF_CB.NDeltaMin_Q15, LPC_order );
 	}
-
 }

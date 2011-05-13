@@ -1,15 +1,15 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_typedef" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/interface/SKP_Silk_typedef.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_typedef 
 {
@@ -36,13 +36,10 @@ public class Silk_typedef
 
 	static final boolean SKP_TRUE =       true;
 	static final boolean SKP_FALSE =      false;
-	
-	
+		
 	/* assertions */
 	static void SKP_assert(boolean COND)
 	{
 		assert(COND);
 	}
 }
-
-
