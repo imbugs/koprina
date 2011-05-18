@@ -1,20 +1,32 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_allpass_int_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_allpass_int_FLP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * first-order allpass filter.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_allpass_int_FLP 
 {
-	/* first-order allpass filter */
-	static void SKP_Silk_allpass_int_FLP
+    /**
+     * first-order allpass filter.
+     * @param in input signal [len].
+     * @param in_offset offset of valid data.
+     * @param S  I/O: state [1].
+     * @param S_offset offset of valid data.
+     * @param A coefficient (0 <= A < 1).
+     * @param out output signal [len]. 
+     * @param out_offset offset of valid data.
+     * @param len number of samples.
+     */
+//TODO:float or double ???    
+    static void SKP_Silk_allpass_int_FLP
 	(
 	    float[]           in,        /* I:   input signal [len]          */
 	    int in_offset,

@@ -1,23 +1,34 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_apply_sine_window_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_apply_sine_window_FLP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author 
- *
+ * Apply sine window to signal vector.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_apply_sine_window_FLP 
 {
-	/* Apply sine window to signal vector.                                                                  */
-	/* Window types:                                                                                        */
-	/*  0 -> sine window from 0 to pi                                                                       */
-	/*  1 -> sine window from 0 to pi/2                                                                     */
-	/*  2 -> sine window from pi/2 to pi                                                                    */
+    /**
+     * Apply sine window to signal vector.                                                                  
+     * Window types:                                                                                        
+     * 0 -> sine window from 0 to pi.
+     * 1 -> sine window from 0 to pi/2.
+     * 2 -> sine window from pi/2 to pi.
+     * 
+     * @param px_win Pointer to windowed signal.
+     * @param px_win_offset  offset of valid data.
+     * @param px Pointer to input signal.
+     * @param px_offset offset of valid data.
+     * @param win_type Selects a window type.
+     * @param length Window length, multiple of 4.
+     */
+//TODO float or double    
 	static void SKP_Silk_apply_sine_window_FLP(
 	          float                 px_win[],           /* O    Pointer to windowed signal              */
 	          int px_win_offset,

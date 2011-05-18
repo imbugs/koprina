@@ -1,20 +1,30 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_autocorrelation_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_autocorrelation_FLP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * compute autocorrelation.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_autocorrelation_FLP 
 {
-	/* compute autocorrelation */
-	static void SKP_Silk_autocorrelation_FLP( 
+    /**
+     * compute autocorrelation.
+     * @param results result (length correlationCount)
+     * @param results_offset offset of valid data.
+     * @param inputData input data to correlate
+     * @param inputData_offset offset of valid data.
+     * @param inputDataSize length of input 
+     * @param correlationCount number of correlation taps to compute
+     */
+ //TODO: float or double???   
+    static void SKP_Silk_autocorrelation_FLP( 
 	    float[]       results,           /* O    result (length correlationCount)            */
 	    int results_offset,
 	    float[]       inputData,         /* I    input data to correlate                     */

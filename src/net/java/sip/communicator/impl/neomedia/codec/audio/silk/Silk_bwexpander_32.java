@@ -1,24 +1,24 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_bwexpander_32" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_bwexpander_32.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_bwexpander_32
 {
-	/* Chirp (bandwidth expand) LP AR filter */
-//	void SKP_Silk_bwexpander_32( 
-//	    SKP_int32        *ar,      /* I/O    AR filter to be expanded (without leading 1)    */
-//	    const SKP_int    d,        /* I    Length of ar                                      */
-//	    SKP_int32        chirp_Q16 /* I    Chirp factor in Q16                               */
-//	)
+    /**
+     * Chirp (bandwidth expand) LP AR filter.
+     * @param ar AR filter to be expanded (without leading 1).
+     * @param d Length of ar.
+     * @param chirp_Q16  Chirp factor in Q16.
+     */
 	static void SKP_Silk_bwexpander_32( 
 		    int        []ar,      /* I/O    AR filter to be expanded (without leading 1)    */
 		    final int  d,        /* I    Length of ar                                      */
@@ -35,5 +35,4 @@ public class Silk_bwexpander_32
 	    }
 	    ar[ d - 1 ] = Silk_macros.SKP_SMULWW( ar[ d - 1 ], tmp_chirp_Q16 );
 	}
-
 }

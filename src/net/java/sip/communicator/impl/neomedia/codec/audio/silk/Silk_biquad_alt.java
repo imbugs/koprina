@@ -1,20 +1,31 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_biquad_alt" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_biquad_alt.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author 
- *
+ * Second order ARMA filter, alternative implementation.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_biquad_alt 
 {
-	/* Second order ARMA filter, alternative implementation */
-	static void SKP_Silk_biquad_alt(
+    /**
+     * Second order ARMA filter, alternative implementation.
+     * @param in Input signal.
+     * @param in_offset offset of valid data.
+     * @param B_Q28 MA coefficients [3].
+     * @param A_Q28 AR coefficients [2].
+     * @param S State vector [2].
+     * @param out Output signal.
+     * @param out_offset offset of valid data.
+     * @param len Signal length (must be even).
+     */
+    static void SKP_Silk_biquad_alt(
 	    short[]      in,            /* I:    Input signal                   */
 	    int in_offset,
 	    int[]        B_Q28,         /* I:    MA coefficients [3]            */

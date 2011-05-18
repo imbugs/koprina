@@ -1,11 +1,11 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_biquad" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_biquad.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
+
 /**
  * Second order ARMA filter 
  * Can handle slowly varying filter coefficients
@@ -14,27 +14,18 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
  */
 public class Silk_biquad 
 {
-	/*                                                                      *
-	 * SKP_Silk_biquad.c                                                    *
-	 *                                                                      *
-	 * Second order ARMA filter                                             *
-	 * Can handle slowly varying filter coefficients                        *
-	 *                                                                      *
-	 * Copyright 2006 (c), Skype Limited                                    *
-	 * Date: 060221                                                         *
-	 *                                                                      */
-//	#include "SKP_Silk_SigProc_FIX.h"
-
-	/* Second order ARMA filter */
-	/* Can handle slowly varying filter coefficients */
-//	void SKP_Silk_biquad(
-//	    const SKP_int16      *in,        /* I:    input signal               */
-//	    const SKP_int16      *B,         /* I:    MA coefficients, Q13 [3]   */
-//	    const SKP_int16      *A,         /* I:    AR coefficients, Q13 [2]   */
-//	    SKP_int32            *S,         /* I/O:  state vector [2]           */
-//	    SKP_int16            *out,       /* O:    output signal              */
-//	    const SKP_int32      len         /* I:    signal length              */
-//	)
+    /**
+     * Second order ARMA filter
+     * Can handle slowly varying filter coefficients
+     * @param in input signal
+     * @param in_offset offset of valid data.
+     * @param B MA coefficients, Q13 [3]
+     * @param A AR coefficients, Q13 [2]
+     * @param S state vector [2]
+     * @param out output signal
+     * @param out_offset offset of valid data.
+     * @param len signal length
+     */
 	static void SKP_Silk_biquad(
 		    short      []in,        /* I:    input signal               */
 		    int          in_offset,
@@ -59,13 +50,10 @@ public class Silk_biquad
 	        out32 = Silk_macros.SKP_SMLABB( S0, in16, B[ 0 ] );
 
 	        S0 = Silk_macros.SKP_SMLABB( S1, in16, B[ 1 ] );
-//	        S0 += SKP_LSHIFT( SKP_SMULWB( out32, A0_neg ), 3 );
 	        S0 += ( Silk_macros.SKP_SMULWB( out32, A0_neg ) << 3 );
 	        
 
-//	        S1 = SKP_LSHIFT( SKP_SMULWB( out32, A1_neg ), 3 );
 	        S1 = ( Silk_macros.SKP_SMULWB( out32, A1_neg ) << 3 );
-//	        S1 = SKP_SMLABB( S1, in16, B[ 2 ] );
 	        S1 = Silk_macros.SKP_SMLABB( S1, in16, B[ 2 ] );
 	        tmp32    = Silk_SigProc_FIX.SKP_RSHIFT_ROUND( out32, 13 ) + 1;
 	        out[ out_offset + k ] = (short)Silk_SigProc_FIX.SKP_SAT16( tmp32 );
@@ -73,5 +61,4 @@ public class Silk_biquad
 	    S[ 0 ] = S0;
 	    S[ 1 ] = S1;
 	}
-
 }

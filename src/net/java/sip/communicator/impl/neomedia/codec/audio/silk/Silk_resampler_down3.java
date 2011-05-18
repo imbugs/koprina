@@ -26,7 +26,7 @@ public class Silk_resampler_down3
 	 * @param in_offset offset of valid data.
 	 * @param inLen Number of input samples
 	 */
-	void SKP_Silk_resampler_down3(
+	static void SKP_Silk_resampler_down3(
 	    int[]                           S,         /* I/O: State vector [ 8 ]                  */
 	    int S_offset,
 	    short[]                         out,       /* O:   Output signal [ floor(inLen/3) ]    */
