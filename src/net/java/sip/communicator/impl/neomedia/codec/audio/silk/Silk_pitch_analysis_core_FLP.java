@@ -1,24 +1,23 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_pitch_analysis_core_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_pitch_analysis_core_FLP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * Pitch analysis.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
+//TODO: float or dobule ???
 public class Silk_pitch_analysis_core_FLP
 {
 	static final int SCRATCH_SIZE =   22;
 
-	/************************************************************/
-	/* Definitions                                              */
-	/************************************************************/
-	static final float eps =                    1.192092896e-07f;
+	static final float eps =  1.192092896e-07f;
 
 	/* using log2() helps the fixed-point conversion */
 	static float SKP_P_log2(double x) 
@@ -26,10 +25,21 @@ public class Silk_pitch_analysis_core_FLP
 		return (float)(3.32192809488736 * Math.log10(x)); 
 	}
 
-	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	//%             CORE PITCH ANALYSIS FUNCTION                %
-	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	static int SKP_Silk_pitch_analysis_core_FLP( /* O voicing estimate: 0 voiced, 1 unvoiced                         */
+	/**
+	 * CORE PITCH ANALYSIS FUNCTION.
+	 * @param signal signal of length PITCH_EST_FRAME_LENGTH_MS*Fs_kHz
+	 * @param pitch_out 4 pitch lag values
+	 * @param lagIndex lag Index
+	 * @param contourIndex pitch contour Index
+	 * @param LTPCorr normalized correlation; input: value from previous frame
+	 * @param prevLag last lag of previous frame; set to zero is unvoiced
+	 * @param search_thres1 first stage threshold for lag candidates 0 - 1
+	 * @param search_thres2 final threshold for lag candidates 0 - 1
+	 * @param Fs_kHz sample frequency (kHz)
+	 * @param complexity Complexity setting, 0-2, where 2 is highest
+	 * @return voicing estimate: 0 voiced, 1 unvoiced
+	 */
+	static int SKP_Silk_pitch_analysis_core_FLP( /* O voicing estimate: 0 voiced, 1 unvoiced                 */
 	    float[] signal,            /* I signal of length PITCH_EST_FRAME_LENGTH_MS*Fs_kHz              */
 	    int[]         pitch_out,         /* O 4 pitch lag values                                             */
 	    int[]         lagIndex,          /* O lag Index                                                      */
@@ -95,7 +105,6 @@ public class Silk_pitch_analysis_core_FLP
 	    max_lag_4kHz      = Silk_common_pitch_est_defines.PITCH_EST_MAX_LAG_MS * 4;
 	    max_lag_8kHz      = Silk_common_pitch_est_defines.PITCH_EST_MAX_LAG_MS * 8;
 
-//	    SKP_memset(C, 0, sizeof(SKP_float) * PITCH_EST_NB_SUBFR * ((PITCH_EST_MAX_LAG >> 1) + 5));
 	    for(int i_djinn=0; i_djinn< Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; i_djinn++)
 	    for(int j_djinn=0; j_djinn< (Silk_common_pitch_est_defines.PITCH_EST_MAX_LAG >> 1) + 5; j_djinn++)
 	    	C[i_djinn][j_djinn] = 0;
@@ -108,7 +117,6 @@ public class Silk_pitch_analysis_core_FLP
 	        int[] R23 = new int[ 6 ];
 
 	        /* Resample to 12 -> 8 khz */
-//	        SKP_memset( R23, 0, 6 * sizeof( SKP_int32 ) );
 	        for(int i_djinn=0; i_djinn<6; i_djinn++)
 	        	R23[i_djinn] = 0;
 	        Silk_SigProc_FLP.SKP_float2short_array( signal_12,0, signal,0, Silk_common_pitch_est_defines.PITCH_EST_FRAME_LENGTH_MS * 12);
@@ -120,7 +128,6 @@ public class Silk_pitch_analysis_core_FLP
 	        if( complexity == Silk_SigProc_FIX.SKP_Silk_PITCH_EST_MAX_COMPLEX ) 
 	        {
 	            assert( 4 <= Silk_common_pitch_est_defines.PITCH_EST_MAX_DECIMATE_STATE_LENGTH );
-//	            SKP_memset( filt_state, 0, 4 * sizeof(SKP_float) );
 	            for(int i_djinn=0; i_djinn<4; i_djinn++)
 		        	filt_state[i_djinn] = 0;
 
@@ -130,7 +137,6 @@ public class Silk_pitch_analysis_core_FLP
 	        else 
 	        {
 	            assert( 2 <= Silk_common_pitch_est_defines.PITCH_EST_MAX_DECIMATE_STATE_LENGTH );
-//	            SKP_memset( filt_state, 0, 2 * sizeof(SKP_float) );
 	            for(int i_djinn=0; i_djinn<2; i_djinn++)
 		        	filt_state[i_djinn] = 0;
 	            
@@ -146,7 +152,6 @@ public class Silk_pitch_analysis_core_FLP
 
 	        /* Resample to 24 -> 8 khz */
 	        Silk_SigProc_FLP.SKP_float2short_array( signal_24,0, signal,0, 24 * Silk_common_pitch_est_defines.PITCH_EST_FRAME_LENGTH_MS );
-//	        SKP_memset( filt_state_fix, 0, 8 * sizeof(SKP_int32) );
 	        for(int i_djinn=0; i_djinn<8; i_djinn++)
 	        	filt_state_fix[i_djinn] = 0;
 	        Silk_resampler_down3.SKP_Silk_resampler_down3( filt_state_fix,0, signal_8,0, signal_24,0, 24 * Silk_common_pitch_est_defines.PITCH_EST_FRAME_LENGTH_MS );
@@ -155,7 +160,6 @@ public class Silk_pitch_analysis_core_FLP
 	    else
 	    {
 	        assert( Fs_kHz == 8 );
-//	        SKP_memcpy( signal_8kHz, signal, frame_length_8kHz * sizeof(SKP_float) );
 	        for(int i_djinn=0; i_djinn<frame_length_8kHz; i_djinn++)
 	        	signal_8kHz[i_djinn] = signal[i_djinn];
 	    }
@@ -164,7 +168,6 @@ public class Silk_pitch_analysis_core_FLP
 	    if( complexity == Silk_SigProc_FIX.SKP_Silk_PITCH_EST_MAX_COMPLEX ) 
 	    {
 	        assert( 4 <= Silk_common_pitch_est_defines.PITCH_EST_MAX_DECIMATE_STATE_LENGTH );
-//	        SKP_memset( filt_state, 0, 4 * sizeof(SKP_float) );
 	        for(int i_djinn=0; i_djinn<4; i_djinn++)
 	        	filt_state[i_djinn] = 0;
 	        Silk_decimate2_coarse_FLP.SKP_Silk_decimate2_coarse_FLP( signal_8kHz,0, filt_state,0, 
@@ -173,7 +176,6 @@ public class Silk_pitch_analysis_core_FLP
 	    else
 	    {
 	        assert( 2 <= Silk_common_pitch_est_defines.PITCH_EST_MAX_DECIMATE_STATE_LENGTH );
-//	        SKP_memset( filt_state, 0, 2 * sizeof(SKP_float) ); 
 	        for(int i_djinn=0; i_djinn<4; i_djinn++)
 	        	filt_state[i_djinn] = 0;
 	        Silk_decimate2_coarsest_FLP.SKP_Silk_decimate2_coarsest_FLP( signal_8kHz,0, filt_state,0, 
@@ -188,25 +190,19 @@ public class Silk_pitch_analysis_core_FLP
 	    /******************************************************************************
 	    * FIRST STAGE, operating in 4 khz
 	    ******************************************************************************/
-//	    target_ptr = &signal_4kHz[ SKP_RSHIFT( frame_length_4kHz, 1 ) ];
 	    target_ptr = signal_4kHz;
 	    target_ptr_offset = frame_length_4kHz >> 1;
 	    for( k = 0; k < 2; k++ ) 
 	    {
 	        /* Check that we are within range of the array */
-//	        assert( target_ptr >= signal_4kHz );
 	    	assert( target_ptr_offset >= 0 );
-//	        assert( target_ptr + sf_length_8kHz <= signal_4kHz + frame_length_4kHz );
 	    	assert( target_ptr_offset + sf_length_8kHz <= frame_length_4kHz );
 
-//	        basis_ptr = target_ptr - min_lag_4kHz;
 	    	basis_ptr = target_ptr;
 	    	basis_ptr_offset = target_ptr_offset - min_lag_4kHz;
 
 	        /* Check that we are within range of the array */
-//	        SKP_assert( basis_ptr >= signal_4kHz );
 	    	assert( basis_ptr_offset >= 0 );
-//	        SKP_assert( basis_ptr + sf_length_8kHz <= signal_4kHz + frame_length_4kHz );
 	    	assert( basis_ptr_offset + sf_length_8kHz <= frame_length_4kHz );
 
 	        /* Calculate first vector products before loop */
@@ -221,9 +217,7 @@ public class Silk_pitch_analysis_core_FLP
 	            basis_ptr_offset--;
 
 	            /* Check that we are within range of the array */
-//	            SKP_assert( basis_ptr >= signal_4kHz );
 	            assert( basis_ptr_offset >= 0 );
-//	            SKP_assert( basis_ptr + sf_length_8kHz <= signal_4kHz + frame_length_4kHz );
 	            assert( basis_ptr_offset + sf_length_8kHz <= frame_length_4kHz );
 
 	            cross_corr = Silk_inner_product_FLP.SKP_Silk_inner_product_FLP(target_ptr,target_ptr_offset, basis_ptr,basis_ptr_offset, sf_length_8kHz);
@@ -251,7 +245,6 @@ public class Silk_pitch_analysis_core_FLP
 
 	    /* Escape if correlation is very low already here */
 	    Cmax = C[ 0 ][ min_lag_4kHz ];
-//	    target_ptr = &signal_4kHz[ SKP_RSHIFT( frame_length_4kHz, 1 ) ];
 	    target_ptr = signal_4kHz;
 	    target_ptr_offset = frame_length_4kHz >> 1;
 	    energy = 1000.0f;
@@ -262,7 +255,6 @@ public class Silk_pitch_analysis_core_FLP
 	    threshold = Cmax * Cmax; 
 	    if( energy / 16.0f > threshold ) 
 	    {
-//	        SKP_memset(pitch_out, 0, PITCH_EST_NB_SUBFR * sizeof(SKP_int));
 	    	for(int i_djinn=0; i_djinn<Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; i_djinn++)
 	    		pitch_out[i_djinn] = 0;
 	        LTPCorr[0]      = 0.0f;
@@ -326,34 +318,27 @@ public class Silk_pitch_analysis_core_FLP
 	    /********************************************************************************* 
 	    * Find energy of each subframe projected onto its history, for a range of delays
 	    *********************************************************************************/
-//	    SKP_memset( C, 0, PITCH_EST_NB_SUBFR*((PITCH_EST_MAX_LAG >> 1) + 5) * sizeof(SKP_float)); // Is this needed?
 	    for(int i_djinn=0; i_djinn< Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; i_djinn++)
-		    for(int j_djinn=0; j_djinn< (Silk_common_pitch_est_defines.PITCH_EST_MAX_LAG >> 1) + 5; j_djinn++)
+		    for(int j_djinn=0; j_djinn< ((Silk_common_pitch_est_defines.PITCH_EST_MAX_LAG >> 1) + 5); j_djinn++)
 		    	C[i_djinn][j_djinn] = 0;
 	    
-//	    target_ptr = &signal_8kHz[ frame_length_4kHz ]; /* point to middle of frame */
-	    target_ptr = signal_8kHz;
+	    target_ptr = signal_8kHz; /* point to middle of frame */
 	    target_ptr_offset = frame_length_4kHz;
 	    for( k = 0; k < Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; k++ )
 	    {      
 	        /* Check that we are within range of the array */
-//	        SKP_assert( target_ptr >= signal_8kHz );
 	    	assert( target_ptr_offset >= 0 );
-//	        SKP_assert( target_ptr + sf_length_8kHz <= signal_8kHz + frame_length_8kHz );
 	    	assert( target_ptr_offset + sf_length_8kHz <= frame_length_8kHz );
 
 	        energy_tmp = Silk_energy_FLP.SKP_Silk_energy_FLP( target_ptr,target_ptr_offset, sf_length_8kHz );
 	        for( j = 0; j < length_d_comp; j++ ) 
 	        {
 	            d = d_comp[ j ];
-//	            basis_ptr = target_ptr - d;
 	            basis_ptr = target_ptr;
 		    	basis_ptr_offset = target_ptr_offset - d;
 
 	            /* Check that we are within range of the array */
-//	            SKP_assert( basis_ptr >= signal_8kHz );
 	            assert( basis_ptr_offset >= 0 );
-//	            SKP_assert( basis_ptr + sf_length_8kHz <= signal_8kHz + frame_length_8kHz );
 		    	assert( basis_ptr_offset + sf_length_8kHz <= frame_length_8kHz );
 	        
 	            cross_corr = Silk_inner_product_FLP.SKP_Silk_inner_product_FLP( basis_ptr,basis_ptr_offset, target_ptr,target_ptr_offset, sf_length_8kHz );
@@ -458,7 +443,6 @@ public class Silk_pitch_analysis_core_FLP
 	    if( lag == -1 ) 
 	    {
 	        /* No suitable candidate found */
-//	        SKP_memset( pitch_out, 0, PITCH_EST_NB_SUBFR * sizeof(SKP_int) );
 	    	for(int i_djinn=0; i_djinn<Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; i_djinn++)
 	    		pitch_out[i_djinn] = 0;
 	        LTPCorr[0]      = 0.0f;
@@ -564,12 +548,18 @@ public class Silk_pitch_analysis_core_FLP
 	    return 0;
 	}
 
-	/************************************************************/
-	/* Internally used functions                                */
-	/************************************************************/
+	/**
+	 * Internally used functions.
+	 * 
+	 * @param cross_corr_st3 3 DIM correlation array.
+	 * @param signal vector to correlate.
+	 * @param signal_offset offset of valid data.
+	 * @param start_lag start lag.
+	 * @param sf_length sub frame length.
+	 * @param complexity Complexity setting.
+	 */
 	static void SKP_P_Ana_calc_corr_st3
 	(
-//	    SKP_float cross_corr_st3[ PITCH_EST_NB_SUBFR ][ PITCH_EST_NB_CBKS_STAGE3_MAX ][ PITCH_EST_NB_STAGE3_LAGS ], /* O 3 DIM correlation array */
 		float[][][] cross_corr_st3,
 	    float signal[],           /* I vector to correlate                                            */
 	    int signal_offset,
@@ -603,8 +593,7 @@ public class Silk_pitch_analysis_core_FLP
 	    cbk_offset = Silk_pitch_est_tables.SKP_Silk_cbk_offsets_stage3[ complexity ];
 	    cbk_size   = Silk_pitch_est_tables.SKP_Silk_cbk_sizes_stage3[   complexity ];
 
-//	    target_ptr = &signal[ SKP_LSHIFT( sf_length, 2 ) ]; /* Pointer to middle of frame */
-	    target_ptr = signal;
+	    target_ptr = signal;/* Pointer to middle of frame */
 	    target_ptr_offset = signal_offset+( sf_length << 2 );
 	    for( k = 0; k < Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; k++ ) 
 	    {
@@ -613,7 +602,6 @@ public class Silk_pitch_analysis_core_FLP
 	        /* Calculate the correlations for each subframe */
 	        for( j = Silk_pitch_est_tables.SKP_Silk_Lag_range_stage3[ complexity ][ k ][ 0 ]; j <= Silk_pitch_est_tables.SKP_Silk_Lag_range_stage3[ complexity ][ k ][ 1 ]; j++ ) 
 	        {
-//	            basis_ptr = target_ptr - ( start_lag + j );
 	        	basis_ptr = target_ptr;
 	        	basis_ptr_offset = target_ptr_offset - ( start_lag + j );
 	            assert( lag_counter < SCRATCH_SIZE );
@@ -638,9 +626,16 @@ public class Silk_pitch_analysis_core_FLP
 	    }
 	}
 
+	/**
+	 * @param energies_st3 3 DIM correlation array.
+	 * @param signal vector to correlate.
+	 * @param signal_offset offset of valid data.
+	 * @param start_lag start lag.
+	 * @param sf_length sub frame length.
+	 * @param complexity Complexity setting.
+	 */
 	static void SKP_P_Ana_calc_energy_st3
 	(
-//	    SKP_float energies_st3[ PITCH_EST_NB_SUBFR ][ PITCH_EST_NB_CBKS_STAGE3_MAX ][ PITCH_EST_NB_STAGE3_LAGS ], /* O 3 DIM correlation array */
 		float[][][] energies_st3,
 	    float signal[],           /* I vector to correlate                                            */
 	    int signal_offset,
@@ -666,7 +661,6 @@ public class Silk_pitch_analysis_core_FLP
 	    cbk_offset = Silk_pitch_est_tables.SKP_Silk_cbk_offsets_stage3[ complexity ];
 	    cbk_size   = Silk_pitch_est_tables.SKP_Silk_cbk_sizes_stage3[   complexity ];
 
-//	    target_ptr = &signal[ SKP_LSHIFT( sf_length, 2 ) ];
 	    target_ptr = signal;
 	    target_ptr_offset = signal_offset+( sf_length << 2 );
 	    for( k = 0; k < Silk_common_pitch_est_defines.PITCH_EST_NB_SUBFR; k++ ) 
@@ -674,9 +668,8 @@ public class Silk_pitch_analysis_core_FLP
 	        lag_counter = 0;
 
 	        /* Calculate the energy for first lag */
-//	        basis_ptr = target_ptr - ( start_lag + SKP_Silk_Lag_range_stage3[ complexity ][ k ][ 0 ] );
 	        basis_ptr = target_ptr;
-        	basis_ptr_offset = target_ptr_offset - ( start_lag + Silk_pitch_est_tables.SKP_Silk_Lag_range_stage3[ complexity ][ k ][ 0 ] );
+        	basis_ptr_offset = target_ptr_offset - ( start_lag + Silk_pitch_est_tables.SKP_Silk_Lag_range_stage3[complexity ][ k ][ 0 ]);
 	        energy = Silk_energy_FLP.SKP_Silk_energy_FLP( basis_ptr,basis_ptr_offset, sf_length ) + 1e-3;
 	        assert( energy >= 0.0 );
 	        scratch_mem[lag_counter] = (float)energy;
@@ -713,6 +706,4 @@ public class Silk_pitch_analysis_core_FLP
 	        target_ptr_offset += sf_length;
 	    }
 	}
-
-
 }

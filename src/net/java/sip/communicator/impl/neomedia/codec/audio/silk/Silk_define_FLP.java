@@ -1,15 +1,15 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_define_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_define_FLP.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_define_FLP 
 {
@@ -75,5 +75,3 @@ public class Silk_define_FLP
 
 	static final float Q14_CONVERSION_FAC =                             6.1035e-005f; // 1 / 2^14
 }
-
-

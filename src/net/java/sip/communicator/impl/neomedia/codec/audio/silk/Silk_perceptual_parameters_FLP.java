@@ -1,16 +1,18 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_perceptual_parameters_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_perceptual_parameters_FLP.h
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * Perceptual parameters.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
+//TODO: float or double???
 public class Silk_perceptual_parameters_FLP 
 {
 	/* reduction in coding SNR during low speech activity */
@@ -94,5 +96,4 @@ public class Silk_perceptual_parameters_FLP
 	static final float NOISE_GAIN_VH =                              0.12f;
 	static final float NOISE_GAIN_UVL =                             0.1f;
 	static final float NOISE_GAIN_UVH =                             0.15f;
-
 }

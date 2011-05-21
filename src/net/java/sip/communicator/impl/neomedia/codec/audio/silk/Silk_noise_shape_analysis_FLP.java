@@ -1,19 +1,25 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_encode_frame_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_encode_frame_FLP.c
+/*
+ * SIP Communicator, the OpenSource Java VoIP and Instant Messaging client.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_noise_shape_analysis_FLP 
 {
-	/* Compute noise shaping coefficients and initial gain values */
+	/**
+	 * Compute noise shaping coefficients and initial gain values.
+	 * @param psEnc Encoder state FLP
+	 * @param psEncCtrl Encoder control FLP
+	 * @param pitch_res LPC residual from pitch analysis
+	 * @param x Input signal [frame_length + la_shape]
+	 */
 	static void SKP_Silk_noise_shape_analysis_FLP
 	(
 	    SKP_Silk_encoder_state_FLP      psEnc,             /* I/O  Encoder state FLP                       */
@@ -33,7 +39,6 @@ public class Silk_noise_shape_analysis_FLP
 	    int x_ptr_offset, pitch_res_ptr_offset=0;
 
 	    /* Point to start of first LPC analysis block */
-//	    x_ptr = x + psEnc->sCmn.la_shape - SHAPE_LPC_WIN_MS * psEnc->sCmn.fs_kHz + psEnc->sCmn.subfr_length;
 	    x_ptr = x;
 	    x_ptr_offset = psEnc.sCmn.la_shape - Silk_define.SHAPE_LPC_WIN_MS * psEnc.sCmn.fs_kHz + psEnc.sCmn.subfr_length;
 
@@ -296,6 +301,14 @@ public class Silk_noise_shape_analysis_FLP
 	    }
 	}
 	
+	/**
+	 * 
+	 * @param a Unstable/stabilized LPC vector [L].
+	 * @param a_offset offset of valid data.
+	 * @param bwe Bandwidth expansion factor.
+	 * @param L Number of LPC parameters in the input vector.
+	 * @param maxVal Maximum value allowed.
+	 */
 	static void LPC_fit_int16(
 	          float[] a,                    /* I/O: Unstable/stabilized LPC vector [L]              */
 	          int a_offset,
