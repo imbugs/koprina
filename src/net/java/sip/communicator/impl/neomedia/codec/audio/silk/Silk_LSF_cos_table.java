@@ -1,20 +1,14 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_LSF_cos_table" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_LSF_cos_table.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_LSF_cos_table 
 {
 	// Q12 values (even)
-//	const SKP_int SKP_Silk_LSFCosTab_FIX_Q12[LSF_COS_TAB_SZ_FIX + 1] = {
 	static  int[] SKP_Silk_LSFCosTab_FIX_Q12  =
 	{
 
@@ -52,5 +46,4 @@ public class Silk_LSF_cos_table
 	           -8152,            -8170,            -8182,            -8190,     
 	           -8192
 	};
-
 }

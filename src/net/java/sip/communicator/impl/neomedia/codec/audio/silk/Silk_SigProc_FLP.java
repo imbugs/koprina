@@ -1,15 +1,10 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_SigProc_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_SigProc_FLP.h
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 class Silk_SigProc_FLP_constants
 {
@@ -24,28 +19,19 @@ class Silk_SigProc_FLP_constants
 public class Silk_SigProc_FLP
 	extends Silk_SigProc_FLP_constants
 {
-	/********************************************************************/
-	/*                                MACROS                                */
-	/********************************************************************/
-
-//	#define SKP_min_float(a, b)			(((a) < (b)) ? (a) :  (b))
 	static float SKP_min_float(float a, float b)
 	{
 		return (((a) < (b)) ? (a) :  (b));
 	}
-//	#define SKP_max_float(a, b)			(((a) > (b)) ? (a) :  (b))
 	static float SKP_max_float(float a, float b)
 	{
 		return (((a) > (b)) ? (a) :  (b));
 	}
-//	#define SKP_abs_float(a)			((SKP_float)fabs(a))
 	static float SKP_abs_float(float a)
 	{
 		return Math.abs(a);
 	}
 
-//	#define SKP_LIMIT_float( a, limit1, limit2)	((limit1) > (limit2) ? ((a) > (limit1) ? (limit1) : ((a) < (limit2) ? (limit2) : (a))) \
-//																     : ((a) > (limit2) ? (limit2) : ((a) < (limit1) ? (limit1) : (a))))
 	static float SKP_LIMIT_float( float a, float limit1, float limit2)
 	{
 		if( limit1 > limit2 )
@@ -101,7 +87,7 @@ public class Silk_SigProc_FLP
 	    }
 	}
 
-//	#define SKP_round(x)		(SKP_float)((x)>=0 ? (SKP_int64)((x)+0.5) : (SKP_int64)((x)-0.5))
+//TODO:	#define SKP_round(x)		(SKP_float)((x)>=0 ? (SKP_int64)((x)+0.5) : (SKP_int64)((x)-0.5))
 	static float SKP_round(float x)
 	{
 		return (float)((x)>=0 ? (long)(x+0.5) : (long)(x-0.5));

@@ -1,33 +1,24 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_sort" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_sort.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Insertion sort (fast for already almost sorted arrays):
+ *    Best case:  O(n)   for an already sorted array
+ *    Worst case: O(n^2) for an inversely sorted array                                                            
+ * Shell short:    http://en.wikipedia.org/wiki/Shell_sort
+ * 
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_sort 
 {
-	
-	/* Insertion sort (fast for already almost sorted arrays):   */
-	/* Best case:  O(n)   for an already sorted array            */
-	/* Worst case: O(n^2) for an inversely sorted array          */
-	/*                                                           */
-	/* Shell short:    http://en.wikipedia.org/wiki/Shell_sort   */
-
-
-
-//	void SKP_Silk_insertion_sort_increasing(
-//	    SKP_int32           *a,             /* I/O:  Unsorted / Sorted vector               */
-//	    SKP_int             *index,         /* O:    Index vector for the sorted elements   */
-//	    const SKP_int       L,              /* I:    Vector length                          */
-//	    const SKP_int       K               /* I:    Number of correctly sorted positions   */
-//	)
+    /**
+     * 
+     * @param a Unsorted / Sorted vector
+     * @param index Index vector for the sorted elements
+     * @param L Vector length
+     * @param K Number of correctly sorted positions
+     */
 	static void SKP_Silk_insertion_sort_increasing(
 		    int           []a,             /* I/O:  Unsorted / Sorted vector               */
 		    int           []index,         /* O:    Index vector for the sorted elements   */
@@ -39,9 +30,9 @@ public class Silk_sort
 	    int        i, j;
 
 	    /* Safety checks */
-	    Silk_typedef.SKP_assert( K >  0 );
-	    Silk_typedef.SKP_assert( L >  0 );
-	    Silk_typedef.SKP_assert( L >= K );
+	    assert( K >  0 );
+	    assert( L >  0 );
+	    assert( L >= K );
 
 	    /* Write start indices in index vector */
 	    for( i = 0; i < K; i++ ) {
@@ -74,12 +65,13 @@ public class Silk_sort
 	    }
 	}
 
-//	void SKP_Silk_insertion_sort_decreasing(
-//	    int             *a,             /* I/O: Unsorted / Sorted vector                */
-//	    int             *index,         /* O:   Index vector for the sorted elements    */
-//	    const int       L,              /* I:   Vector length                           */
-//	    const int       K               /* I:   Number of correctly sorted positions    */
-//	)
+    /**
+     * 
+     * @param a Unsorted / Sorted vector
+     * @param index Index vector for the sorted elements
+     * @param L Vector length
+     * @param K Number of correctly sorted positions
+     */
 	static void SKP_Silk_insertion_sort_decreasing(
 		    int             []a,             /* I/O: Unsorted / Sorted vector                */
 		    int             []index,         /* O:   Index vector for the sorted elements    */
@@ -91,9 +83,9 @@ public class Silk_sort
 	    int    i, j;
 
 	    /* Safety checks */
-	    Silk_typedef.SKP_assert( K >  0 );
-	    Silk_typedef.SKP_assert( L >  0 );
-	    Silk_typedef.SKP_assert( L >= K );
+	    assert( K >  0 );
+	    assert( L >  0 );
+	    assert( L >= K );
 
 	    /* Write start indices in index vector */
 	    for( i = 0; i < K; i++ ) {
@@ -126,12 +118,13 @@ public class Silk_sort
 	    }
 	}
 
-//	void SKP_Silk_insertion_sort_decreasing_int16(
-//	    short           *a,             /* I/O: Unsorted / Sorted vector                */
-//	    int             *index,         /* O:   Index vector for the sorted elements    */
-//	    const int       L,              /* I:   Vector length                           */
-//	    const int       K               /* I:   Number of correctly sorted positions    */
-//	)
+    /**
+     * 
+     * @param a Unsorted / Sorted vector
+     * @param index Index vector for the sorted elements
+     * @param L Vector length
+     * @param K Number of correctly sorted positions
+     */
 	static void SKP_Silk_insertion_sort_decreasing_int16(
 		    short           []a,             /* I/O: Unsorted / Sorted vector                */
 		    int             []index,         /* O:   Index vector for the sorted elements    */
@@ -143,9 +136,9 @@ public class Silk_sort
 	    int value;
 
 	    /* Safety checks */
-	    Silk_typedef.SKP_assert( K >  0 );
-	    Silk_typedef.SKP_assert( L >  0 );
-	    Silk_typedef.SKP_assert( L >= K );
+	    assert( K >  0 );
+	    assert( L >  0 );
+	    assert( L >= K );
 
 	    /* Write start indices in index vector */
 	    for( i = 0; i < K; i++ ) {
@@ -159,7 +152,6 @@ public class Silk_sort
 	            a[ j + 1 ]     = a[ j ];     /* Shift value */
 	            index[ j + 1 ] = index[ j ]; /* Shift index */
 	        }
-//djinn ??	        a[ j + 1 ]     = value; /* Write value */
 	        a[ j + 1 ]     = (short) value; /* Write value */
 	        index[ j + 1 ] = i;     /* Write index */
 	    }
@@ -173,17 +165,18 @@ public class Silk_sort
 	                a[ j + 1 ]     = a[ j ];     /* Shift value */
 	                index[ j + 1 ] = index[ j ]; /* Shift index */
 	            }
-//djinn ??	            a[ j + 1 ]     = value; /* Write value */
 	            a[ j + 1 ]     = (short) value; /* Write value */
 	            index[ j + 1 ] = i;     /* Write index */
 	        }
 	    }
 	}
 
-//	void SKP_Silk_insertion_sort_increasing_all_values(
-//	    int             *a,             /* I/O: Unsorted / Sorted vector                */
-//	    const int       L               /* I:   Vector length                           */
-//	)
+    /**
+     * 
+     * @param a Unsorted / Sorted vector
+     * @param a_offset offset of valid data.
+     * @param L Vector length
+     */
 	static void SKP_Silk_insertion_sort_increasing_all_values(
 		    int             []a,             /* I/O: Unsorted / Sorted vector                */
 		    int				  a_offset,
@@ -206,12 +199,13 @@ public class Silk_sort
 	    }
 	}
 
-//	void SKP_Silk_shell_insertion_sort_increasing(
-//	    int           *a,             /* I/O:  Unsorted / Sorted vector               */
-//	    int             *index,         /* O:    Index vector for the sorted elements   */
-//	    const int       L,              /* I:    Vector length                          */
-//	    const int       K               /* I:    Number of correctly sorted positions   */
-//	)
+    /**
+     * 
+     * @param a Unsorted / Sorted vector
+     * @param index Index vector for the sorted elements
+     * @param L Vector length
+     * @param K Number of correctly sorted positions
+     */
 	static void SKP_Silk_shell_insertion_sort_increasing(
 		    int           []a,             /* I/O:  Unsorted / Sorted vector               */
 		    int           []index,         /* O:    Index vector for the sorted elements   */
@@ -228,7 +222,6 @@ public class Silk_sort
 	    Silk_typedef.SKP_assert( L >= K );
 	    
 	    /* Calculate initial step size */
-//	    inc_Q16_tmp = SKP_LSHIFT( (int)L, 15 );
 	    inc_Q16_tmp = ( (int)L << 15 );
 //	    inc = SKP_RSHIFT( inc_Q16_tmp, 16 );
 	    inc = ( inc_Q16_tmp >> 16 );
@@ -273,12 +266,13 @@ public class Silk_sort
 	        }
 	    }
 	}
-
-//	void SKP_Silk_shell_sort_increasing_all_values(
-//	    int           *a,             /* I/O:  Unsorted / Sorted vector               */
-//	    int             *index,         /* O:    Index vector for the sorted elements   */
-//	    const int       L               /* I:    Vector length                          */
-//	)
+	
+	/**
+	 * 
+	 * @param a Unsorted / Sorted vector.
+	 * @param index Index vector for the sorted elements.
+	 * @param L Vector length.
+	 */
 	static void SKP_Silk_shell_sort_increasing_all_values(
 		    int           []a,             /* I/O:  Unsorted / Sorted vector               */
 		    int           []index,         /* O:    Index vector for the sorted elements   */
@@ -323,5 +317,4 @@ public class Silk_sort
 
 	    }
 	}
-	
 }

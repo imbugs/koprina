@@ -1,20 +1,22 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_energy_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_energy_FLP.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author 
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu 
  */
 public class Silk_energy_FLP 
 {
-	/* sum of squares of a SKP_float array, with result as double */
-	static double SKP_Silk_energy_FLP
+    /**
+     * sum of squares of a float array, with result as double.
+     * @param data
+     * @param data_offset
+     * @param dataSize
+     * @return
+     */
+//TODO: float or double???    
+    static double SKP_Silk_energy_FLP
 	( 
 	    float[]     data,
 	    int data_offset,

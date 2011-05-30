@@ -1,29 +1,31 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_LPC_analysis_filter_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_LPC_analysis_filter_FLP.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * LPC analysis filter                     
+ * NB! State is kept internally and the    
+ * filter always starts with zero state    
+ * first Order output samples are not set 
+ * 
+ * @author Jing Dai
+ * @author Dignxin Xu
  */
 public class Silk_LPC_analysis_filter_FLP 
 {
-	/*******************************************/
-	/* LPC analysis filter                     */
-	/* NB! State is kept internally and the    */
-	/* filter always starts with zero state    */
-	/* first Order output samples are not set  */
-	/*******************************************/
-
+    /**
+     * 
+     * @param r_LPC LPC residual signal
+     * @param PredCoef LPC coefficients
+     * @param s Input signal
+     * @param s_offset offset of valid data.
+     * @param length Length of input signal
+     * @param Order LPC order
+     */
 	static void SKP_Silk_LPC_analysis_filter_FLP(
 	          float                 r_LPC[],            /* O    LPC residual signal                     */
 	          float                 PredCoef[],         /* I    LPC coefficients                        */
 	          float                 s[],                /* I    Input signal                            */
+	          int                   s_offset,
 	    final int                   length,             /* I    Length of input signal                  */
 	    final int                   Order               /* I    LPC order                               */
 	)
@@ -33,19 +35,19 @@ public class Silk_LPC_analysis_filter_FLP
 	    switch( Order ) 
 	    {
 	        case 8:
-	            SKP_Silk_LPC_analysis_filter8_FLP(  r_LPC, PredCoef, s, length );
+	            SKP_Silk_LPC_analysis_filter8_FLP(  r_LPC, PredCoef, s, s_offset, length );
 	        break;
 
 	        case 10:
-	            SKP_Silk_LPC_analysis_filter10_FLP( r_LPC, PredCoef, s, length );
+	            SKP_Silk_LPC_analysis_filter10_FLP( r_LPC, PredCoef, s, s_offset, length );
 	        break;
 
 	        case 12:
-	            SKP_Silk_LPC_analysis_filter12_FLP( r_LPC, PredCoef, s, length );
+	            SKP_Silk_LPC_analysis_filter12_FLP( r_LPC, PredCoef, s, s_offset, length );
 	        break;
 
 	        case 16:
-	            SKP_Silk_LPC_analysis_filter16_FLP( r_LPC, PredCoef, s, length );
+	            SKP_Silk_LPC_analysis_filter16_FLP( r_LPC, PredCoef, s, s_offset, length );
 	        break;
 
 	        default:
@@ -54,16 +56,23 @@ public class Silk_LPC_analysis_filter_FLP
 	    }
 
 	    /* Set first LPC Order samples to zero instead of undefined */
-//	    SKP_memset( r_LPC, 0, Order * sizeof( SKP_float ) );
-	    for(int i_djinn=0; i_djinn<Order; i_djinn++)
-	    	r_LPC[i_djinn] = 0;
+	    for(int i=0; i<Order; i++)
+	    	r_LPC[i] = 0;
 	}
 
-	/* 16th order LPC analysis filter, does not write first 16 samples */
+	/**
+	 * 16th order LPC analysis filter, does not write first 16 samples.
+	 * @param r_LPC LPC residual signal
+	 * @param PredCoef LPC coefficients
+	 * @param s Input signal
+	 * @param s_offset
+	 * @param length Length of input signal
+	 */
 	static void SKP_Silk_LPC_analysis_filter16_FLP(
 	          float                 r_LPC[],            /* O    LPC residual signal                     */
 	          float                 PredCoef[],         /* I    LPC coefficients                        */
 	          float                 s[],                /* I    Input signal                            */
+	          int                   s_offset,
 	    final int                   length              /* I    Length of input signal                  */
 	)
 	{
@@ -74,9 +83,8 @@ public class Silk_LPC_analysis_filter_FLP
 
 	    for ( ; ix < length; ix++) 
 	    {
-//	        s_ptr = &s[ix - 1];
 	    	s_ptr = s;
-	    	s_ptr_offset = ix - 1;
+	    	s_ptr_offset = s_offset + ix - 1;
 
 	        /* short-term prediction */
 	        LPC_pred = s_ptr[ s_ptr_offset ]   * PredCoef[ 0 ]  + 
@@ -101,11 +109,19 @@ public class Silk_LPC_analysis_filter_FLP
 	    }
 	}
 
-	/* 12th order LPC analysis filter, does not write first 12 samples */
+	/**
+	 * 12th order LPC analysis filter, does not write first 12 samples.
+	 * @param r_LPC LPC residual signal
+	 * @param PredCoef LPC coefficients
+	 * @param s Input signal
+	 * @param s_offset offset of valid data.
+	 * @param length Length of input signal
+	 */
 	static void SKP_Silk_LPC_analysis_filter12_FLP(
 			  float                 r_LPC[],            /* O    LPC residual signal                     */
 	          float                 PredCoef[],         /* I    LPC coefficients                        */
 	          float                 s[],                /* I    Input signal                            */
+	          int                   s_offset,
 	    final int                   length              /* I    Length of input signal                  */
 	)
 	{
@@ -116,9 +132,8 @@ public class Silk_LPC_analysis_filter_FLP
 
 	    for ( ; ix < length; ix++) 
 	    {
-//	        s_ptr = &s[ix - 1];
 	    	s_ptr = s;
-	    	s_ptr_offset = ix - 1;
+	    	s_ptr_offset = s_offset + ix - 1;
 
 	        /* short-term prediction */
 	        LPC_pred = s_ptr[ s_ptr_offset ]   * PredCoef[ 0 ]  + 
@@ -139,11 +154,19 @@ public class Silk_LPC_analysis_filter_FLP
 	    }
 	}
 
-	/* 10th order LPC analysis filter, does not write first 10 samples */
+	/**
+	 * 10th order LPC analysis filter, does not write first 10 samples
+	 * @param r_LPC LPC residual signal
+	 * @param PredCoef LPC coefficients 
+	 * @param s Input signal 
+	 * @param s_offset offset of valid data.
+	 * @param length Length of input signal
+	 */
 	static void SKP_Silk_LPC_analysis_filter10_FLP(
 			float                 r_LPC[],            /* O    LPC residual signal                     */
 			float                 PredCoef[],         /* I    LPC coefficients                        */
 			float                 s[],                /* I    Input signal                            */
+			int                   s_offset,
 		final int                 length              /* I    Length of input signal                  */
 	)
 	{
@@ -153,9 +176,8 @@ public class Silk_LPC_analysis_filter_FLP
 	    int s_ptr_offset;
 
 	    for ( ; ix < length; ix++) {
-//	        s_ptr = &s[ix - 1];
 	    	s_ptr = s;
-	    	s_ptr_offset = ix - 1;
+	    	s_ptr_offset = s_offset + ix - 1;
 
 	        /* short-term prediction */
 	        LPC_pred = s_ptr[ s_ptr_offset ]   * PredCoef[ 0 ]  + 
@@ -174,11 +196,19 @@ public class Silk_LPC_analysis_filter_FLP
 	    }
 	}
 
-	/* 8th order LPC analysis filter, does not write first 8 samples */
+	/**
+	 * 8th order LPC analysis filter, does not write first 8 samples.
+	 * @param r_LPC LPC residual signal
+	 * @param PredCoef LPC coefficients 
+	 * @param s Input signal
+	 * @param s_offset offset of valid data.
+	 * @param length  Length of input signal
+	 */
 	static void SKP_Silk_LPC_analysis_filter8_FLP(
 			  float                 r_LPC[],            /* O    LPC residual signal                     */
 	          float                 PredCoef[],         /* I    LPC coefficients                        */
 	          float                 s[],                /* I    Input signal                            */
+	          int                   s_offset,
 	    final int                   length              /* I    Length of input signal                  */
 	)
 	{
@@ -188,9 +218,8 @@ public class Silk_LPC_analysis_filter_FLP
 	    int s_ptr_offset;
 
 	    for ( ; ix < length; ix++) {
-//	        s_ptr = &s[ix - 1];
 	    	s_ptr = s;
-	    	s_ptr_offset = ix - 1;
+	    	s_ptr_offset = s_offset + ix - 1;
 
 	        /* short-term prediction */
 	        LPC_pred = s_ptr[  s_ptr_offset ] * PredCoef[ 0 ]  + 
@@ -207,5 +236,3 @@ public class Silk_LPC_analysis_filter_FLP
 	    }
 	}
 }
-
-

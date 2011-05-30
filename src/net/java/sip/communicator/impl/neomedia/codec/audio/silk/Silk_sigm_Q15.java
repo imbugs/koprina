@@ -1,21 +1,14 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_sigm_Q15" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_sigm_Q15.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * approximate sigmoid function.
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_sigm_Q15 
 {
-	/********************************/
-	/* approximate sigmoid function */
-	/********************************/
 	/* fprintf(1, '%d, ', round(1024 * ([1 ./ (1 + exp(-(1:5))), 1] - 1 ./ (1 + exp(-(0:5)))))); */
 	static int[] sigm_LUT_slope_Q10 = 
 	{
