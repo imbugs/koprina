@@ -1,23 +1,27 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_LPC_inverse_pred_gain_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_LPC_inverse_pred_gain_FLP.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * compute inverse of LPC prediction gain, and
+ * test if LPC coefficients are stable (all poles within unit circle)
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_LPC_inverse_pred_gain_FLP 
 {
 	static final float RC_THRESHOLD =       0.9999f;
-
-	/* compute inverse of LPC prediction gain, and                          */
-	/* test if LPC coefficients are stable (all poles within unit circle)   */
-	/* this code is based on SKP_Silk_a2k_FLP()                               */
+	
+	/**
+	 * 	compute inverse of LPC prediction gain, and                          
+	 *  test if LPC coefficients are stable (all poles within unit circle)   
+	 *  this code is based on SKP_Silk_a2k_FLP().
+	 * @param invGain inverse prediction gain, energy domain
+	 * @param A prediction coefficients [order]
+	 * @param A_offset offset of valid data.
+	 * @param order prediction order
+	 * @return returns 1 if unstable, otherwise 0
+	 */
 	static int SKP_Silk_LPC_inverse_pred_gain_FLP(   /* O:   returns 1 if unstable, otherwise 0      */
 	    float[]       invGain,               /* O:   inverse prediction gain, energy domain  */
 	    float[]       A,                     /* I:   prediction coefficients [order]         */
@@ -31,7 +35,6 @@ public class Silk_LPC_inverse_pred_gain_FLP
 	    float[] Aold, Anew;
 
 	    Anew = Atmp[ order & 1 ];
-//	    SKP_memcpy( Anew, A, order * sizeof(SKP_float) );
 	    for(int i_djinn=0; i_djinn<order; i_djinn++)
 	    	Anew[i_djinn] = A[A_offset+i_djinn];
 
@@ -62,5 +65,3 @@ public class Silk_LPC_inverse_pred_gain_FLP
 	    return 0;
 	}
 }
-
-
