@@ -1,19 +1,22 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_HP_variable_cutoff_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_HP_variable_cutoff_FLP.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_HP_variable_cutoff_FLP 
 {
-	/* High-pass filter with cutoff frequency adaptation based on pitch lag statistics */
+    /**
+     * High-pass filter with cutoff frequency adaptation based on pitch lag statistics.
+     * @param psEnc Encoder state FLP
+     * @param psEncCtrl Encoder control FLP
+     * @param out High-pass filtered output signal
+     * @param out_offset offset of valid data.
+     * @param in Input signal
+     * @param in_offset offset of valid data.
+     */
 	static void SKP_Silk_HP_variable_cutoff_FLP(
 	    SKP_Silk_encoder_state_FLP      psEnc,             /* I/O  Encoder state FLP                       */
 	    SKP_Silk_encoder_control_FLP    psEncCtrl,         /* I/O  Encoder control FLP                     */
@@ -88,5 +91,3 @@ public class Silk_HP_variable_cutoff_FLP
 	    Silk_biquad_alt.SKP_Silk_biquad_alt( in,in_offset, B_Q28, A_Q28, psEnc.sCmn.In_HP_State, out,out_offset, psEnc.sCmn.frame_length );
 	}
 }
-
-

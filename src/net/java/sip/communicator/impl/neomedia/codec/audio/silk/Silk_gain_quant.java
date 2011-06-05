@@ -1,15 +1,10 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from  http://developer.skype.com/silk/
- * 
- * Class "Silk_gain_quant" is mainly based on 
- *../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_gain_quant.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_gain_quant
 {
@@ -18,13 +13,13 @@ public class Silk_gain_quant
 	static final int SCALE_Q16 =      ( ( 65536 * ( Silk_define.N_LEVELS_QGAIN - 1 ) ) / ( ( ( Silk_define.MAX_QGAIN_DB - Silk_define.MIN_QGAIN_DB ) * 128 ) / 6 ) );
 	static final int INV_SCALE_Q16 =   ( ( 65536 * ( ( ( Silk_define.MAX_QGAIN_DB - Silk_define.MIN_QGAIN_DB ) * 128 ) / 6 ) ) / ( Silk_define.N_LEVELS_QGAIN - 1 ) );
 
-	/* Gain scalar quantization with hysteresis, uniform on log scale */
-//	void SKP_Silk_gains_quant(
-//	    SKP_int                         ind[ NB_SUBFR ],        /* O    gain indices                            */
-//	    SKP_int32                       gain_Q16[ NB_SUBFR ],   /* I/O  gains (quantized out)                   */
-//	    SKP_int                         *prev_ind,              /* I/O  last index in previous frame            */
-//	    const SKP_int                   conditional             /* I    first gain is delta coded if 1          */
-//	)
+	/**
+	 * Gain scalar quantization with hysteresis, uniform on log scale.
+	 * @param ind gain indices
+	 * @param gain_Q16 gains (quantized out)
+	 * @param prev_ind last index in previous frame
+	 * @param conditional first gain is delta coded if 1
+	 */
 	static void SKP_Silk_gains_quant(
 		    int                       ind[],        /* O    gain indices                            */
 		    int                       gain_Q16[],   /* I/O  gains (quantized out)                   */
@@ -36,7 +31,6 @@ public class Silk_gain_quant
 
 	    for( k = 0; k < Silk_define.NB_SUBFR; k++ ) {
 	        /* Add half of previous quantization error, convert to log scale, scale, floor() */
-//	        ind[ k ] = Silk_macros.SKP_SMULWB( SCALE_Q16, SKP_Silk_lin2log( gain_Q16[ k ] ) - OFFSET );
 	        ind[ k ] = Silk_macros.SKP_SMULWB( SCALE_Q16, Silk_lin2log.SKP_Silk_lin2log( gain_Q16[ k ] ) - OFFSET );
 
 	        /* Round towards previous quantized gain (hysteresis) */
@@ -60,19 +54,17 @@ public class Silk_gain_quant
 	        }
 
 	        /* Convert to linear scale and scale */
-//	        gain_Q16[ k ] = SKP_Silk_log2lin( Math.min( Silk_macros.SKP_SMULWB( INV_SCALE_Q16, prev_ind[0] ) + OFFSET, 3967 ) ); /* 3967 = 31 in Q7 */
 	        gain_Q16[ k ] = Silk_log2lin.SKP_Silk_log2lin( Math.min( Silk_macros.SKP_SMULWB( INV_SCALE_Q16, prev_ind[0] ) + OFFSET, 3967 ) ); /* 3967 = 31 in Q7 */
-
 	    }
 	}
 
-	/* Gains scalar dequantization, uniform on log scale */
-//	void SKP_Silk_gains_dequant(
-//	    SKP_int32                       gain_Q16[ NB_SUBFR ],   /* O    quantized gains                         */
-//	    const SKP_int                   ind[ NB_SUBFR ],        /* I    gain indices                            */
-//	    SKP_int                         *prev_ind,              /* I/O  last index in previous frame            */
-//	    const SKP_int                   conditional             /* I    first gain is delta coded if 1          */
-//	)
+	/**
+	 * Gains scalar dequantization, uniform on log scale.
+	 * @param gain_Q16 quantized gains.
+	 * @param ind gain indices.
+	 * @param prev_ind last index in previous frame.
+	 * @param conditional first gain is delta coded if 1.
+	 */
 	static void SKP_Silk_gains_dequant(
 		    int                         gain_Q16[ ],   /* O    quantized gains                         */
 		    int                         ind[  ],        /* I    gain indices                            */
@@ -91,10 +83,7 @@ public class Silk_gain_quant
 	        }
 
 	        /* Convert to linear scale and scale */
-//	        gain_Q16[ k ] = SKP_Silk_log2lin( Math.min( Silk_macros.SKP_SMULWB( INV_SCALE_Q16, prev_ind[0] ) + OFFSET, 3967 ) ); /* 3967 = 31 in Q7 */
 	        gain_Q16[ k ] = Silk_log2lin.SKP_Silk_log2lin( Math.min( Silk_macros.SKP_SMULWB( INV_SCALE_Q16, prev_ind[0] ) + OFFSET, 3967 ) ); /* 3967 = 31 in Q7 */
-
 	    }
 	}
-
 }

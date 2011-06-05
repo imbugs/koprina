@@ -1,20 +1,23 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_levinsondurbin_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_levinsondurbin_FLP.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author 
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_levinsondurbin_FLP 
 {
-	/* Solve the normal equations using the Levinson-Durbin recursion */
-	static float SKP_Silk_levinsondurbin_FLP(    /* O    prediction error energy                     */
+    /**
+     * Solve the normal equations using the Levinson-Durbin recursion.
+     * 
+     * @param A prediction coefficients [order].
+     * @param A_offset offset of valid data.
+     * @param corr input auto-correlations [order + 1].
+     * @param order prediction order.
+     * @return prediction error energy.
+     */
+    static float SKP_Silk_levinsondurbin_FLP(    /* O    prediction error energy                     */
 	    float       A[],                /* O    prediction coefficients [order]             */
 	    int A_offset,
 	    float corr[],             /* I    input auto-correlations [order + 1]         */
@@ -65,6 +68,3 @@ public class Silk_levinsondurbin_FLP
 	    return nrg;
 	}
 }
-
-
-

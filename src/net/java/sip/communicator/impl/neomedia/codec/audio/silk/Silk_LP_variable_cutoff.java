@@ -1,25 +1,27 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_HP_variable_cutoff" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_HP_variable_cutoff.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
+ * Elliptic/Cauer filters designed with 0.1 dB passband ripple, 
+ * 80 dB minimum stopband attenuation, and
+ * [0.95 : 0.15 : 0.35] normalized cut off frequencies.
  *
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_LP_variable_cutoff 
 {
-	/* Helper function, that interpolates the filter taps */
+    /**
+     * Helper function, that interpolates the filter taps.
+     * @param B_Q28
+     * @param A_Q28
+     * @param ind
+     * @param fac_Q16
+     */
 	static void SKP_Silk_LP_interpolate_filter_taps( 
-//	    SKP_int32           B_Q28[ TRANSITION_NB ],
 		int[] B_Q28,
-//	    SKP_int32           A_Q28[ TRANSITION_NA ],
 		int[] A_Q28,
-	    final int       ind,
+	    final int     ind,
 	    final int     fac_Q16
 	)
 	{
@@ -93,29 +95,33 @@ public class Silk_LP_variable_cutoff
 	        } 
 	        else 
 	        {
-//	            SKP_memcpy( B_Q28, SKP_Silk_Transition_LP_B_Q28[ ind ], TRANSITION_NB * sizeof( SKP_int32 ) );
 	        	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NB; i_djinn++)
 	        		B_Q28[i_djinn] = Silk_tables_other.SKP_Silk_Transition_LP_B_Q28[ ind ][i_djinn];
-//	            SKP_memcpy( A_Q28, SKP_Silk_Transition_LP_A_Q28[ ind ], TRANSITION_NA * sizeof( SKP_int32 ) );
 	        	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NA; i_djinn++)
 	        		A_Q28[i_djinn] = Silk_tables_other.SKP_Silk_Transition_LP_A_Q28[ ind ][i_djinn];
 	        }
 	    } 
 	    else 
 	    {
-//	        SKP_memcpy( B_Q28, SKP_Silk_Transition_LP_B_Q28[ TRANSITION_INT_NUM - 1 ], TRANSITION_NB * sizeof( SKP_int32 ) );
 	    	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NB; i_djinn++)
         		B_Q28[i_djinn] = Silk_tables_other.SKP_Silk_Transition_LP_B_Q28[ Silk_define.TRANSITION_INT_NUM - 1 ][i_djinn];
-//	        SKP_memcpy( A_Q28, SKP_Silk_Transition_LP_A_Q28[ TRANSITION_INT_NUM - 1 ], TRANSITION_NA * sizeof( SKP_int32 ) );
 	    	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NB; i_djinn++)
 	    		A_Q28[i_djinn] = Silk_tables_other.SKP_Silk_Transition_LP_A_Q28[ Silk_define.TRANSITION_INT_NUM - 1 ][i_djinn];
 	    }
 	}
-
-	/* Low-pass filter with variable cutoff frequency based on  */
-	/* piece-wise linear interpolation between elliptic filters */
-	/* Start by setting psEncC->transition_frame_no = 1;            */
-	/* Deactivate by setting psEncC->transition_frame_no = 0;   */
+	
+	/**
+	 * Low-pass filter with variable cutoff frequency based on  
+     * piece-wise linear interpolation between elliptic filters 
+     * Start by setting psEncC->transition_frame_no = 1;            
+     * Deactivate by setting psEncC->transition_frame_no = 0;  
+	 * @param psLP  LP filter state
+	 * @param out Low-pass filtered output signal
+	 * @param out_offset offset of valid data.
+	 * @param in Input signal 
+	 * @param in_offset offset of valid data.
+	 * @param frame_length Frame length
+	 */
 	static void SKP_Silk_LP_variable_cutoff(
 	    SKP_Silk_LP_state               psLP,          /* I/O  LP filter state                     */
 	    short[]                         out,           /* O    Low-pass filtered output signal     */
@@ -141,14 +147,12 @@ public class Silk_LP_variable_cutoff
 	            if( psLP.transition_frame_no < Silk_define.TRANSITION_FRAMES_DOWN ) 
 	            {
 	                /* Calculate index and interpolation factor for interpolation */
-//	#if( TRANSITION_INT_STEPS_DOWN == 32 )
 	            	if( Silk_define.TRANSITION_INT_STEPS_DOWN == 32 )
 	                fac_Q16 = psLP.transition_frame_no << ( 16 - 5 );
-//	#else
 	            	else
 	                fac_Q16 = ( psLP.transition_frame_no << 16 ) / Silk_define.TRANSITION_INT_STEPS_DOWN ;
-//	#endif
-	                ind      = fac_Q16 >> 16;
+	    
+	            	ind      = fac_Q16 >> 16;
 	                fac_Q16 -= ind << 16;
 
 	                assert( ind >= 0 );
@@ -172,14 +176,12 @@ public class Silk_LP_variable_cutoff
 	            if( psLP.transition_frame_no < Silk_define.TRANSITION_FRAMES_UP ) 
 	            {
 	                /* Calculate index and interpolation factor for interpolation */
-//	#if( TRANSITION_INT_STEPS_UP == 64 )
 	            	if( Silk_define.TRANSITION_INT_STEPS_UP == 64 )
 	                fac_Q16 = ( Silk_define.TRANSITION_FRAMES_UP - psLP.transition_frame_no ) << ( 16 - 6 );
-//	#else
 	                else
 	                fac_Q16 = ( ( Silk_define.TRANSITION_FRAMES_UP - psLP.transition_frame_no ) << 16 ) / Silk_define.TRANSITION_INT_STEPS_UP;
-//	#endif
-	                ind      = fac_Q16 >> 16;
+
+	            	ind      = fac_Q16 >> 16;
 	                fac_Q16 -= ind << 16;
 
 	                assert( ind >= 0 );
@@ -209,12 +211,8 @@ public class Silk_LP_variable_cutoff
 	    else 
 	    {
 	        /* Instead of using the filter, copy input directly to output */
-//	        SKP_memcpy( out, in, frame_length * sizeof( SKP_int16 ) );
 	    	for(int i_djinn=0; i_djinn<frame_length; i_djinn++)
         		out[out_offset+i_djinn] = in[in_offset+i_djinn];
 	    }
 	}
 }
-
-
-
