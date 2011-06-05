@@ -1,15 +1,10 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_Inlines" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_Inlines.h
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
  *
  * @author Jing Dai
+ * @author Dingxin Xu
  */
 class Silk_Inlines_constants
 {
@@ -22,27 +17,23 @@ class Silk_Inlines_constants
 public class Silk_Inlines
 	extends Silk_Inlines_constants
 {
-	/* count leading zeros of SKP_int64 */
-	static int SKP_Silk_CLZ64(long in)
+    /**
+     * count leading zeros of long.
+     * @param in. input
+     * @return
+     */
+    static int SKP_Silk_CLZ64(long in)
 	{
-//	    int in_upper;
-//
-//	    in_upper = (int)(in>>32);
-//	    if (in_upper == 0)
-//	    {
-//	        /* Search in the lower 32 bits */
-//	        return 32 + Silk_macros.SKP_Silk_CLZ32( (int) in );
-//	    }
-//	    else
-//	    {
-//	        /* Search in the upper 32 bits */
-//	        return Silk_macros.SKP_Silk_CLZ32( in_upper );
-//	    }
 		return Long.numberOfLeadingZeros(in);
 	}
 
-	/* get number of leading zeros and fractional part (the bits right after the leading one */
-	static void SKP_Silk_CLZ_FRAC(int in,            /* I: input */
+    /**
+     * get number of leading zeros and fractional part (the bits right after the leading one).
+     * @param in
+     * @param lz
+     * @param frac_Q7
+     */
+    static void SKP_Silk_CLZ_FRAC(int in,            /* I: input */
 	                              int[] lz,          /* O: number of leading zeros */
 	                              int[] frac_Q7)     /* O: the 7 bits right after the leading one */
 	{
@@ -51,10 +42,14 @@ public class Silk_Inlines
 	    lz[0] = lzeros;
 	    frac_Q7[0] = Silk_SigProc_FIX.SKP_ROR32(in, 24 - lzeros) & 0x7f;
 	}
-
-	/* Approximation of square root                                          */
-	/* Accuracy: < +/- 10% for output values > 15                            */
-	/*             < +/- 2.5% for output values > 120                        */
+    
+    /**
+     * Approximation of square root                                          
+     * Accuracy: < +/- 10% for output values > 15                            
+                 < +/- 2.5% for output values > 120         
+     * @param x
+     * @return
+     */
 	static int SKP_Silk_SQRT_APPROX(int x)
 	{
 	    int y;
@@ -85,7 +80,12 @@ public class Silk_Inlines
 	    return y;
 	}
 	
-	/* returns the number of left shifts before overflow for a 16 bit number (ITU definition with norm(0)=0) */
+	/**
+	 * returns the number of left shifts before overflow for a 16 bit 
+	 * number (ITU definition with norm(0)=0).
+	 * @param a
+	 * @return
+	 */
 	static int SKP_Silk_norm16(short a)
 	{
 	  int a32;
@@ -100,12 +100,17 @@ public class Silk_Inlines
 
 	  return Integer.numberOfLeadingZeros(a32) - 17;
 	}
-
-	/* returns the number of left shifts before overflow for a 32 bit number (ITU definition with norm(0)=0) */
+	
+	/**
+	 * returns the number of left shifts before overflow for a 32 bit 
+	 * number (ITU definition with norm(0)=0)
+	 * @param a
+	 * @return
+	 */
 	static int SKP_Silk_norm32(int a) 
 	{
 	  
-	  /* if ((a == 0) || (a == SKP_int32_MIN)) return(0); */
+	  /* if ((a == 0) || (a == Interger.MIN_VALUE)) return(0); */
 	  if ((a << 1) == 0) 
 		  return(0);
 
@@ -115,7 +120,13 @@ public class Silk_Inlines
 	  return Integer.numberOfLeadingZeros(a) - 1;
 	}
 
-	/* Divide two int32 values and return result as int32 in a given Q-domain */
+	/**
+	 * Divide two int32 values and return result as int32 in a given Q-domain.
+	 * @param a32 numerator (Q0)
+	 * @param b32 denominator (Q0)
+	 * @param Qres Q-domain of result (>= 0)
+	 * @return returns a good approximation of "(a32 << Qres) / b32"
+	 */
 	static int SKP_DIV32_varQ   	  /* O    returns a good approximation of "(a32 << Qres) / b32" */
 	( 
 	    final int        a32,         /* I    numerator (Q0)                  */
@@ -166,8 +177,13 @@ public class Silk_Inlines
 	        }
 	    }
 	}
-	
-	/* Invert int32 value and return result as int32 in a given Q-domain */
+
+	/**
+	 * Invert int32 value and return result as int32 in a given Q-domain.
+	 * @param b32 denominator (Q0)
+	 * @param Qres Q-domain of result (> 0)
+	 * @return returns a good approximation of "(1 << Qres) / b32"
+	 */
 	static int SKP_INVERSE32_varQ         /* O    returns a good approximation of "(1 << Qres) / b32" */
 	(
 	    final int        b32,             /* I    denominator (Q0)                */
@@ -216,9 +232,14 @@ public class Silk_Inlines
 	    }
 	}
 
-	/* Sine approximation; an input of 65536 corresponds to 2 * pi */
-	/* Uses polynomial expansion of the input to the power 0, 2, 4 and 6 */
-	/* The relative error is below 1e-5 */
+	/**
+	 * Sine approximation; an input of 65536 corresponds to 2 * pi 
+     * Uses polynomial expansion of the input to the power 0, 2, 4 and 6 
+     * The relative error is below 1e-5 
+     * 
+	 * @param x
+	 * @return returns approximately 2^24 * sin(x * 2 * pi / 65536).
+	 */
 	static int SKP_Silk_SIN_APPROX_Q24(        /* O    returns approximately 2^24 * sin(x * 2 * pi / 65536) */
 										int        x)
 	{
@@ -274,9 +295,13 @@ public class Silk_Inlines
 	    }
 	    return Silk_SigProc_FIX.SKP_RSHIFT_ROUND( y_Q30, 6 );
 	}
-
-	/* Cosine approximation; an input of 65536 corresponds to 2 * pi */
-	/* The relative error is below 1e-5 */
+	
+	/**
+	 * Cosine approximation; an input of 65536 corresponds to 2 * pi 
+     * The relative error is below 1e-5 
+	 * @param x
+	 * @return returns approximately 2^24 * cos(x * 2 * pi / 65536).
+	 */
 	static int SKP_Silk_COS_APPROX_Q24(        /* O    returns approximately 2^24 * cos(x * 2 * pi / 65536) */
 										int        x)
 	{
