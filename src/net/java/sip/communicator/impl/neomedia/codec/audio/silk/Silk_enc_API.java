@@ -1,35 +1,32 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_enc_API" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/Silk_enc_API.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- *
+ * Encoder API.
+ * 
  * @author Jing Dai
  * @author Dingxin Xu
  */
 public class Silk_enc_API 
 {
-	/****************************************/
-	/* Encoder functions                    */
-	/****************************************/
-
+	/**
+	 * get the memory size of the encoder state struct, not necessary in Java.
+	 * @deprecated
+	 * @param encSizeBytes
+	 * @return
+	 */
 	static int SKP_Silk_SDK_Get_Encoder_Size( int[] encSizeBytes )
 	{
-	    int ret = 0;
-	    
-	    encSizeBytes[0] = sizeof( SKP_Silk_encoder_state_FLP );
-	    
+	    int ret = 0;	    
 	    return ret;
 	}
 	
-	/***************************************/
-	/* Read control structure from encoder */
-	/***************************************/
+	/**
+	 * Read control structure from encoder.
+	 * @param encState State Vecotr.
+	 * @param encStatus Control Structure.
+	 * @return
+	 */
 	static int SKP_Silk_SDK_QueryEncoder
 	(
 	    Object encState,                        /* I:   State Vector                                    */
@@ -52,9 +49,12 @@ public class Silk_enc_API
 	    return ret;
 	}
 
-	/*************************/
-	/* Init or Reset encoder */
-	/*************************/
+	/**
+	 * Init or Reset encoder.
+	 * @param encState
+	 * @param encStatus
+	 * @return
+	 */
 	static int SKP_Silk_SDK_InitEncoder
 	(
 	    Object                            encState,          /* I/O: State                                           */
@@ -81,9 +81,18 @@ public class Silk_enc_API
 	    return ret;
 	}
 	
-	/**************************/
-	/* Encode frame with Silk */
-	/**************************/
+	/**
+	 * Encode frame with Silk.
+	 * @param encState State
+	 * @param encControl Control structure
+	 * @param samplesIn Speech sample input vector
+	 * @param samplesIn_offset offset of valid data.
+	 * @param nSamplesIn Number of samples in input vector
+	 * @param outData Encoded output vector
+	 * @param outData_offset offset of valid data.
+	 * @param nBytesOut  Number of bytes in outData (input: Max bytes)
+	 * @return
+	 */
 	static int SKP_Silk_SDK_Encode
 	( 
 	    Object                         encState,      /* I/O: State                                           */
@@ -93,8 +102,7 @@ public class Silk_enc_API
 	    int                            nSamplesIn,    /* I:   Number of samples in input vector               */
 	    byte[]                         outData,       /* O:   Encoded output vector                           */
 	    int outData_offset,
-	    short[]                        nBytesOut,      /* I/O: Number of bytes in outData (input: Max bytes)   */
-	    int nBytesOut_offset
+	    short[]                        nBytesOut      /* I/O: Number of bytes in outData (input: Max bytes)   */
 	)
 	{
 	    int   max_internal_fs_kHz, PacketSize_ms, PacketLoss_perc, UseInBandFEC, UseDTX, ret = 0;
@@ -124,14 +132,14 @@ public class Silk_enc_API
 	    }
 
 	    /* Set encoder parameters from control structure */
-	    API_fs_Hz           =                              encControl.API_sampleRate;
+	    API_fs_Hz           = encControl.API_sampleRate;
 	    max_internal_fs_kHz = ( int )encControl.maxInternalSampleRate / 1000;   /* convert Hz -> kHz */
 	    PacketSize_ms       = 1000 * ( int )encControl.packetSize / API_fs_Hz;
-	    TargetRate_bps      =                 ( int )encControl.bitRate;
-	    PacketLoss_perc     =                   ( int )encControl.packetLossPercentage;
-	    UseInBandFEC        =                   ( int )encControl.useInBandFEC;
-	    Complexity          =                   ( int )encControl.complexity;
-	    UseDTX              =                   ( int )encControl.useDTX;
+	    TargetRate_bps      = ( int )encControl.bitRate;
+	    PacketLoss_perc     = ( int )encControl.packetLossPercentage;
+	    UseInBandFEC        = ( int )encControl.useInBandFEC;
+	    Complexity          = ( int )encControl.complexity;
+	    UseDTX              = ( int )encControl.useDTX;
 	    /* Save values in state */
 	    psEnc.sCmn.API_fs_Hz          = API_fs_Hz;
 	    psEnc.sCmn.maxInternal_fs_kHz = max_internal_fs_kHz;
@@ -175,14 +183,15 @@ public class Silk_enc_API
 	            nSamplesToBuffer  = Math.min( nSamplesToBuffer, nSamplesIn );
 	            nSamplesFromInput = nSamplesToBuffer;
 	            /* Copy to buffer */
-	            SKP_memcpy( &psEnc->sCmn.inputBuf[ psEnc->sCmn.inputBufIx ], samplesIn, nSamplesFromInput * sizeof( SKP_int16 ) );
+	            System.arraycopy(samplesIn, samplesIn_offset, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx, nSamplesFromInput);
 	        } 
 	        else 
 	        {  
 	            nSamplesToBuffer  = Math.min( nSamplesToBuffer, ( int )nSamplesIn * psEnc.sCmn.fs_kHz * 1000 / API_fs_Hz );
 	            nSamplesFromInput = (int)( nSamplesToBuffer * API_fs_Hz / ( psEnc.sCmn.fs_kHz * 1000 ) );
 	            /* Resample and write to buffer */
-	            ret += Silk_resampler.SKP_Silk_resampler( psEnc.sCmn.resampler_state, psEnc.sCmn.inputBuf[ psEnc.sCmn.inputBufIx ], samplesIn, nSamplesFromInput );
+	            ret += Silk_resampler.SKP_Silk_resampler(psEnc.sCmn.resampler_state, 
+	            		psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx, samplesIn, samplesIn_offset, nSamplesFromInput);
 	        } 
 	        samplesIn_offset              += nSamplesFromInput;
 	        nSamplesIn             -= nSamplesFromInput;
@@ -195,21 +204,26 @@ public class Silk_enc_API
 	            if( MaxBytesOut == 0 ) 
 	            {
 	                /* No payload obtained so far */
-	                MaxBytesOut = nBytesOut[nBytesOut_offset];
-	                if( ( ret = SKP_Silk_encode_frame_FLP( psEnc, outData, &MaxBytesOut, psEnc->sCmn.inputBuf ) ) != 0 )
+	                MaxBytesOut = nBytesOut[0];
+	                short MaxBytesOut_ptr[] = new short[1];
+	                MaxBytesOut_ptr[0] = MaxBytesOut;
+	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData, outData_offset, 
+	                		MaxBytesOut_ptr, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx ) ) != 0 )
 	                {
 	                    assert( false );
 	                }
+	                MaxBytesOut = MaxBytesOut_ptr[0];
 	            } 
 	            else
 	            {
 	                /* outData already contains a payload */
-	                if( ( ret = SKP_Silk_encode_frame_FLP( psEnc, outData, nBytesOut, psEnc->sCmn.inputBuf ) ) != 0 ) 
+	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData, outData_offset,
+	                		nBytesOut, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx) ) != 0 ) 
 	                {
 	                    assert( false );
 	                }
 	                /* Check that no second payload was created */
-	                assert( nBytesOut[nBytesOut_offset] == 0 );
+	                assert( nBytesOut[0] == 0 );
 	            }
 	            psEnc.sCmn.inputBufIx = 0;
 	        } 
@@ -219,15 +233,13 @@ public class Silk_enc_API
 	        }
 	    }
 
-	    nBytesOut[nBytesOut_offset] = MaxBytesOut;
+	    nBytesOut[0] = MaxBytesOut;
 	    if( psEnc.sCmn.useDTX!=0 && psEnc.sCmn.inDTX!=0 )
 	    {
 	        /* DTX simulation */
-	        nBytesOut[nBytesOut_offset] = 0;
+	        nBytesOut[0] = 0;
 	    }
 
 	    return ret;
 	}
 }
-
-
