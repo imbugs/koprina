@@ -18,14 +18,18 @@ public class Silk_noise_shape_analysis_FLP
 	 * @param psEnc Encoder state FLP
 	 * @param psEncCtrl Encoder control FLP
 	 * @param pitch_res LPC residual from pitch analysis
+	 * @param pitch_res_offset offset of valid data.
 	 * @param x Input signal [frame_length + la_shape]
+	 * @param x_offset offset of valid data.
 	 */
 	static void SKP_Silk_noise_shape_analysis_FLP
 	(
 	    SKP_Silk_encoder_state_FLP      psEnc,             /* I/O  Encoder state FLP                       */
 	    SKP_Silk_encoder_control_FLP    psEncCtrl,         /* I/O  Encoder control FLP                     */
 	    float[]                 pitch_res,         /* I    LPC residual from pitch analysis        */
-	    float[]                 x                  /* I    Input signal [frame_length + la_shape]  */
+	    int                     pitch_res_offset,
+	    float[]                 x,                  /* I    Input signal [frame_length + la_shape]  */
+	    int                     x_offset          
 	)
 	{
 	    SKP_Silk_shape_state_FLP psShapeSt = psEnc.sShape;
@@ -40,7 +44,7 @@ public class Silk_noise_shape_analysis_FLP
 
 	    /* Point to start of first LPC analysis block */
 	    x_ptr = x;
-	    x_ptr_offset = psEnc.sCmn.la_shape - Silk_define.SHAPE_LPC_WIN_MS * psEnc.sCmn.fs_kHz + psEnc.sCmn.subfr_length;
+	    x_ptr_offset = x_offset + psEnc.sCmn.la_shape - Silk_define.SHAPE_LPC_WIN_MS * psEnc.sCmn.fs_kHz + psEnc.sCmn.subfr_length;
 
 	    /****************/
 	    /* CONTROL SNR  */
@@ -96,6 +100,7 @@ public class Silk_noise_shape_analysis_FLP
 	        energy_variation = 0.0f;
 	        log_energy_prev  = 0.0f;
 	        pitch_res_ptr = pitch_res;
+	        pitch_res_ptr_offset = pitch_res_offset;
 	        for( k = 0; k < Silk_define.FRAME_LENGTH_MS / 2; k++ ) 
 	        {
 	            nrg = ( float )nSamples + ( float )Silk_energy_FLP.SKP_Silk_energy_FLP( pitch_res_ptr,pitch_res_ptr_offset, nSamples );

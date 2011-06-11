@@ -22,7 +22,7 @@ public class Silk_structs
  * @author Jing Dai
  * @author Dingxin Xu
  */
-class SKP_Silk_nsq_state
+class SKP_Silk_nsq_state implements Cloneable
 {
     short[] xq = new short[2 * Silk_define.MAX_FRAME_LENGTH]; /* Buffer for quantized output signal */
     int[]   sLTP_shp_Q10 = new int[ 2 * Silk_define.MAX_FRAME_LENGTH ];
@@ -35,6 +35,22 @@ class SKP_Silk_nsq_state
     int     rand_seed;
     int     prev_inv_gain_Q16;
     int     rewhite_flag;
+    
+    /**
+     * override clone mthod.
+     */
+    //TODO:
+    public Object clone() 
+    {
+    	SKP_Silk_nsq_state clone = null;
+    	try {
+		    clone = (SKP_Silk_nsq_state) super.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return clone;
+    }
 }/* FIX*/
 
 /**

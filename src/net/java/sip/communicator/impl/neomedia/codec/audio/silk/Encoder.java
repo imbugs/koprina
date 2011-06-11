@@ -329,7 +329,7 @@ public class Encoder
             /* Silk Encoder */
             ret =
                 Silk_enc_API.SKP_Silk_SDK_Encode(psEnc, encControl, in, 0,
-                    counter, payload, 0, nBytes, 0);
+                    counter, payload, 0, nBytes);
             if (ret != 0)
             {
                 System.out.printf("\nSKP_Silk_Encode returned %d", ret);
