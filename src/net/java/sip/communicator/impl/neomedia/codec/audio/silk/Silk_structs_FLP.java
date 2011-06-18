@@ -69,26 +69,61 @@ class SKP_Silk_predict_state_FLP
 /* structure for one stage of MSVQ */
 class SKP_Silk_NLSF_CBS_FLP
 {
-//    const SKP_int32     nVectors;
-    int   nVectors;
+	public SKP_Silk_NLSF_CBS_FLP()
+	{
+		super();
+	}
+	
+	public SKP_Silk_NLSF_CBS_FLP(int nVectors, float[] CB, float[] Rates)
+	{
+		this.nVectors = nVectors;
+		this.CB = CB;
+		this.Rates = Rates;
+	}
+	
+	public SKP_Silk_NLSF_CBS_FLP(int nVectors, float[] CB, int CB_offset, float[] Rates, int Rates_offset)
+	{
+		this.nVectors = nVectors;
+		this.CB = new float[CB.length - CB_offset];
+		System.arraycopy(CB, CB_offset, this.CB, 0, this.CB.length);
+		this.Rates = new float[Rates.length - Rates_offset];
+		System.arraycopy(Rates, Rates_offset, this.Rates, 0, this.Rates.length);
+	}
+
+    int         nVectors;
     float[]     CB;
     float[]     Rates;
 } 
 
 class SKP_Silk_NLSF_CB_FLP 
 {
+	public SKP_Silk_NLSF_CB_FLP()
+	{
+		super();
+	}
+	
+	public SKP_Silk_NLSF_CB_FLP(int nStages, SKP_Silk_NLSF_CBS_FLP[] CBStages, 
+			float[] NDeltaMin, int[] CDF, int[][] StartPtr, int[] MiddleIx)
+	{
+		this.nStages = nStages;
+		this.CBStages = CBStages;
+		this.NDeltaMin = NDeltaMin;
+		this.CDF = CDF;
+		this.StartPtr = StartPtr;
+		this.MiddleIx = MiddleIx;
+	}
 //const SKP_int32                         nStages;    
     int                         nStages;
 
     /* fields for (de)quantizing */
-    SKP_Silk_NLSF_CBS_FLP CBStages;
+    SKP_Silk_NLSF_CBS_FLP[] CBStages;
     float[]                         NDeltaMin;
 
     /* fields for arithmetic (de)coding */
 //    const SKP_uint16                        *CDF;
-    short[] CDF;
+    int[] CDF;
 //    const SKP_uint16 * const                *StartPtr;
-    short[][] StartPtr;
+    int[][] StartPtr;
 //    const SKP_int                           *MiddleIx;
     int[] MiddleIx;
 } 
