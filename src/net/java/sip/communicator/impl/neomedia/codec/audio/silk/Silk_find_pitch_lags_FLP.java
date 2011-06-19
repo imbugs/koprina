@@ -1,25 +1,27 @@
-/**
- * Translated from the C code of Skype SILK codec (ver. 1.0.6)
- * Downloaded from http://developer.skype.com/silk/
- * 
- * Class "Silk_find_pitch_lags_FLP" is mainly based on 
- * ../SILK_SDK_SRC_FLP_v1.0.6/src/SKP_Silk_find_pitch_lags_FLP.c
- */
+
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 /**
- * @author
- *
+ * 
+ * @author Jing Dai
+ * @author Dingxin Xu
  */
 public class Silk_find_pitch_lags_FLP 
 {
+	/**
+	 * 
+	 * @param psEnc Encoder state FLP.
+	 * @param psEncCtrl Encoder control FLP.
+	 * @param res Residual.
+	 * @param x Speech signal.
+	 * @param x_offset offset of valid data.
+	 */
 	static void SKP_Silk_find_pitch_lags_FLP(
 		    SKP_Silk_encoder_state_FLP      psEnc,             /* I/O  Encoder state FLP                       */
 		    SKP_Silk_encoder_control_FLP    psEncCtrl,         /* I/O  Encoder control FLP                     */
-		          float                 res[],              /* O    Residual                                */
-		          int res_offset,
-		          float                 x[],                /* I    Speech signal                           */
-		          int x_offset
+		    float                           res[],             /* O    Residual                                */
+		    float                           x[],               /* I    Speech signal                           */
+		    int                             x_offset
 		)
 		{
 		    SKP_Silk_predict_state_FLP psPredSt = psEnc.sPred;
@@ -66,7 +68,7 @@ public class Silk_find_pitch_lags_FLP
 		    x_buf_ptr_offset += psEnc.sCmn.la_pitch;
 //		    SKP_memcpy( Wsig_ptr, x_buf_ptr, ( psPredSt->pitch_LPC_win_length - ( psEnc->sCmn.la_pitch << 1 ) ) * sizeof( SKP_float ) );
 		    for(int i_djinn=0; i_djinn< psPredSt.pitch_LPC_win_length - ( psEnc.sCmn.la_pitch << 1 ); i_djinn++)
-		    	Wsig[i_djinn]  = x_buf_ptr[x_buf_ptr_offset+i_djinn];
+		    	Wsig_ptr[Wsig_ptr_offset + i_djinn]  = x_buf_ptr[x_buf_ptr_offset+i_djinn];
 
 		    /* Last LA_LTP samples */
 		    Wsig_ptr_offset  += psPredSt.pitch_LPC_win_length - ( psEnc.sCmn.la_pitch << 1 );
@@ -91,10 +93,10 @@ public class Silk_find_pitch_lags_FLP
 		    /*****************************************/
 		    /* LPC analysis filtering               */
 		    /*****************************************/
-		    Silk_LPC_analysis_filter_FLP.SKP_Silk_LPC_analysis_filter_FLP( res, A, x_buf, buf_len, psEnc.sCmn.pitchEstimationLPCOrder );
+		    Silk_LPC_analysis_filter_FLP.SKP_Silk_LPC_analysis_filter_FLP( res, A, x_buf, x_buf_offset, buf_len, psEnc.sCmn.pitchEstimationLPCOrder );
 //		    SKP_memset( res, 0, psEnc->sCmn.pitchEstimationLPCOrder * sizeof( SKP_float ) );
 		    for(int i_djinn=0; i_djinn<psEnc.sCmn.pitchEstimationLPCOrder; i_djinn++)
-		    	res[res_offset+i_djinn] = 0;
+		    	res[i_djinn] = 0;
 
 		    /* Threshold for pitch estimator */
 		    thrhld  = 0.5f;
@@ -117,5 +119,3 @@ public class Silk_find_pitch_lags_FLP
 		    psEnc.LTPCorr = LTPCorr_djinnaddress[0];
 		}
 }
-
-

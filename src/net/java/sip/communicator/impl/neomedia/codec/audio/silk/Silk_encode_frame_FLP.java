@@ -95,7 +95,7 @@ public class Silk_encode_frame_FLP
 	    /*****************************************/
 	    /* Find pitch lags, initial LPC analysis */
 	    /*****************************************/
-	    Silk_find_pitch_lags_FLP.SKP_Silk_find_pitch_lags_FLP( psEnc, sEncCtrl, res_pitch, 0, x_frame, x_frame_offset );
+	    Silk_find_pitch_lags_FLP.SKP_Silk_find_pitch_lags_FLP( psEnc, sEncCtrl, res_pitch, x_frame, x_frame_offset );
 
 	    /************************/
 	    /* Noise shape analysis */
