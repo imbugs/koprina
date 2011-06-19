@@ -100,10 +100,12 @@ public class Silk_shell_coder
 	 * Shell encoder, operates on one shell code frame of 16 pulses.
 	 * @param sRC compressor data structure.
 	 * @param pulses0 data: nonnegative pulse amplitudes.
+	 * @param pulses0_offset valid data
 	 */ 
-	void SKP_Silk_shell_encoder(
-	    SKP_Silk_range_coder_state      sRC,               /* I/O  compressor data structure                   */
-	    int[]                   pulses0            /* I    data: nonnegative pulse amplitudes          */
+	static void SKP_Silk_shell_encoder(
+	    SKP_Silk_range_coder_state sRC,               /* I/O  compressor data structure                   */
+	    int[]                      pulses0,           /* I    data: nonnegative pulse amplitudes          */
+	    int                        pulses0_offset
 	)
 	{
 	    int[] pulses1 = new int[ 8 ], pulses2 = new int[ 4 ], pulses3 = new int[ 2 ], pulses4 = new int[ 1 ];
@@ -112,7 +114,7 @@ public class Silk_shell_coder
 	    assert( Silk_define.SHELL_CODEC_FRAME_LENGTH == 16 );
 
 	    /* tree representation per pulse-subframe */
-	    combine_pulses( pulses1,0, pulses0,0, 8 );
+	    combine_pulses( pulses1,0, pulses0,pulses0_offset, 8 );
 	    combine_pulses( pulses2,0, pulses1,0, 4 );
 	    combine_pulses( pulses3,0, pulses2,0, 2 );
 	    combine_pulses( pulses4,0, pulses3,0, 1 );
@@ -122,22 +124,22 @@ public class Silk_shell_coder
 	    encode_split( sRC, pulses2[  0 ], pulses3[ 0 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table2 );
 
 	    encode_split( sRC, pulses1[  0 ], pulses2[ 0 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table1 );
-	    encode_split( sRC, pulses0[  0 ], pulses1[ 0 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
-	    encode_split( sRC, pulses0[  2 ], pulses1[ 1 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[  pulses0_offset + 0 ], pulses1[ 0 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[  pulses0_offset + 2 ], pulses1[ 1 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
 
 	    encode_split( sRC, pulses1[  2 ], pulses2[ 1 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table1 );
-	    encode_split( sRC, pulses0[  4 ], pulses1[ 2 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
-	    encode_split( sRC, pulses0[  6 ], pulses1[ 3 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[  pulses0_offset + 4 ], pulses1[ 2 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[  pulses0_offset + 6 ], pulses1[ 3 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
 
 	    encode_split( sRC, pulses2[  2 ], pulses3[ 1 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table2 );
 
 	    encode_split( sRC, pulses1[  4 ], pulses2[ 2 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table1 );
-	    encode_split( sRC, pulses0[  8 ], pulses1[ 4 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
-	    encode_split( sRC, pulses0[ 10 ], pulses1[ 5 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[  pulses0_offset + 8 ], pulses1[ 4 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[  pulses0_offset + 10 ], pulses1[ 5 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
 
 	    encode_split( sRC, pulses1[  6 ], pulses2[ 3 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table1 );
-	    encode_split( sRC, pulses0[ 12 ], pulses1[ 6 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
-	    encode_split( sRC, pulses0[ 14 ], pulses1[ 7 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[ pulses0_offset + 12 ], pulses1[ 6 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
+	    encode_split( sRC, pulses0[ pulses0_offset + 14 ], pulses1[ 7 ], Silk_tables_pulses_per_block.SKP_Silk_shell_code_table0 );
 	}
 
 	/**
