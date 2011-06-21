@@ -143,7 +143,7 @@ public class Silk_decode_core
 	                Arrays.fill(FiltState, 0, psDec.LPC_order, 0);
 	                
 	                Silk_MA.SKP_Silk_MA_Prediction( psDec.outBuf, start_idx + k * ( psDec.frame_length >> 2 ), 
-		                    A_Q12, FiltState, sLTP,  start_idx, psDec.frame_length - start_idx, psDec.LPC_order );
+		                    A_Q12, 0, FiltState, sLTP,  start_idx, psDec.frame_length - start_idx, psDec.LPC_order );
 
 	                
 	                /* After rewhitening the LTP state is unscaled */

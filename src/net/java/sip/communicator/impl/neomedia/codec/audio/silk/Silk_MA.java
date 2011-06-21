@@ -59,6 +59,7 @@ public class Silk_MA
 	 * @param in Input signal.
 	 * @param in_offset offset of valid data.
 	 * @param B MA prediction coefficients, Q12 [order].
+	 * @param B_offset 
 	 * @param S State vector [order].
 	 * @param out Output signal.
 	 * @param out_offset offset of valid data.
@@ -69,6 +70,7 @@ public class Silk_MA
 		    short[]      in,            /* I:   Input signal                                */
 		    int          in_offset,
 		    short[]      B,             /* I:   MA prediction coefficients, Q12 [order]     */
+		    int          B_offset,
 		    int[]        S,             /* I/O: State vector [order]                        */
 		    short[]      out,           /* O:   Output signal                               */
 		    int          out_offset,
@@ -85,9 +87,9 @@ public class Silk_MA
 	        out32 = Silk_SigProc_FIX.SKP_RSHIFT_ROUND( out32, 12 );
 	        
 	        for( d = 0; d < order - 1; d++ ) {
-	            S[ d ] = Silk_SigProc_FIX.SKP_SMLABB_ovflw( S[ d + 1 ], in16, B[ d ] );
+	            S[ d ] = Silk_SigProc_FIX.SKP_SMLABB_ovflw( S[ d + 1 ], in16, B[ B_offset + d ] );
 	        }
-	        S[ order - 1 ] = Silk_macros.SKP_SMULBB( in16, B[ order - 1 ] );
+	        S[ order - 1 ] = Silk_macros.SKP_SMULBB( in16, B[ B_offset + order - 1 ] );
 
 	        /* Limit */
 	        out[ out_offset + k ] = (short)Silk_SigProc_FIX.SKP_SAT16( out32 );
