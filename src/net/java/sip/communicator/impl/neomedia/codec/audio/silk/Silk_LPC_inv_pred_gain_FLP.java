@@ -8,7 +8,7 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
  * @author Jing Dai
  * @author Dingxin Xu
  */
-public class Silk_LPC_inverse_pred_gain_FLP 
+public class Silk_LPC_inv_pred_gain_FLP 
 {
 	static final float RC_THRESHOLD =       0.9999f;
 	

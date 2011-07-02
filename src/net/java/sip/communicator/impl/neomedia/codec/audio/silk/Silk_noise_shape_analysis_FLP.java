@@ -186,10 +186,10 @@ public class Silk_noise_shape_analysis_FLP
 	        
 	        /* Ratio of prediction gains, in energy domain */
 	        float[] pre_nrg_djinnaddress = {pre_nrg};
-	        Silk_LPC_inverse_pred_gain_FLP.SKP_Silk_LPC_inverse_pred_gain_FLP( pre_nrg_djinnaddress, psEncCtrl.AR2,k * Silk_define.SHAPE_LPC_ORDER_MAX, psEnc.sCmn.shapingLPCOrder );
+	        Silk_LPC_inv_pred_gain_FLP.SKP_Silk_LPC_inverse_pred_gain_FLP( pre_nrg_djinnaddress, psEncCtrl.AR2,k * Silk_define.SHAPE_LPC_ORDER_MAX, psEnc.sCmn.shapingLPCOrder );
 	        pre_nrg = pre_nrg_djinnaddress[0];
 	        float[] nrg_djinnaddress = {nrg};
-	        Silk_LPC_inverse_pred_gain_FLP.SKP_Silk_LPC_inverse_pred_gain_FLP( nrg_djinnaddress,     psEncCtrl.AR1,k * Silk_define.SHAPE_LPC_ORDER_MAX, psEnc.sCmn.shapingLPCOrder );
+	        Silk_LPC_inv_pred_gain_FLP.SKP_Silk_LPC_inverse_pred_gain_FLP( nrg_djinnaddress,     psEncCtrl.AR1,k * Silk_define.SHAPE_LPC_ORDER_MAX, psEnc.sCmn.shapingLPCOrder );
 	        nrg = nrg_djinnaddress[0];
 	        psEncCtrl.GainsPre[ k ] = ( float )Math.sqrt( pre_nrg / nrg );
 	        //psEncCtrl->GainsPre[ k ] = 1.0f - 0.7f * ( 1.0f - pre_nrg / nrg );
@@ -367,7 +367,7 @@ public class Silk_noise_shape_analysis_FLP
 	    /**********************/
 	    for( k = 0; k < 1000; k++ ) 
 	    {
-	        if( Silk_LPC_inverse_pred_gain_FLP.SKP_Silk_LPC_inverse_pred_gain_FLP( invGain, a,a_offset, L ) == 1 ) 
+	        if( Silk_LPC_inv_pred_gain_FLP.SKP_Silk_LPC_inverse_pred_gain_FLP( invGain, a,a_offset, L ) == 1 ) 
 	        { 
 	        	Silk_bwexpander_FLP.SKP_Silk_bwexpander_FLP( a,a_offset, L, 0.997f );
 	        }
