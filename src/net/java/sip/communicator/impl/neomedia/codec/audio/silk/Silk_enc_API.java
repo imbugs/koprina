@@ -207,8 +207,10 @@ public class Silk_enc_API
 	                MaxBytesOut = nBytesOut[0];
 	                short MaxBytesOut_ptr[] = new short[1];
 	                MaxBytesOut_ptr[0] = MaxBytesOut;
+//	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData, outData_offset, 
+//	                		MaxBytesOut_ptr, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx ) ) != 0 )
 	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData, outData_offset, 
-	                		MaxBytesOut_ptr, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx ) ) != 0 )
+                            MaxBytesOut_ptr, psEnc.sCmn.inputBuf, 0 ) ) != 0 )
 	                {
 	                    assert( false );
 	                }
@@ -217,8 +219,10 @@ public class Silk_enc_API
 	            else
 	            {
 	                /* outData already contains a payload */
+//	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData, outData_offset,
+//	                		nBytesOut, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx) ) != 0 ) 
 	                if( ( ret = Silk_encode_frame_FLP.SKP_Silk_encode_frame_FLP( psEnc, outData, outData_offset,
-	                		nBytesOut, psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx) ) != 0 ) 
+                           nBytesOut, psEnc.sCmn.inputBuf, 0) ) != 0 ) 
 	                {
 	                    assert( false );
 	                }
