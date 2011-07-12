@@ -224,20 +224,33 @@ public class Silk_wrappers_FLP
 	    Silk_SigProc_FLP.SKP_float2short_array( x_16,0, x,x_offset, psEnc.sCmn.frame_length );
 	    
 	    /* Call NSQ */
+	    short[] PredCoef_Q12_dim1_tmp= new short[PredCoef_Q12.length * PredCoef_Q12[0].length];
+	    int PredCoef_Q12_offset = 0;
+	    for(int PredCoef_Q12_i = 0; PredCoef_Q12_i < PredCoef_Q12.length; PredCoef_Q12_i++)
+	    {
+	        System.arraycopy(PredCoef_Q12[PredCoef_Q12_i],0, PredCoef_Q12_dim1_tmp, PredCoef_Q12_offset, PredCoef_Q12[PredCoef_Q12_i].length);
+	        PredCoef_Q12_offset += PredCoef_Q12[PredCoef_Q12_i].length;
+	    }
 	    if( useLBRR!=0 ) 
 	    {
-	        psEnc.NoiseShapingQuantizer( psEnc.sCmn, psEncCtrl.sCmn, psEnc.sNSQ_LBRR, 
-	            x_16, q, psEncCtrl.sCmn.NLSFInterpCoef_Q2, PredCoef_Q12[ 0 ], LTPCoef_Q14, AR2_Q13, 
-	            HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
+//	        psEnc.NoiseShapingQuantizer( psEnc.sCmn, psEncCtrl.sCmn, psEnc.sNSQ_LBRR, 
+//	            x_16, q, psEncCtrl.sCmn.NLSFInterpCoef_Q2, PredCoef_Q12[ 0 ], LTPCoef_Q14, AR2_Q13, 
+//	            HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );\
+	           psEnc.NoiseShapingQuantizer( psEnc.sCmn, psEncCtrl.sCmn, psEnc.sNSQ_LBRR, 
+	                x_16, q, psEncCtrl.sCmn.NLSFInterpCoef_Q2, PredCoef_Q12_dim1_tmp, LTPCoef_Q14, AR2_Q13, 
+	                HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
 //	         psEnc.NoiseShapingQuantizer( &psEnc->sCmn, &psEncCtrl->sCmn, &psEnc->sNSQ_LBRR, 
 //          x_16, q, psEncCtrl->sCmn.NLSFInterpCoef_Q2, PredCoef_Q12[ 0 ], LTPCoef_Q14, AR2_Q13, 
 //          HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
 	    } 
 	    else
 	    {
-	        psEnc.NoiseShapingQuantizer( psEnc.sCmn, psEncCtrl.sCmn, psEnc.sNSQ, 
-	            x_16, q, psEncCtrl.sCmn.NLSFInterpCoef_Q2, PredCoef_Q12[ 0 ], LTPCoef_Q14, AR2_Q13, 
-	            HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
+//	        psEnc.NoiseShapingQuantizer( psEnc.sCmn, psEncCtrl.sCmn, psEnc.sNSQ, 
+//	            x_16, q, psEncCtrl.sCmn.NLSFInterpCoef_Q2, PredCoef_Q12[ 0 ], LTPCoef_Q14, AR2_Q13, 
+//	            HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
+	           psEnc.NoiseShapingQuantizer( psEnc.sCmn, psEncCtrl.sCmn, psEnc.sNSQ, 
+	                x_16, q, psEncCtrl.sCmn.NLSFInterpCoef_Q2, PredCoef_Q12_dim1_tmp, LTPCoef_Q14, AR2_Q13, 
+	                HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
 //	           psEnc.NoiseShapingQuantizer( &psEnc->sCmn, &psEncCtrl->sCmn, &psEnc->sNSQ, 
 //	                x_16, q, psEncCtrl->sCmn.NLSFInterpCoef_Q2, PredCoef_Q12[ 0 ], LTPCoef_Q14, AR2_Q13, 
 //	                HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, Lambda_Q10, LTP_scale_Q14 );
