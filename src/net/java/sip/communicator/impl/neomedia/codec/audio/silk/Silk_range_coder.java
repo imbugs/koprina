@@ -59,17 +59,22 @@ public class Silk_range_coder
 	    }
 
 	    /* Check normalization */
-	    if( (range_Q32 & 0xFF000000)!=0 ) 
+	    if( (range_Q32 & 0xFF000000L)!=0 ) 
+//	        if( (range_Q32 & 0xFF000000)!=0 ) 
 	    {
 	        /* No normalization */
-	        range_Q16 = ( range_Q32 >> 16 );
+//	        range_Q16 = ( range_Q32 >> 16 );
+	        range_Q16 = ( range_Q32 >>> 16 );
+
 	    }
 	    else
 	    {
-	        if( (range_Q32 & 0xFFFF0000)!=0 ) 
+	        if( (range_Q32 & 0xFFFF0000L)!=0 ) 
+//	            if( (range_Q32 & 0xFFFF0000)!=0 ) 
 	        {
 	            /* Normalization of 8 bits shift */
-	            range_Q16 = ( range_Q32 >> 8 );
+//	            range_Q16 = ( range_Q32 >> 8 );
+	            range_Q16 = ( range_Q32 >>> 8 );
 	        }
 	        else 
 	        {
@@ -83,7 +88,9 @@ public class Silk_range_coder
 	            }
 	            /* Write one byte to buffer */
 	            buffer[ bufferIx++ ] = (byte)( base_Q32 >>> 24 );
-	            base_Q32 = base_Q32 << 8;
+//	            base_Q32 = base_Q32 << 8;
+	            base_Q32 = (base_Q32 << 8)&0xFFFFFFFFL;
+
 	        }
 	        /* Make sure not to write beyond buffer */
 	        if( bufferIx >= psRC.bufferLength )
@@ -93,7 +100,8 @@ public class Silk_range_coder
 	        }
 	        /* Write one byte to buffer */
 	        buffer[ bufferIx++ ] = (byte)( base_Q32 >>> 24 );
-	        base_Q32 = base_Q32 << 8;
+//	        base_Q32 = base_Q32 << 8;
+	        base_Q32 = (base_Q32 << 8)&0xFFFFFFFFL;
 	    }
 
 	    /* Copy structure data back */
