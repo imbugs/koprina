@@ -140,16 +140,18 @@ class SKP_Silk_NLSF_CB_FLP
  */
 class SKP_Silk_encoder_state_FLP
 {
-    SKP_Silk_encoder_state              sCmn;                       /* Common struct, shared with fixed-point code */
+//    SKP_Silk_encoder_state              sCmn;                       /* Common struct, shared with fixed-point code */
+    SKP_Silk_encoder_state              sCmn = new SKP_Silk_encoder_state(); /* Common struct, shared with fixed-point code */
+
 
     float                           variable_HP_smth1;          /* State of first smoother */
     float                           variable_HP_smth2;          /* State of second smoother */
 
-    SKP_Silk_shape_state_FLP            sShape;                     /* Noise shaping state */
-    SKP_Silk_prefilter_state_FLP        sPrefilt;                   /* Prefilter State */
-    SKP_Silk_predict_state_FLP          sPred;                      /* Prediction State */
-    SKP_Silk_nsq_state                  sNSQ;                       /* Noise Shape Quantizer State */
-    SKP_Silk_nsq_state                  sNSQ_LBRR;                  /* Noise Shape Quantizer State ( for low bitrate redundancy )*/
+    SKP_Silk_shape_state_FLP            sShape = new SKP_Silk_shape_state_FLP();                     /* Noise shaping state */
+    SKP_Silk_prefilter_state_FLP        sPrefilt = new SKP_Silk_prefilter_state_FLP();                   /* Prefilter State */
+    SKP_Silk_predict_state_FLP          sPred = new SKP_Silk_predict_state_FLP();                      /* Prediction State */
+    SKP_Silk_nsq_state                  sNSQ = new SKP_Silk_nsq_state();                       /* Noise Shape Quantizer State */
+    SKP_Silk_nsq_state                  sNSQ_LBRR = new SKP_Silk_nsq_state();                  /* Noise Shape Quantizer State ( for low bitrate redundancy )*/
 
     /* Function pointer to noise shaping quantizer (will be set to SKP_Silk_NSQ or SKP_Silk_NSQ_del_dec) */
 //    void    (* NoiseShapingQuantizer)( SKP_Silk_encoder_state *, SKP_Silk_encoder_control *, SKP_Silk_nsq_state *, const SKP_int16 *, 
@@ -195,7 +197,7 @@ class SKP_Silk_encoder_state_FLP
  */
 class SKP_Silk_encoder_control_FLP
 {
-    SKP_Silk_encoder_control    sCmn;                               /* Common struct, shared with fixed-point code */
+    SKP_Silk_encoder_control    sCmn = new SKP_Silk_encoder_control();                               /* Common struct, shared with fixed-point code */
 
     /* Prediction and coding parameters */
     float[]                   Gains = new float[Silk_define.NB_SUBFR];
