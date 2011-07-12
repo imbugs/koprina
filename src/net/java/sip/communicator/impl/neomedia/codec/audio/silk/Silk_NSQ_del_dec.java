@@ -40,7 +40,7 @@ class NSQ_del_dec_struct
  * 
  * @author Dingxin Xu
  */
-class NSQ_sample_struct
+class NSQ_sample_struct implements Cloneable
 {
     int Q_Q10;
     int RD_Q10;
@@ -100,6 +100,15 @@ public class Silk_NSQ_del_dec
 	    int   FiltState[] = new int[ Silk_define.MAX_LPC_ORDER ], RDmin_Q10;
 	    int   x_sc_Q10[] = new int[ Silk_define.MAX_FRAME_LENGTH / Silk_define.NB_SUBFR ];
 	    NSQ_del_dec_struct psDelDec[] = new NSQ_del_dec_struct[ Silk_define.DEL_DEC_STATES_MAX ];
+	    /*
+	     * psDelDec is an array of references, which has to be created manually.
+	     */
+	    {
+	        for(int psDelDecIni_i=0; psDelDecIni_i<Silk_define.DEL_DEC_STATES_MAX; psDelDecIni_i++)
+	        {
+	            psDelDec[psDelDecIni_i] = new NSQ_del_dec_struct();
+	        }
+	    }
 	    NSQ_del_dec_struct psDD;
 
 	    subfr_length = psEncC.frame_length / Silk_define.NB_SUBFR;
@@ -365,6 +374,18 @@ public class Silk_NSQ_del_dec
 	    int   pred_lag_ptr_offset, shp_lag_ptr_offset;
 	    int   []psLPC_Q14; int psLPC_Q14_offset;
 	    NSQ_sample_struct  psSampleState[][] = new NSQ_sample_struct[ Silk_define.DEL_DEC_STATES_MAX ][ 2 ];
+	    /*
+	     * psSampleState is an two-dimension array of reference, which should be created manually.
+	     */
+	    {
+	        for(int Ini_i=0; Ini_i<Silk_define.DEL_DEC_STATES_MAX; Ini_i++)
+	        {
+	            for(int Ini_j=0; Ini_j<2; Ini_j++)
+	            {
+	                psSampleState[Ini_i][Ini_j] = new NSQ_sample_struct();
+	            }
+	        }
+	    }
 	    NSQ_del_dec_struct psDD;
 	    NSQ_sample_struct[]  psSS;
 
