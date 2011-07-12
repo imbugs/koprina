@@ -117,7 +117,7 @@ public class Encoder
         DataOutputStream bitOutData = null;
 
         int[] encSizeBytes = new int[1];
-        SKP_Silk_encoder_state psEnc;
+        SKP_Silk_encoder_state_FLP psEnc;
 
         short[] nBytes_LE = new short[1];
 
@@ -273,7 +273,7 @@ public class Encoder
             System.out.printf("\nSKP_Silk_create_encoder returned %d", ret);
         }
 
-        psEnc = new SKP_Silk_encoder_state();
+        psEnc = new SKP_Silk_encoder_state_FLP();
 
         /* Reset Encoder */
         ret = Silk_enc_API.SKP_Silk_SDK_InitEncoder(psEnc, encControl);
