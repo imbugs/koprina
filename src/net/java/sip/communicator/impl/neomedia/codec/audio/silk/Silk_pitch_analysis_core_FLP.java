@@ -223,9 +223,12 @@ public class Silk_pitch_analysis_core_FLP
 	            cross_corr = Silk_inner_product_FLP.SKP_Silk_inner_product_FLP(target_ptr,target_ptr_offset, basis_ptr,basis_ptr_offset, sf_length_8kHz);
 
 	            /* Add contribution of new sample and remove contribution from oldest sample */
+//	               normalizer +=
+//	                    basis_ptr[ 0 ] * basis_ptr[ 0 ] - 
+//	                    basis_ptr[ sf_length_8kHz ] * basis_ptr[ sf_length_8kHz ];
 	            normalizer +=
-	                basis_ptr[ 0 ] * basis_ptr[ 0 ] - 
-	                basis_ptr[ sf_length_8kHz ] * basis_ptr[ sf_length_8kHz ];
+	                basis_ptr[ basis_ptr_offset + 0 ] * basis_ptr[ basis_ptr_offset + 0 ] - 
+	                basis_ptr[ basis_ptr_offset + sf_length_8kHz ] * basis_ptr[ basis_ptr_offset + sf_length_8kHz ];
 	            C[ 0 ][ d ] += (float)(cross_corr / Math.sqrt( normalizer ));
 	        }
 	        /* Update target pointer */
@@ -678,11 +681,11 @@ public class Silk_pitch_analysis_core_FLP
 	        for( i = 1; i < ( Silk_pitch_est_tables.SKP_Silk_Lag_range_stage3[ complexity ][ k ][ 1 ] - Silk_pitch_est_tables.SKP_Silk_Lag_range_stage3[ complexity ][ k ][ 0 ] + 1 ); i++ ) 
 	        {
 	            /* remove part outside new window */
-	            energy -= basis_ptr[sf_length - i] * basis_ptr[sf_length - i];
+	            energy -= basis_ptr[basis_ptr_offset + sf_length - i] * basis_ptr[basis_ptr_offset + sf_length - i];
 	            assert( energy >= 0.0 );
 
 	            /* add part that comes into window */
-	            energy += basis_ptr[ -i ] * basis_ptr[ -i ];
+	            energy += basis_ptr[ basis_ptr_offset -i ] * basis_ptr[ basis_ptr_offset-i ];
 	            assert( energy >= 0.0 );
 	            assert( lag_counter < SCRATCH_SIZE );
 	            scratch_mem[lag_counter] = (float)energy;
