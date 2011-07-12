@@ -59,7 +59,7 @@ public class Silk_levinsondurbin_FLP
 	        }
 	        if( (m & 1) != 0) 
 	        {
-	            A[ A_offset+mHalf ]     -= km * A[ mHalf ];
+	            A[ A_offset+mHalf ]     -= km * A[ A_offset+mHalf ];
 	        }
 	        A[ A_offset+m ] = km;
 	    }
