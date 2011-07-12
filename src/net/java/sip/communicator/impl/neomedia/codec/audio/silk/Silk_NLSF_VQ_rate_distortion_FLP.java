@@ -42,7 +42,7 @@ public class Silk_NLSF_VQ_rate_distortion_FLP
 	    for( n = 0; n < N; n++ ) {
 	        /* Add rate cost to error for each codebook vector */
 	        for( i = 0; i < psNLSF_CBS_FLP.nVectors; i++ ) {
-	            pRD_vec[ i ] += mu * ( rate_acc[n] + psNLSF_CBS_FLP.Rates[ i ] );
+	            pRD_vec[ pRD_vec_offset + i ] += mu * ( rate_acc[n] + psNLSF_CBS_FLP.Rates[ i ] );
 	        }
 	        pRD_vec_offset += psNLSF_CBS_FLP.nVectors;
 	    }
