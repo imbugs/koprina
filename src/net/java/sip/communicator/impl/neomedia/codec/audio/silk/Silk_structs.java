@@ -256,6 +256,15 @@ class SKP_Silk_encoder_state
 
     /* Struct for Inband LBRR */ 
     SKP_SILK_LBRR_struct[]      LBRR_buffer = new SKP_SILK_LBRR_struct[ Silk_define.MAX_LBRR_DELAY ];
+    /*
+     * LBRR_buffer is an array of references, which has to be created manually.
+     */
+    {
+        for(int LBRR_bufferIni_i=0; LBRR_bufferIni_i<Silk_define.MAX_LBRR_DELAY; LBRR_bufferIni_i++)
+        {
+            LBRR_buffer[LBRR_bufferIni_i] = new SKP_SILK_LBRR_struct();
+        }
+    }
     int                         oldest_LBRR_idx;
     int                         useInBandFEC;                   /* Saves the API setting for query                                      */
     int                         LBRR_enabled;                   
