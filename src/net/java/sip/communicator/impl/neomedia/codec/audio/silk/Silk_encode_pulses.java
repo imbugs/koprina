@@ -20,7 +20,7 @@ public class Silk_encode_pulses
 	static int combine_and_check(       /* return ok */
 	    int         []pulses_comb,           /* O */
 	    final int   []pulses_in,             /* I */
-	    int         pulses_int_offset,
+	    int         pulses_in_offset,
 	    int         max_pulses,             /* I    max value for sum of pulses */
 	    int         len                     /* I    number of output values */
 	) 
@@ -28,7 +28,7 @@ public class Silk_encode_pulses
 	    int k, sum;
 
 	    for( k = 0; k < len; k++ ) {
-	        sum = pulses_in[ 2 * k ] + pulses_in[ 2 * k + 1 ];
+	        sum = pulses_in[ pulses_in_offset + 2 * k ] + pulses_in[ pulses_in_offset+ 2 * k + 1 ];
 	        if( sum > max_pulses ) {
 	            return 1;
 	        }
