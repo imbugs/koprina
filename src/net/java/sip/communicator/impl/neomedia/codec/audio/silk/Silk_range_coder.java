@@ -47,7 +47,11 @@ public class Silk_range_coder
 	    high_Q16 = prob[ prob_offset + data + 1 ];
 	    base_tmp = base_Q32; /* save current base, to test for carry */
 
+//TODO: base_Q32 should be 32-bit 	    
+//	    base_Q32 += ( range_Q16 * low_Q16 ) & 0xFFFFFFFFL;
 	    base_Q32 += ( range_Q16 * low_Q16 ) & 0xFFFFFFFFL;
+	    base_Q32 = base_Q32 & 0xFFFFFFFFL;
+	    
 	    range_Q32 = ( range_Q16 * (high_Q16 - low_Q16) )& 0xFFFFFFFFL;
 
 	    /* Check for carry */
