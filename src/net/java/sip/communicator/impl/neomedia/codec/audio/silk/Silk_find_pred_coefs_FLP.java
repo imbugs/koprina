@@ -86,7 +86,7 @@ public class Silk_find_pred_coefs_FLP
 	            x_ptr_offset     += psEnc.sCmn.subfr_length;
 	        }
 
-	        Arrays.fill(psEncCtrl.LTPCoef, 0, Silk_define.NB_SUBFR * Silk_define.LTP_ORDER, 0);
+	        Arrays.fill(psEncCtrl.LTPCoef, 0, Silk_define.NB_SUBFR * Silk_define.LTP_ORDER, 0.0f);
 	        psEncCtrl.LTPredCodGain = 0.0f;
 	    }
 
