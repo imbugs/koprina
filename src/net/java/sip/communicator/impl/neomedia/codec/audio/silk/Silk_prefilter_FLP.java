@@ -1,6 +1,8 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.util.*;
+
 /**
  * @author
  *
@@ -61,6 +63,7 @@ public class Silk_prefilter_FLP
 //TODO: copy the psEncCtrl.AR1 to a local buffer or use a reference(pointer) to the struct???	        
 //	        AR1_shp   = psEncCtrl.AR1;
 //	        AR1_shp_offset = k * Silk_define.SHAPE_LPC_ORDER_MAX;
+	        Arrays.fill(AR1_shp, 0);
 	        System.arraycopy(psEncCtrl.AR1,  k * Silk_define.SHAPE_LPC_ORDER_MAX, 
 	        		AR1_shp, 0, psEncCtrl.AR1.length-k * Silk_define.SHAPE_LPC_ORDER_MAX);
 
