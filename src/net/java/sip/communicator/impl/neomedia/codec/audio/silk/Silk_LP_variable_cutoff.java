@@ -105,7 +105,7 @@ public class Silk_LP_variable_cutoff
 	    {
 	    	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NB; i_djinn++)
         		B_Q28[i_djinn] = Silk_tables_other.SKP_Silk_Transition_LP_B_Q28[ Silk_define.TRANSITION_INT_NUM - 1 ][i_djinn];
-	    	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NB; i_djinn++)
+	    	for(int i_djinn=0; i_djinn<Silk_define.TRANSITION_NA; i_djinn++)
 	    		A_Q28[i_djinn] = Silk_tables_other.SKP_Silk_Transition_LP_A_Q28[ Silk_define.TRANSITION_INT_NUM - 1 ][i_djinn];
 	    }
 	}
