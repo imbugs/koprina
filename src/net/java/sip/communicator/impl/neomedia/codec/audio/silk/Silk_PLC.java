@@ -310,7 +310,15 @@ public class Silk_PLC
 	            idx = ( rand_seed >> 25 ) & RAND_BUF_MASK;
 
 	            /* Unrolled loop */
-	            LTP_pred_Q14 = Silk_macros.SKP_SMULWB(               pred_lag_ptr[ pred_lag_ptr_offset + 0 ], B_Q14[ 0 ] );
+//	            LTP_pred_Q14 = Silk_macros.SKP_SMULWB(               pred_lag_ptr[ pred_lag_ptr_offset + 0 ], B_Q14[ 0 ] );
+//TODO at the last loop, pred_lag_ptr will exceed the array bounds, C allows it but Java doesn't.
+//Currently, i manually catch this array overflow and let it access the next data element, in this case, psDec.sLPC_Q14[0] instead.	            
+	            if(pred_lag_ptr_offset<psDec.sLTP_Q16.length) {
+		            LTP_pred_Q14 = Silk_macros.SKP_SMULWB(               pred_lag_ptr[ pred_lag_ptr_offset + 0 ], B_Q14[ 0 ] );
+	            }else{
+		            LTP_pred_Q14 = Silk_macros.SKP_SMULWB(               psDec.sLPC_Q14[0], B_Q14[ 0 ] );
+		            System.out.print("Array overflow: pred_lag_ptr_offset="+pred_lag_ptr_offset);
+	            }
 	            LTP_pred_Q14 = Silk_macros.SKP_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ pred_lag_ptr_offset - 1 ], B_Q14[ 1 ] );
 	            LTP_pred_Q14 = Silk_macros.SKP_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ pred_lag_ptr_offset - 2 ], B_Q14[ 2 ] );
 	            LTP_pred_Q14 = Silk_macros.SKP_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ pred_lag_ptr_offset - 3 ], B_Q14[ 3 ] );
