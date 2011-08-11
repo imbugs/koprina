@@ -5,10 +5,14 @@ import javax.media.format.*;
 
 import net.java.sip.communicator.impl.neomedia.codec.*;
 
+/**
+ * The SILK decoder.
+ * 
+ * @author Dingxin Xu
+ */
 public class JavaDecoder
     extends AbstractCodecExt
 {
-    // TODO:
     /**
      * Sampling frequency in Hertz of the decoder output signal. This sampling
      * frequency is independent of the internal sampling frequency of the
@@ -18,9 +22,65 @@ public class JavaDecoder
      * 16000, 24000, 32000, 44100, and 48000.
      * 
      */
-    private static final double[] SUPPORTED_INPUT_SAMPLE_RATE = new double[]
+    private static final double[] SUPPORTED_OUTPUT_SAMPLE_RATES = new double[]
     { 8000, 12000, 16000, 24000, 32000, 44100, 48000 };
 
+    /**
+     * The list of <tt>Format</tt>s of audio data supported as input by
+     * <tt>JavaDecoder</tt> instances.
+     */
+    private static final Format[] SUPPORTED_INPUT_FORMATS;
+    
+    //TODO: Please check the supported input data format.
+    static
+    {
+        int supportedInputCount = JavaEncoder.SUPPORTED_INPUT_SAMPLE_RATES.length;
+
+        SUPPORTED_INPUT_FORMATS = new Format[supportedInputCount];
+        for (int i = 0; i < supportedInputCount; i++)
+        {
+            SUPPORTED_INPUT_FORMATS[i]
+                = new AudioFormat(
+                        "SILK codec",//TODO
+                        JavaEncoder.SUPPORTED_INPUT_SAMPLE_RATES[i],//sample rate
+                        16,//sample size in bits
+                        AudioFormat.NOT_SPECIFIED,//channels TODO 1 or 2 or??
+                        AudioFormat.LITTLE_ENDIAN,
+                        AudioFormat.SIGNED,
+                        Format.NOT_SPECIFIED,
+                        Format.NOT_SPECIFIED,
+                        Format.byteArray); //data type TODO:
+        }
+    }
+    
+    /**
+     * The list of <tt>Format</tt>s of audio data supported as output by
+     * <tt>JavaDecoder</tt> instances.
+     */
+    private static final Format[] SUPPORTED_OUTPUT_FORMATS;
+    
+   //TODO: please check the supported output data format.
+    static
+    {
+        int supportedOutputCount = SUPPORTED_OUTPUT_SAMPLE_RATES.length;
+
+        SUPPORTED_OUTPUT_FORMATS = new Format[supportedOutputCount];
+        for (int i = 0; i < supportedOutputCount; i++)
+        {
+            SUPPORTED_OUTPUT_FORMATS[i]
+                = new AudioFormat(
+                        "SILK codec",//TODO
+                        SUPPORTED_OUTPUT_SAMPLE_RATES[i],//sample rate
+                        16,//sample size in bits
+                        AudioFormat.NOT_SPECIFIED,//channels TODO 1 or 2 or??
+                        AudioFormat.LITTLE_ENDIAN,
+                        AudioFormat.SIGNED,
+                        Format.NOT_SPECIFIED,
+                        Format.NOT_SPECIFIED,
+                        Format.shortArray); //data type TODO:
+        }
+    }
+    
     static final int MAX_BYTES_PER_FRAME = 1024;
 
     static final int MAX_INPUT_FRAMES = 5;
@@ -56,27 +116,9 @@ public class JavaDecoder
      */
     public JavaDecoder()
     {
-        super("SILK Decoder", AudioFormat.class, new AudioFormat[]
-        { new AudioFormat("SILK encoding", AudioFormat.NOT_SPECIFIED, // sampleRate
-            AudioFormat.NOT_SPECIFIED, // sampleSizeInBits
-            AudioFormat.NOT_SPECIFIED, // channels
-            AudioFormat.NOT_SPECIFIED, // endian
-            AudioFormat.NOT_SPECIFIED, // signed
-            AudioFormat.NOT_SPECIFIED, // frameSizeInBits
-            AudioFormat.NOT_SPECIFIED, // frameRate
-            new short[0].getClass() // datType
-            ) });
-        inputFormats = new AudioFormat[]
-        { new AudioFormat("SILK encoding", AudioFormat.NOT_SPECIFIED, // sampleRate
-            AudioFormat.NOT_SPECIFIED, // sampleSizeInBits
-            AudioFormat.NOT_SPECIFIED, // channels
-            AudioFormat.NOT_SPECIFIED, // endian
-            AudioFormat.NOT_SPECIFIED, // signed
-            AudioFormat.NOT_SPECIFIED, // frameSizeInBits
-            AudioFormat.NOT_SPECIFIED, // frameRate
-            new byte[0].getClass() // datType
-            ) };
-
+        super("SILK Decoder", AudioFormat.class, SUPPORTED_OUTPUT_FORMATS);
+        
+        inputFormats = SUPPORTED_INPUT_FORMATS;
     }
 
     @Override
@@ -99,6 +141,7 @@ public class JavaDecoder
             System.out.printf("SKP_Silk_InitDecoder returned %d\n", ret);
         }
         DecControl = new SKP_SILK_SDK_DecControlStruct();
+        //TODO: how to set decoder control struct parameters???
         DecControl.API_sampleRate = API_Fs_Hz;
 
     }
