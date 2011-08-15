@@ -384,10 +384,17 @@ public class Silk_range_coder
 	    nBytes = nBytes_ptr[0];
 
 	    /* Number of additional bits (1..9) required to be stored to stream */
-	    bits_to_store = bits_in_stream - psRC.bufferIx << 3 ;
+//TODO:	    bits_to_store = bits_in_stream - psRC.bufferIx << 3 ;
+	    bits_to_store = bits_in_stream - (psRC.bufferIx << 3) ;
+
 	    /* Round up to required resolution */
+//TODO:base_Q24 should be 32-bit long.
+//	    base_Q24 += 0x00800000 >>> ( bits_to_store - 1 );
 	    base_Q24 += 0x00800000 >>> ( bits_to_store - 1 );
+	    base_Q24 = base_Q24 & 0xFFFFFFFFL;
+//	    base_Q24 &= 0xFFFFFFFF << ( 24 - bits_to_store );
 	    base_Q24 &= 0xFFFFFFFF << ( 24 - bits_to_store );
+        
 
 	    /* Check for carry */
 	    if( (base_Q24 & 0x01000000) != 0 ) 
