@@ -1,6 +1,8 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.io.*;
+
 /**
  * 
  * @author Jing Dai
@@ -177,6 +179,51 @@ public class Silk_wrappers_FLP
 	        AR2_Q13[ i ] = (short)Silk_SigProc_FIX.SKP_SAT16( Silk_SigProc_FLP.SKP_float2int( psEncCtrl.AR2[ i ] * 8192.0f ) );
 	    }
 
+	    /*TEST************************************************************************/
+	    /*
+	     * test of the AR2_Q13
+	     * 
+	     */
+	    short[] ar2_q13 = new short[ Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX ];
+	    String ar2_q13_filename = "D:/gsoc/ar2_q13";
+	    DataInputStream ar2_q13_datain = null;
+	    try
+        {
+            ar2_q13_datain = new DataInputStream(
+                                                 new FileInputStream(
+                                                     new File(ar2_q13_filename)));
+            
+            for( i = 0; i < Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX; i++ ) 
+            {
+     //           AR2_Q13[ i ] = (short)Silk_SigProc_FIX.SKP_SAT16( Silk_SigProc_FLP.SKP_float2int( psEncCtrl.AR2[ i ] * 8192.0f ) );
+                  try
+                {
+                    ar2_q13[i] = ar2_q13_datain.readShort();
+                    AR2_Q13[i] = (short) (((ar2_q13[i] << 8) & 0xFF00) | ((ar2_q13[i] >>> 8) & 0x00FF));
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }             
+            }
+            try
+            {
+                ar2_q13_datain.close();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	    /*TEST End***********************************************************************/
+	    
 	    for( i = 0; i < Silk_define.NB_SUBFR; i++ ) 
 	    {
 	        LF_shp_Q14[ i ] =   ( Silk_SigProc_FLP.SKP_float2int( psEncCtrl.LF_AR_shp[ i ]     * 16384.0f ) << 16 ) |
@@ -223,6 +270,48 @@ public class Silk_wrappers_FLP
 	    /* Convert input to fix */
 	    Silk_SigProc_FLP.SKP_float2short_array( x_16,0, x,x_offset, psEnc.sCmn.frame_length );
 	    
+	    /*TEST************************************************************************/
+	    /**
+	     * test of x_16
+	     */
+	    short x_16_test[] = new short[ Silk_define.MAX_FRAME_LENGTH ];
+	    String x_16_filename = "D:/gsoc/x_16";
+	    DataInputStream x_16_datain = null;
+	    try
+        {
+            x_16_datain = new DataInputStream(
+                              new FileInputStream(
+                                  new File(x_16_filename)));
+            for(int k = 0; k < psEnc.sCmn.frame_length; k++)
+            {
+                try
+                {
+                    x_16_test[k] = x_16_datain.readShort();
+                    x_16[k] = (short) (((x_16_test[k]<<8)&0xFF00)|((x_16_test[k]>>>8)&0x00FF));
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            try
+            {
+                x_16_datain.close();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	    /*TEST END************************************************************************/
+        
 	    /* Call NSQ */
 	    short[] PredCoef_Q12_dim1_tmp= new short[PredCoef_Q12.length * PredCoef_Q12[0].length];
 	    int PredCoef_Q12_offset = 0;
