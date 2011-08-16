@@ -11,7 +11,10 @@ import java.io.*;
 public class Silk_wrappers_FLP 
 {
 	/* Wrappers. Calls flp / fix code */
-
+    static long ar2_q13_file_offset = 0;
+    static long x_16_file_offset = 0;
+    static int frame_cnt = 0;
+    
 	/* Convert AR filter coefficients to NLSF parameters */
 	static void SKP_Silk_A2NLSF_FLP( 
 	          float[]               pNLSF,             /* O    NLSF vector      [ LPC_order ]          */
@@ -186,8 +189,100 @@ public class Silk_wrappers_FLP
 	     */
 	    short[] ar2_q13 = new short[ Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX ];
 	    String ar2_q13_filename = "D:/gsoc/ar2_q13";
-	    DataInputStream ar2_q13_datain = null;
-	    try
+	   
+//	    /*
+//	     * Option 1:
+//	     */
+//	    DataInputStream ar2_q13_datain = null;
+//	    try
+//        {
+//            ar2_q13_datain = new DataInputStream(
+//                                                 new FileInputStream(
+//                                                     new File(ar2_q13_filename)));
+//            
+//            for( i = 0; i < Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX; i++ ) 
+//            {
+//     //           AR2_Q13[ i ] = (short)Silk_SigProc_FIX.SKP_SAT16( Silk_SigProc_FLP.SKP_float2int( psEncCtrl.AR2[ i ] * 8192.0f ) );
+//                  try
+//                {
+//                    ar2_q13[i] = ar2_q13_datain.readShort();
+//                    AR2_Q13[i] = (short) (((ar2_q13[i] << 8) & 0xFF00) | ((ar2_q13[i] >>> 8) & 0x00FF));
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }             
+//            }
+//            try
+//            {
+//                ar2_q13_datain.close();
+//            }
+//            catch (IOException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+        /*
+         * Option 2;
+         */
+//        RandomAccessFile ar2_q13_datain_rand = null;
+//        try
+//        {
+//            ar2_q13_datain_rand = new RandomAccessFile(new File(ar2_q13_filename), "r");
+//            try
+//            {
+//                ar2_q13_datain_rand.seek(ar2_q13_file_offset);
+//                for( i = 0; i < Silk_define.NB_SUBFR * Silk_define.SHAPE_LPC_ORDER_MAX; i++ ) 
+//                {
+//         //           AR2_Q13[ i ] = (short)Silk_SigProc_FIX.SKP_SAT16( Silk_SigProc_FLP.SKP_float2int( psEncCtrl.AR2[ i ] * 8192.0f ) );
+//                      try
+//                    {
+//                        ar2_q13[i] = ar2_q13_datain_rand.readShort();
+//                        AR2_Q13[i] = (short) (((ar2_q13[i] << 8) & 0xFF00) | ((ar2_q13[i] >>> 8) & 0x00FF));
+//                    }
+//                    catch (IOException e)
+//                    {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }             
+//                }
+//                ar2_q13_file_offset += i;
+//            }
+//            catch (IOException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            
+//            try
+//            {
+//                ar2_q13_datain_rand.close();
+//            }
+//            catch (IOException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        catch (FileNotFoundException e1)
+//        {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        }
+        
+        /**
+         * Option 3:
+         */
+      ar2_q13_filename += frame_cnt;
+      DataInputStream ar2_q13_datain = null;
+      try
         {
             ar2_q13_datain = new DataInputStream(
                                                  new FileInputStream(
@@ -276,8 +371,97 @@ public class Silk_wrappers_FLP
 	     */
 	    short x_16_test[] = new short[ Silk_define.MAX_FRAME_LENGTH ];
 	    String x_16_filename = "D:/gsoc/x_16";
-	    DataInputStream x_16_datain = null;
-	    try
+//	    /*
+//	     * Option 1:
+//	     */
+//	    DataInputStream x_16_datain = null;
+//	    try
+//        {
+//            x_16_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(x_16_filename)));
+//            for(int k = 0; k < psEnc.sCmn.frame_length; k++)
+//            {
+//                try
+//                {
+//                    x_16_test[k] = x_16_datain.readShort();
+//                    x_16[k] = (short) (((x_16_test[k]<<8)&0xFF00)|((x_16_test[k]>>>8)&0x00FF));
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//            try
+//            {
+//                x_16_datain.close();
+//            }
+//            catch (IOException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+        
+        /*
+         * Option 2:
+         */
+//        RandomAccessFile x_16_datain_rand = null;
+//        int k;
+//        try
+//        {
+//            x_16_datain_rand = new RandomAccessFile(new File(x_16_filename), "r");
+//            try
+//            {
+//                x_16_datain_rand.seek(x_16_file_offset);
+//                for(k = 0; k < psEnc.sCmn.frame_length; k++)
+//                {
+//                    try
+//                    {
+//                        x_16_test[k] = x_16_datain_rand.readShort();
+//                        x_16[k] = (short) (((x_16_test[k]<<8)&0xFF00)|((x_16_test[k]>>>8)&0x00FF));
+//                    }
+//                    catch (IOException e)
+//                    {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//                x_16_file_offset += k;
+//            }
+//            catch (IOException e1)
+//            {
+//                // TODO Auto-generated catch block
+//                e1.printStackTrace();
+//            }
+//            try
+//            {
+//                x_16_datain_rand.close();
+//            }
+//            catch (IOException e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+        
+        /**
+         * Optino 3:
+         */
+	  x_16_filename += frame_cnt;
+      DataInputStream x_16_datain = null;
+      try
         {
             x_16_datain = new DataInputStream(
                               new FileInputStream(
@@ -310,6 +494,7 @@ public class Silk_wrappers_FLP
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        frame_cnt++;
 	    /*TEST END************************************************************************/
         
 	    /* Call NSQ */
