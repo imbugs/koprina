@@ -2,6 +2,7 @@
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
 import java.io.*;
+import java.util.*;
 
 import net.java.sip.communicator.util.*;
 
@@ -100,6 +101,11 @@ public class Encoder
 
     public static void main(String[] argv) throws IOException
     {
+        String logFileName = "encodertest.log";
+        PrintStream logFile  = new PrintStream(new DataOutputStream(
+            new FileOutputStream(new File(logFileName))));
+        System.setErr(logFile);
+        
         int counter;
         int k, args, totPackets, totActPackets, ret;
         short[] nBytes = new short[1];
@@ -314,6 +320,7 @@ public class Encoder
                 speechInData.read(in_tmp, 0,
                     2 * (frameSizeReadFromFile_ms * API_fs_Hz) / 1000) >> 1;
             byteToShortArray(in_tmp, 0, in, 0, counter);
+            Arrays.fill(in_tmp, (byte)0);
 
             if (Config._SYSTEM_IS_BIG_ENDIAN)
                 swap_endian(in, counter);
@@ -377,8 +384,8 @@ public class Encoder
 
                 if (quiet == 0)
                 {
-                    System.err.printf("\nPackets encoded:              "
-                        + totPackets);
+                    System.err.printf("\r\nPackets encoded:              "
+                        + totPackets + " bytes: " + nBytes[0]);
                 }
                 smplsSinceLastPacket = 0;
             }
