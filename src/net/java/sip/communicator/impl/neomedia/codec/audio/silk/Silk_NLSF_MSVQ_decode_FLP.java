@@ -30,23 +30,23 @@ public class Silk_NLSF_MSVQ_decode_FLP
 
 
 	    /* Check that each index is within valid range */
-	    assert( 0 <= NLSFIndices[ 0 ] && NLSFIndices[ 0 ] < psNLSF_CB_FLP.CBStages[ 0 ].nVectors );
+	    assert( 0 <= NLSFIndices[ NLSFIndices_offset+0 ] && NLSFIndices[ NLSFIndices_offset+0 ] < psNLSF_CB_FLP.CBStages[ 0 ].nVectors );
 
 	    /* Point to the first vector element */
 	    pCB_element = psNLSF_CB_FLP.CBStages[ 0 ].CB;
-	    pCB_element_offset = ( NLSFIndices[ 0 ] * LPC_order );
+	    pCB_element_offset = ( NLSFIndices[ NLSFIndices_offset+0 ] * LPC_order );
 
 	    /* Initialize with the codebook vector from stage 0 */
 	    System.arraycopy(pCB_element, pCB_element_offset, pNLSF, 0, LPC_order);
 	          
 	    for( s = 1; s < psNLSF_CB_FLP.nStages; s++ ) {
 	        /* Check that each index is within valid range */
-	        assert( 0 <= NLSFIndices[ s ] && NLSFIndices[ s ] < psNLSF_CB_FLP.CBStages[ s ].nVectors );
+	        assert( 0 <= NLSFIndices[ NLSFIndices_offset+s ] && NLSFIndices[ NLSFIndices_offset+s ] < psNLSF_CB_FLP.CBStages[ s ].nVectors );
 
 	        if( LPC_order == 16 ) {
 	            /* Point to the first vector element */
 	            pCB_element = psNLSF_CB_FLP.CBStages[ s ].CB;
-	            pCB_element_offset = ( NLSFIndices[ s ] << 4 );
+	            pCB_element_offset = ( NLSFIndices[ NLSFIndices_offset+s ] << 4 );
 
 	            /* Add the codebook vector from the current stage */
 	            pNLSF[ 0 ]  += pCB_element[ pCB_element_offset+0 ];
@@ -68,7 +68,7 @@ public class Silk_NLSF_MSVQ_decode_FLP
 	        } else {
 	            /* Point to the first vector element */
 	            pCB_element = psNLSF_CB_FLP.CBStages[ s ].CB;
-	            pCB_element_offset = NLSFIndices[ s ] * LPC_order;
+	            pCB_element_offset = NLSFIndices[ NLSFIndices_offset+s ] * LPC_order;
 
 	            /* Add the codebook vector from the current stage */
 	            for( i = 0; i < LPC_order; i++ ) {
