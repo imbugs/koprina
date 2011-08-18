@@ -110,7 +110,8 @@ public class Silk_resampler_private_down_FIR
 
 				    /* Inner product */
 				    interpol_ptr = FIR_Coefs;
-				    interpol_ptr_offset = Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR / 2 * interpol_ind;
+//BugFix				    interpol_ptr_offset = Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR / 2 * interpol_ind;
+				    interpol_ptr_offset = FIR_Coefs_offset + Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR / 2 * interpol_ind;
 				    res_Q6 = Silk_macros.SKP_SMULWB(         buf_ptr[ buf_ptr_offset   ], interpol_ptr[ interpol_ptr_offset   ] );
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[ buf_ptr_offset+1 ], interpol_ptr[ interpol_ptr_offset+1 ] );
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[ buf_ptr_offset+2 ], interpol_ptr[ interpol_ptr_offset+2 ] );
@@ -118,7 +119,8 @@ public class Silk_resampler_private_down_FIR
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[ buf_ptr_offset+4 ], interpol_ptr[ interpol_ptr_offset+4 ] );
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[ buf_ptr_offset+5 ], interpol_ptr[ interpol_ptr_offset+5 ] );
 				    interpol_ptr = FIR_Coefs;
-				    interpol_ptr_offset = Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR / 2 * ( S.FIR_Fracs - 1 - interpol_ind );
+//BugFix				    interpol_ptr_offset = Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR / 2 * ( S.FIR_Fracs - 1 - interpol_ind );
+                    interpol_ptr_offset = FIR_Coefs_offset + Silk_resampler_rom.RESAMPLER_DOWN_ORDER_FIR / 2 * ( S.FIR_Fracs - 1 - interpol_ind );
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[ buf_ptr_offset+11 ], interpol_ptr[ interpol_ptr_offset   ] );
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[ buf_ptr_offset+10 ], interpol_ptr[ interpol_ptr_offset+1 ] );
 				    res_Q6 = Silk_macros.SKP_SMLAWB( res_Q6, buf_ptr[  buf_ptr_offset+9 ], interpol_ptr[ interpol_ptr_offset+2 ] );
