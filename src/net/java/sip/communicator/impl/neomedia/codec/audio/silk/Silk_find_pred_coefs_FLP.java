@@ -1,7 +1,10 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
-import java.util.Arrays;
+import java.util.*;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * 
@@ -10,6 +13,12 @@ import java.util.Arrays;
  */
 public class Silk_find_pred_coefs_FLP 
 {
+    /************************
+     * TEST for nlsf
+     */
+    static int frame_cnt = 0;
+    /*************************************/
+    
 	/**
 	 * 
 	 * @param psEnc Encoder state FLP.
@@ -100,6 +109,62 @@ public class Silk_find_pred_coefs_FLP
 
 
 	    /* Quantize LSFs */
+/*TEST************************************************************************/
+//	    /**
+//	     * Test for NLSF
+//	     */
+//	    float[]       nlsf = new float[ Silk_define.MAX_LPC_ORDER ];
+//	    String nlsf_filename = "D:/gsoc/nlsf/nlsf";
+//        nlsf_filename += frame_cnt;
+//        DataInputStream nlsf_datain = null;
+//        try
+//        {
+//            nlsf_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(nlsf_filename)));
+//            byte[] buffer = new byte[4];
+//            for(int ii = 0; ii < NLSF.length; ii++ )
+//            {
+//                try
+//                {
+//                    
+//                    int res = nlsf_datain.read(buffer);
+//                    if(res != 4)
+//                    {
+//                        throw new IOException("Unexpected End of Stream");
+//                    }
+//                    nlsf[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+//                    NLSF[ii] = nlsf[ii];
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            } 
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//	    finally
+//	    {
+//	        if(nlsf_datain != null)
+//	        {
+//	            try
+//                {
+//                    nlsf_datain.close();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//	        }
+//	    }
+//	    frame_cnt++;
+/*TEST END********************************************************************/
 	    Silk_process_NLSFs_FLP.SKP_Silk_process_NLSFs_FLP( psEnc, psEncCtrl, NLSF );
 
 	    /* Calculate residual energy using quantized LPC coefficients */
