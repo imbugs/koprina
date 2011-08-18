@@ -1,6 +1,10 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.io.*;
+import java.nio.*;
+
+
 /**
  * Encoder API.
  * 
@@ -9,6 +13,11 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
  */
 public class Silk_enc_API 
 {
+    /***
+     * TODO: TEST
+     */
+    static int frame_cnt = 0;
+    
 	/**
 	 * get the memory size of the encoder state struct, not necessary in Java.
 	 * @deprecated
@@ -192,11 +201,67 @@ public class Silk_enc_API
 	            /* Resample and write to buffer */
 	            ret += Silk_resampler.SKP_Silk_resampler(psEnc.sCmn.resampler_state, 
 	            		psEnc.sCmn.inputBuf, psEnc.sCmn.inputBufIx, samplesIn, samplesIn_offset, nSamplesFromInput);
+	            
+///*TEST****************************************************************************/
+//	            /**
+//	             * test for inputbuf
+//	             */
+//	            short[]       inputbuf = psEnc.sCmn.inputBuf;
+//	            String inputbuf_filename = "D:/gsoc/inputbuf-res/inputbuf-res";
+//	            inputbuf_filename += frame_cnt;
+//	            DataInputStream inputbuf_datain = null;
+//	            try
+//	            {
+//	                inputbuf_datain = new DataInputStream(
+//	                                  new FileInputStream(
+//	                                      new File(inputbuf_filename)));
+//	                byte[] buffer = new byte[2];
+//	                for(int ii = 0; ii < inputbuf.length; ii++ )
+//	                {
+//	                    try
+//	                    {
+//	                        
+//	                        int res = inputbuf_datain.read(buffer);
+//	                        if(res != buffer.length)
+//	                        {
+//	                            throw new IOException("Unexpected End of Stream");
+//	                        }
+//	                        inputbuf[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getShort();
+//	                    }
+//	                    catch (IOException e)
+//	                    {
+//	                        // TODO Auto-generated catch block
+//	                        e.printStackTrace();
+//	                    }
+//	                } 
+//	            }
+//	            catch (FileNotFoundException e)
+//	            {
+//	                // TODO Auto-generated catch block
+//	                e.printStackTrace();
+//	            }
+//	            finally
+//	            {
+//	                if(inputbuf_datain != null)
+//	                {
+//	                    try
+//	                    {
+//	                        inputbuf_datain.close();
+//	                    }
+//	                    catch (IOException e)
+//	                    {
+//	                        // TODO Auto-generated catch block
+//	                        e.printStackTrace();
+//	                    }
+//	                }
+//	            }
+//	            frame_cnt++;
+///*TEST END****************************************************************************/     
 	        } 
 	        samplesIn_offset              += nSamplesFromInput;
 	        nSamplesIn             -= nSamplesFromInput;
-	        psEnc.sCmn.inputBufIx += nSamplesToBuffer;
-
+	        psEnc.sCmn.inputBufIx += nSamplesToBuffer;        
+	        
 	        /* Silk encoder */
 	        if( psEnc.sCmn.inputBufIx >= psEnc.sCmn.frame_length ) 
 	        {
