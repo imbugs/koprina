@@ -1,6 +1,9 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.io.*;
+import java.nio.*;
+
 /**
  * 
  * @author Jing Dai
@@ -8,6 +11,10 @@ package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
  */
 public class Silk_HP_variable_cutoff_FLP 
 {
+    /**
+     * TODO: TEST
+     */
+    static int frame_cnt  = 0;
     /**
      * High-pass filter with cutoff frequency adaptation based on pitch lag statistics.
      * @param psEnc Encoder state FLP
@@ -88,6 +95,231 @@ public class Silk_HP_variable_cutoff_FLP
 	    /********************/
 	    /* High-pass filter */
 	    /********************/
+	    
+//	  /*TEST****************************************************************************/
+//      /**
+//       * test for B_Q28
+//       */
+//      int[]       b_q28 = B_Q28;
+//      String b_q28_filename = "D:/gsoc/b_q28/b_q28";
+//      b_q28_filename += frame_cnt;
+//      DataInputStream b_q28_datain = null;
+//      try
+//      {
+//          b_q28_datain = new DataInputStream(
+//                            new FileInputStream(
+//                                new File(b_q28_filename)));
+//          byte[] buffer = new byte[4];
+//          for(int ii = 0; ii < b_q28.length; ii++ )
+//          {
+//              try
+//              {
+//                  
+//                  int res = b_q28_datain.read(buffer);
+//                  if(res != buffer.length)
+//                  {
+//                      throw new IOException("Unexpected End of Stream");
+//                  }
+//                  b_q28[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getInt();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          } 
+//      }
+//      catch (FileNotFoundException e)
+//      {
+//          // TODO Auto-generated catch block
+//          e.printStackTrace();
+//      }
+//      finally
+//      {
+//          if(b_q28_datain != null)
+//          {
+//              try
+//              {
+//                  b_q28_datain.close();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          }
+//      }
+////      frame_cnt++;
+///*TEST END****************************************************************************/       	    
+//	    
+///*TEST****************************************************************************/
+//      /**
+//       * test for psEnc.x_buf
+//       */
+//      int[]       a_q28 = A_Q28;
+//      String a_q28_filename = "D:/gsoc/a_q28/a_q28";
+//      a_q28_filename += frame_cnt;
+//      DataInputStream a_q28_datain = null;
+//      try
+//      {
+//          a_q28_datain = new DataInputStream(
+//                            new FileInputStream(
+//                                new File(a_q28_filename)));
+//          byte[] buffer = new byte[4];
+//          for(int ii = 0; ii < a_q28.length; ii++ )
+//          {
+//              try
+//              {
+//                  
+//                  int res = a_q28_datain.read(buffer);
+//                  if(res != buffer.length)
+//                  {
+//                      throw new IOException("Unexpected End of Stream");
+//                  }
+//                  a_q28[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getInt();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          } 
+//      }
+//      catch (FileNotFoundException e)
+//      {
+//          // TODO Auto-generated catch block
+//          e.printStackTrace();
+//      }
+//      finally
+//      {
+//          if(a_q28_datain != null)
+//          {
+//              try
+//              {
+//                  a_q28_datain.close();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          }
+//      }
+////      frame_cnt++;
+///*TEST END****************************************************************************/        
+//      
+//      /*TEST****************************************************************************/
+//      /**
+//       * test for psEnc.sCmn.In_HP_State
+//       */
+//      int[]       in_hp_state = psEnc.sCmn.In_HP_State;
+//      String in_hp_state_filename = "D:/gsoc/in_hp_state/in_hp_state";
+//      in_hp_state_filename += frame_cnt;
+//      DataInputStream in_hp_state_datain = null;
+//      try
+//      {
+//          in_hp_state_datain = new DataInputStream(
+//                            new FileInputStream(
+//                                new File(in_hp_state_filename)));
+//          byte[] buffer = new byte[4];
+//          for(int ii = 0; ii < in_hp_state.length; ii++ )
+//          {
+//              try
+//              {
+//                  
+//                  int res = in_hp_state_datain.read(buffer);
+//                  if(res != buffer.length)
+//                  {
+//                      throw new IOException("Unexpected End of Stream");
+//                  }
+//                  in_hp_state[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getInt();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          } 
+//      }
+//      catch (FileNotFoundException e)
+//      {
+//          // TODO Auto-generated catch block
+//          e.printStackTrace();
+//      }
+//      finally
+//      {
+//          if(in_hp_state_datain != null)
+//          {
+//              try
+//              {
+//                  in_hp_state_datain.close();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          }
+//      }
+////      frame_cnt++;
+///*TEST END****************************************************************************/   
+      
+//      /*TEST****************************************************************************/
+//      /**
+//       * test for in
+//       */
+//      short[]       in_test = in;
+//      String in_test_filename = "D:/gsoc/in_test/in_test";
+//      in_test_filename += frame_cnt;
+//      DataInputStream in_test_datain = null;
+//      try
+//      {
+//          in_test_datain = new DataInputStream(
+//                            new FileInputStream(
+//                                new File(in_test_filename)));
+//          byte[] buffer = new byte[2];
+//          for(int ii = 0; ii < in_test.length; ii++ )
+//          {
+//              try
+//              {
+//                  
+//                  int res = in_test_datain.read(buffer);
+//                  if(res != buffer.length)
+//                  {
+//                      throw new IOException("Unexpected End of Stream");
+//                  }
+//                  in_test[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getShort();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          } 
+//      }
+//      catch (FileNotFoundException e)
+//      {
+//          // TODO Auto-generated catch block
+//          e.printStackTrace();
+//      }
+//      finally
+//      {
+//          if(in_test_datain != null)
+//          {
+//              try
+//              {
+//                  in_test_datain.close();
+//              }
+//              catch (IOException e)
+//              {
+//                  // TODO Auto-generated catch block
+//                  e.printStackTrace();
+//              }
+//          }
+//      }
+//      frame_cnt++;
+///*TEST END****************************************************************************/   
+      
 	    Silk_biquad_alt.SKP_Silk_biquad_alt( in,in_offset, B_Q28, A_Q28, psEnc.sCmn.In_HP_State, out,out_offset, psEnc.sCmn.frame_length );
 	}
 }
