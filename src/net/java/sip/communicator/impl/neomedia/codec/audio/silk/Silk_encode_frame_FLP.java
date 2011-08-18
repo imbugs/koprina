@@ -1,6 +1,9 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.*;
 
 /**
@@ -11,6 +14,10 @@ import java.util.*;
  */
 public class Silk_encode_frame_FLP
 {
+    /**
+     * TODO: TEST
+     */
+    static int frame_cnt = 0;
 	/**
 	 * Encode frame.
 	 * @param psEnc Encoder state FLP
@@ -73,25 +80,307 @@ public class Silk_encode_frame_FLP
 	    	System.arraycopy(pIn, pIn_offset, pIn_HP, 0, psEnc.sCmn.frame_length);
 	    }
 
+	    
+//	    /*TEST****************************************************************************/
+//        /**
+//         * test for psEnc.x_buf
+//         */
+//        short[]       pin_hp = pIn_HP;
+//        String pin_hp_filename = "D:/gsoc/pin_hp/pin_hp";
+//        pin_hp_filename += frame_cnt;
+//        DataInputStream pin_hp_datain = null;
+//        try
+//        {
+//            pin_hp_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(pin_hp_filename)));
+//            byte[] buffer = new byte[2];
+//            for(int ii = 0; ii < pin_hp.length; ii++ )
+//            {
+//                try
+//                {
+//                    
+//                    int res = pin_hp_datain.read(buffer);
+//                    if(res != buffer.length)
+//                    {
+//                        throw new IOException("Unexpected End of Stream");
+//                    }
+//                    pin_hp[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getShort();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            } 
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(pin_hp_datain != null)
+//            {
+//                try
+//                {
+//                    pin_hp_datain.close();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        frame_cnt++;
+/*TEST END****************************************************************************/	    
 	    if (Silk_define.SWITCH_TRANSITION_FILTERING != 0) {
 		    /* Ensure smooth bandwidth transitions */
 	    	Silk_LP_variable_cutoff.SKP_Silk_LP_variable_cutoff( psEnc.sCmn.sLP, pIn_HP_LP, 0, pIn_HP, 0, psEnc.sCmn.frame_length );
 	    } else {
 	    	System.arraycopy(pIn_HP, 0, pIn_HP_LP, 0, psEnc.sCmn.frame_length);
 	    }
-
+	    
+///*TEST****************************************************************************/
+//        /**
+//         * test for psEnc.x_buf
+//         */
+//        short[]       pin_hp_lp = pIn_HP_LP;
+//        String pin_hp_lp_filename = "D:/gsoc/pin_hp_lp/pin_hp_lp";
+//        pin_hp_lp_filename += frame_cnt;
+//        DataInputStream pin_hp_lp_datain = null;
+//        try
+//        {
+//            pin_hp_lp_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(pin_hp_lp_filename)));
+//            byte[] buffer = new byte[2];
+//            for(int ii = 0; ii < pin_hp_lp.length; ii++ )
+//            {
+//                try
+//                {
+//                    
+//                    int res = pin_hp_lp_datain.read(buffer);
+//                    if(res != buffer.length)
+//                    {
+//                        throw new IOException("Unexpected End of Stream");
+//                    }
+//                    pin_hp_lp[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getShort();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            } 
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(pin_hp_lp_datain != null)
+//            {
+//                try
+//                {
+//                    pin_hp_lp_datain.close();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        frame_cnt++;
+///*TEST END****************************************************************************/     	    
+	    
+	    
+///*TEST****************************************************************************/
+//        /**
+//         * test for psEnc.x_buf
+//         */
+//        float[]       x_buf = psEnc.x_buf;
+//        String x_buf_filename = "D:/gsoc/x_buf/x_buf";
+//        x_buf_filename += frame_cnt;
+//        DataInputStream x_buf_datain = null;
+//        try
+//        {
+//            x_buf_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(x_buf_filename)));
+//            byte[] buffer = new byte[4];
+//            for(int ii = 0; ii < x_buf.length; ii++ )
+//            {
+//                try
+//                {
+//                    
+//                    int res = x_buf_datain.read(buffer);
+//                    if(res != 4)
+//                    {
+//                        throw new IOException("Unexpected End of Stream");
+//                    }
+//                    x_buf[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            } 
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(x_buf_datain != null)
+//            {
+//                try
+//                {
+//                    x_buf_datain.close();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        frame_cnt++;
+///*TEST END****************************************************************************/
 	    /*******************************************/
 	    /* Copy new frame to front of input buffer */
 	    /*******************************************/
 	    Silk_SigProc_FLP.SKP_short2float_array( x_frame, x_frame_offset +psEnc.sCmn.la_shape, 
 	    		pIn_HP_LP, 0, psEnc.sCmn.frame_length );
 
+///*TEST****************************************************************************/
+//        /**
+//         * test for psEnc.x_buf
+//         */
+//        float[]       x_buf = psEnc.x_buf;
+//        String x_buf_filename = "D:/gsoc/x_buf/x_buf";
+//        x_buf_filename += frame_cnt;
+//        DataInputStream x_buf_datain = null;
+//        try
+//        {
+//            x_buf_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(x_buf_filename)));
+//            byte[] buffer = new byte[4];
+//            for(int ii = 0; ii < x_buf.length; ii++ )
+//            {
+//                try
+//                {
+//                    
+//                    int res = x_buf_datain.read(buffer);
+//                    if(res != 4)
+//                    {
+//                        throw new IOException("Unexpected End of Stream");
+//                    }
+//                    x_buf[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            } 
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(x_buf_datain != null)
+//            {
+//                try
+//                {
+//                    x_buf_datain.close();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        frame_cnt++;
+///*TEST END****************************************************************************/	    
 
 	    /* Add tiny signal to avoid high CPU load from denormalized floating point numbers */
 	    for( k = 0; k < 8; k++ ) {
 	        x_frame[ x_frame_offset + psEnc.sCmn.la_shape + k * ( psEnc.sCmn.frame_length >> 3 ) ] += ( 1 - ( k & 2 ) ) * 1e-6f;
 	    }
-
+/*TEST****************************************************************************/
+	    /**
+	     * test for psEnc.x_buf
+	     */
+	    /**
+         * Test for NLSF
+         */
+//        float[]       x_buf = new float[ psEnc.x_buf.length ];
+//	    float[]       x_buf = psEnc.x_buf;
+//        String x_buf_filename = "D:/gsoc/x_buf/x_buf";
+//        x_buf_filename += frame_cnt;
+//        DataInputStream x_buf_datain = null;
+//        try
+//        {
+//            x_buf_datain = new DataInputStream(
+//                              new FileInputStream(
+//                                  new File(x_buf_filename)));
+//            byte[] buffer = new byte[4];
+//            for(int ii = 0; ii < x_buf.length; ii++ )
+//            {
+//                try
+//                {
+//                    
+//                    int res = x_buf_datain.read(buffer);
+//                    if(res != 4)
+//                    {
+//                        throw new IOException("Unexpected End of Stream");
+//                    }
+//                    x_buf[ii] = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+////                    NLSF[ii] = nlsf[ii];
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            } 
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(x_buf_datain != null)
+//            {
+//                try
+//                {
+//                    x_buf_datain.close();
+//                }
+//                catch (IOException e)
+//                {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        frame_cnt++;
+/*TEST END****************************************************************************/	    
 	    /*****************************************/
 	    /* Find pitch lags, initial LPC analysis */
 	    /*****************************************/
