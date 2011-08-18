@@ -101,11 +101,26 @@ public class Encoder
 
     public static void main(String[] argv) throws IOException
     {
-        String logFileName = "encodertest.log";
-        PrintStream logFile  = new PrintStream(new DataOutputStream(
-            new FileOutputStream(new File(logFileName))));
-        System.setErr(logFile);
-        
+//        String logFileName = "encodertest.log";
+//        PrintStream logFile  = new PrintStream(new DataOutputStream(
+//            new FileOutputStream(new File(logFileName))));
+//        System.setErr(logFile);
+    	File errLog = new File("encoder_errLog_"  + new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) +"__" +
+				new java.text.SimpleDateFormat("HH-mm-ss").format(new java.util.Date()) +".log");
+    	if(!errLog.exists()) {
+			try {
+				errLog.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    	 try {
+ 			System.setErr(new PrintStream(new FileOutputStream(errLog)));
+ 		} catch (FileNotFoundException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
         int counter;
         int k, args, totPackets, totActPackets, ret;
         short[] nBytes = new short[1];
@@ -386,6 +401,8 @@ public class Encoder
                 {
                     System.err.printf("\r\nPackets encoded:              "
                         + totPackets + " bytes: " + nBytes[0]);
+                    System.out.printf("\rPackets encoded:              "
+                            + totPackets + " bytes: " + nBytes[0]);
                 }
                 smplsSinceLastPacket = 0;
             }

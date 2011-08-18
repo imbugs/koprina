@@ -99,6 +99,23 @@ public class Decoder
      */
     public static void main(String[] argv)
     {
+    	File errLog = new File("decoder_errLog_"  + new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) +"__" +
+				new java.text.SimpleDateFormat("HH-mm-ss").format(new java.util.Date()) +".log");
+    	if(!errLog.exists()) {
+			try {
+				errLog.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+    	 try {
+ 			System.setErr(new PrintStream(new FileOutputStream(errLog)));
+ 		} catch (FileNotFoundException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+ 		
         long      counter = 0;
         int args, totPackets, i, k;
         short ret, len, tot_len;
@@ -416,7 +433,9 @@ public class Decoder
             
             if(quiet == 0)
             {
-                System.err.printf("\rPackets decoded:             %d", totPackets);
+                System.err.printf("\r\nPackets decoded:             %d", totPackets);
+                System.out.printf("\rPackets decoded:             %d", totPackets);
+
             }
         }
         /* Empty the recieve buffer */
@@ -519,7 +538,8 @@ public class Decoder
             System.arraycopy(nBytesPerPacket, 1, nBytesPerPacket, 0, MAX_LBRR_DELAY);
             
             if( quiet == 0 ) {
-                System.err.printf("\rPackets decoded:              %d", totPackets);
+                System.err.printf("\r\nPackets decoded:              %d", totPackets);
+                System.out.printf("\rPackets decoded:              %d", totPackets);
             }
         }
         if( quiet == 0 ) {
