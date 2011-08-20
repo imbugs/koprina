@@ -302,14 +302,19 @@ public class Decoder
                 swap_endian(nBytes_ptr, 1);
                 nBytes = nBytes_ptr[0];
             }
-            if(nBytes>0)
-                counter = 1;
-            else 
-                counter = 0;
-                
-            if( nBytes < 0 || counter < 1 ) {
-                break;
+//            if(nBytes > 0)
+//                counter = 1;
+//            else 
+//                counter = 0;
+//                
+//            if( nBytes < 0 || counter < 1 ) {
+//                break;
+//            }
+            if(nBytes < 0)
+            {
+            	break;
             }
+
             
             /* Read payload */
             try {
