@@ -44,8 +44,11 @@ public class Silk_resampler_private_IIR_FIR
 //		SKP_memcpy( buf, S->sFIR, RESAMPLER_ORDER_FIR_144 * sizeof( SKP_int32 ) );
 	    for(int i_djinn=0; i_djinn<Silk_resampler_rom.RESAMPLER_ORDER_FIR_144; i_djinn++)
 	    {
-	    	buf[2*i_djinn] = (short)(S.sFIR[i_djinn]>>>16);
-	    	buf[2*i_djinn+1] = (short)(S.sFIR[i_djinn]&0x0000FFFF);
+//	    	buf[2*i_djinn] = (short)(S.sFIR[i_djinn]>>>16);
+//	    	buf[2*i_djinn+1] = (short)(S.sFIR[i_djinn]&0x0000FFFF);
+//littel-endian	    	
+	    	buf[2*i_djinn] = (short)(S.sFIR[i_djinn]&0x0000FFFF);
+	    	buf[2*i_djinn+1] = (short)(S.sFIR[i_djinn]>>>16);	
 	    }
 
 		/* Iterate over blocks of frameSizeIn input samples */
@@ -102,8 +105,13 @@ public class Silk_resampler_private_IIR_FIR
 //		SKP_memcpy( S->sFIR, &buf[nSamplesIn << S->input2x ], RESAMPLER_ORDER_FIR_144 * sizeof( SKP_int32 ) );
 		for(int i_djinn=0; i_djinn<Silk_resampler_rom.RESAMPLER_ORDER_FIR_144; i_djinn++)
 		{
-	    	S.sFIR[i_djinn] = (int)buf[(nSamplesIn << S.input2x) + 2*i_djinn] << 16;
-	    	S.sFIR[i_djinn] |= (int)buf[(nSamplesIn << S.input2x) + 2*i_djinn+1] & 0x0000FFFF;
+//	    	S.sFIR[i_djinn] = (int)buf[(nSamplesIn << S.input2x) + 2*i_djinn] << 16;
+//	    	S.sFIR[i_djinn] |= (int)buf[(nSamplesIn << S.input2x) + 2*i_djinn+1] & 0x0000FFFF;
+//little-endian			
+			S.sFIR[i_djinn] = (buf[(nSamplesIn << S.input2x) + 2*i_djinn]&0xFF);
+			S.sFIR[i_djinn] |= (((buf[(nSamplesIn << S.input2x) + 2*i_djinn]>>8)&0xFF)<<8)&0x0000FF00;
+			S.sFIR[i_djinn] |= (((buf[(nSamplesIn << S.input2x) + 2*i_djinn + 1]>>0)&0xFF)<<16)&0x00FF0000;
+			S.sFIR[i_djinn] |= (((buf[(nSamplesIn << S.input2x) + 2*i_djinn + 1 ]>>8)&0xFF)<<24)&0xFF000000;
 		}
 	}
 }
