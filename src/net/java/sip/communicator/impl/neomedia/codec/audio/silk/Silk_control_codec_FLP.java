@@ -263,14 +263,24 @@ public class Silk_control_codec_FLP {
 //TODO:whether need to set 0 explicitly???	    	
 	        /* reset part of the state */
 //	        SKP_memset( &psEnc->sShape,          0,                            sizeof( SKP_Silk_shape_state_FLP ) );
+	    	psEnc.sShape.memZero();
 //	        SKP_memset( &psEnc->sPrefilt,        0,                            sizeof( SKP_Silk_prefilter_state_FLP ) );
+	    	psEnc.sPrefilt.memZero();
 //	        SKP_memset( &psEnc->sNSQ,            0,                            sizeof( SKP_Silk_nsq_state ) );
+	    	psEnc.sNSQ.memZero();
 //	        SKP_memset( &psEnc->sPred,           0,                            sizeof( SKP_Silk_predict_state_FLP ) );
+	    	psEnc.sPred.memZero();
 //	        SKP_memset( psEnc->sNSQ.xq,          0, ( 2 * MAX_FRAME_LENGTH ) * sizeof( SKP_float ) );
 //TODO: psEnc.sNSQ.vq is of short[], why sizeof(SKP_float)???	    	
 	    	Arrays.fill(psEnc.sNSQ.xq, 0, 2 * Silk_define.MAX_FRAME_LENGTH, (short)0);
 //	        SKP_memset( psEnc->sNSQ_LBRR.xq,     0, ( 2 * MAX_FRAME_LENGTH ) * sizeof( SKP_float ) );
+	    	Arrays.fill(psEnc.sNSQ_LBRR.xq, (short)0);
 //	        SKP_memset( psEnc->sCmn.LBRR_buffer, 0,           MAX_LBRR_DELAY * sizeof( SKP_SILK_LBRR_struct ) );
+	    	for(int i=0; i < Silk_define.MAX_LBRR_DELAY; i++)
+	    	{
+	    		psEnc.sCmn.LBRR_buffer[i].memZero();
+	    	}
+	    	
 	    	if(Silk_define.SWITCH_TRANSITION_FILTERING != 0)
 	    	{
 	    		Arrays.fill(psEnc.sCmn.sLP.In_LP_State, 0, 2, 0);

@@ -76,6 +76,7 @@ public class Silk_resampler
 		/* Clear state */
 //TODO:how to set all fields of S to 0?
 	    //S = new SKP_Silk_resampler_state_struct();
+	    S.memZero();
 
 		/* Input checking */
 		if(Silk_resampler_structs.RESAMPLER_SUPPORT_ABOVE_48KHZ != 0)
