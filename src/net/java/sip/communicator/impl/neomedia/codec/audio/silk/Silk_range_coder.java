@@ -171,12 +171,14 @@ public class Silk_range_coder
 	    
 	    high_Q16 = prob[prob_offset + probIx];
 	    
-	    base_tmp = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, high_Q16 );
+//TODO	    base_tmp = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, high_Q16 );
+	    base_tmp = ( range_Q16 * high_Q16 ) & 0xFFFFFFFFL;
 	    
 	    if( base_tmp > base_Q32 ) {
 	        while( true ) {
 	            low_Q16 = prob[ --probIx + prob_offset  ];
-	            base_tmp = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, low_Q16 );
+//	            base_tmp = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, low_Q16 );
+	            base_tmp = (range_Q16 * low_Q16 ) & 0xFFFFFFFFL;
 	            if( base_tmp <= base_Q32 ) {
 	                break;
 	            }
@@ -193,7 +195,8 @@ public class Silk_range_coder
 	        while( true ) {
 	            low_Q16  = high_Q16;
 	            high_Q16 = prob[ ++probIx + prob_offset ];
-	            base_tmp = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, high_Q16 );
+//	            base_tmp = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, high_Q16 );
+	            base_tmp = (range_Q16 * high_Q16) & 0xFFFFFFFFL;
 	            if( base_tmp > base_Q32 ) {
 	                probIx--;
 	                break;
@@ -209,8 +212,12 @@ public class Silk_range_coder
 	    }
 	    data[data_offset + 0] = probIx;
 	    
-	    base_Q32 -= Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, low_Q16 );
-	    range_Q32 = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, high_Q16 - low_Q16 );
+//	    base_Q32 -= Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, low_Q16 );
+	    base_Q32 -= (range_Q16 * low_Q16) & 0xFFFFFFFFL;
+	    base_Q32 = base_Q32 & 0xFFFFFFFFL;
+//	    range_Q32 = Silk_SigProc_FIX.SKP_MUL_uint( range_Q16, high_Q16 - low_Q16 );
+	    range_Q32 = (range_Q16 * (high_Q16 - low_Q16)) & 0xFFFFFFFFL;
+	    range_Q32 = range_Q32 & 0xFFFFFFFFL;
 
 	    /* Check normalization */
 //TODO:or 	    if( (range_Q32 & 0xFF000000) != 0 ) {
@@ -233,7 +240,8 @@ public class Silk_range_coder
 	            /* Normalization of 16 bits shift */
 	            range_Q16 = range_Q32;
 	            /* Check for errors */
-	            if( ( base_Q32 >> 16 ) != 0 ) {
+//TODO:	            if( ( base_Q32 >> 16 ) != 0 ) {
+	                if((base_Q32 >>>16) != 0) {
 	                psRC.error = Silk_define.RANGE_CODER_NORMALIZATION_FAILED;
 	                /* Set output to zero */
 	                data[data_offset + 0] = 0;
@@ -241,6 +249,7 @@ public class Silk_range_coder
 	            }
 	            /* Update base */
 	            base_Q32 = ( base_Q32 << 8 );
+	            base_Q32 = base_Q32 & 0xFFFFFFFFL;
 	            /* Make sure not to read beyond buffer */
 	            if( bufferIx < psRC.bufferLength ) {
 	                /* Read one byte from buffer */
@@ -249,6 +258,7 @@ public class Silk_range_coder
 	        }
 	        /* Update base */
 	        base_Q32 = ( base_Q32 << 8 );
+	        base_Q32 = base_Q32 & 0xFFFFFFFFL;
 	        /* Make sure not to read beyond buffer */
 	        if( bufferIx < psRC.bufferLength ) {
 	            /* Read one byte from buffer */
