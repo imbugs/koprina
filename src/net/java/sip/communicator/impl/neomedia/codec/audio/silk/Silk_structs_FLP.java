@@ -1,6 +1,8 @@
 
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.util.*;
+
 /**
  *
  * @author Jing Dai
@@ -23,6 +25,17 @@ class SKP_Silk_shape_state_FLP
     float   HarmBoost_smth;
     float   HarmShapeGain_smth;
     float   Tilt_smth;
+    
+    /**
+     * set all fields of the instance to zero
+     */
+    public void memZero()
+    {
+    	this.LastGainIndex = 0;
+    	this.HarmBoost_smth = 0;
+    	this.HarmShapeGain_smth = 0;
+    	this.Tilt_smth = 0;
+    }
 }
 
 /**
@@ -47,6 +60,28 @@ class SKP_Silk_prefilter_state_FLP
     float   sHarmHP;
     int   rand_seed;
     int     lagPrev;
+    
+    /**
+     * set all fields of the instance to zero
+     */
+    public void memZero()
+    {
+    	Arrays.fill(this.sAR_shp1, 0);
+    	Arrays.fill(this.sAR_shp2, 0);
+    	Arrays.fill(this.sLTP_shp1, 0);
+    	Arrays.fill(this.sLTP_shp2, 0);
+    	
+    	this.sLTP_shp_buf_idx1 = 0;
+    	this.sLTP_shp_buf_idx2 = 0;
+    	this.sAR_shp_buf_idx2 = 0;
+    	this.sLF_AR_shp1 = 0;
+    	this.sLF_AR_shp2 = 0;
+    	this.sLF_MA_shp1 = 0;
+    	this.sLF_MA_shp2 = 0;
+    	this.sHarmHP = 0;
+    	this.rand_seed = 0;
+    	this.lagPrev = 0;
+    }
 } 
 
 /**
@@ -61,6 +96,17 @@ class SKP_Silk_predict_state_FLP
     int     min_pitch_lag;                      /* Lowest possible pitch lag (samples)  */
     int     max_pitch_lag;                      /* Highest possible pitch lag (samples) */
     float[]   prev_NLSFq = new float[ Silk_define.MAX_LPC_ORDER ];        /* Previously quantized NLSF vector     */
+    
+    /**
+     * set all fields of the instance to zero
+     */
+    public void memZero()
+    {
+    	this.pitch_LPC_win_length = 0;
+    	this.max_pitch_lag = 0;
+    	this.min_pitch_lag = 0;
+    	Arrays.fill(this.prev_NLSFq, 0.0f);
+    }
 }
 
 /*******************************************/

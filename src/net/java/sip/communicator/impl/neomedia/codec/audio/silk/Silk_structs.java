@@ -6,6 +6,8 @@
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.util.*;
+
 /**
  *
  * @author Jing Dai
@@ -51,6 +53,25 @@ class SKP_Silk_nsq_state implements Cloneable
 		}
 		return clone;
     }
+    
+    /**
+     * set all fields of the instance to zero
+     */
+    public void memZero()
+    {
+    	Arrays.fill(this.sAR2_Q14, 0);
+    	Arrays.fill(this.sLPC_Q14, 0);
+    	Arrays.fill(this.sLTP_shp_Q10, 0);
+    	Arrays.fill(this.xq, (short)0);
+    	
+    	this.lagPrev = 0;
+    	this.prev_inv_gain_Q16 = 0;
+    	this.rand_seed = 0;
+    	this.rewhite_flag = 0;
+    	this.sLF_AR_shp_Q12 = 0;
+    	this.sLTP_buf_idx = 0;
+    	this.sLTP_shp_buf_idx = 0;   	
+    }
 }/* FIX*/
 
 /**
@@ -64,6 +85,13 @@ class SKP_SILK_LBRR_struct
 	byte[]		payload = new byte[Silk_define.MAX_ARITHM_BYTES];
     int         nBytes;                         /* Number of bytes in payload                               */
     int         usage;                          /* Tells how the payload should be used as FEC              */
+    
+    public void memZero()
+    {
+    	this.nBytes = 0;
+    	this.usage = 0;
+    	Arrays.fill(this.payload, (byte)0);
+    }
 }
 
 /**

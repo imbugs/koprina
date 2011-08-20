@@ -6,6 +6,8 @@
  */
 package net.java.sip.communicator.impl.neomedia.codec.audio.silk;
 
+import java.util.*;
+
 /**
  * Classes for IIR/FIR resamplers.
  * 
@@ -71,6 +73,44 @@ public class Silk_resampler_structs
 	int       nPreDownsamplers;
 	int       nPostUpsamplers;
 	int magic_number;
+	
+	/**
+	 * set all fields of the instance to zero.
+	 */
+	public void memZero()
+	{
+//		{
+//			if(this.Coefs != null)
+//			{
+//				Arrays.fill(this.Coefs, (short)0);
+//			}
+//		}
+		this.Coefs = null;
+		
+		Arrays.fill(this.sDown2, 0);
+		Arrays.fill(this.sDownPre, 0);
+		Arrays.fill(this.sFIR, 0);
+		Arrays.fill(this.sIIR, 0);
+		Arrays.fill(this.sUpPost, 0);
+
+		this.batchSize = 0;
+		this.batchSizePrePost = 0;
+		this.down_pre_function = null;
+		this.downPreCB = null;
+		this.FIR_Fracs = 0;
+		this.input2x = 0;
+		this.invRatio_Q16 = 0;
+		this.magic_number = 0;
+		this.nPostUpsamplers = 0;
+		this.nPreDownsamplers = 0;
+		this.ratio_Q16 = 0;
+		this.resampler_function = null;
+		this.resamplerCB = null;
+		this.up2_function = null;
+		this.up2CB = null;
+		this.up_post_function = null;
+		this.upPostCB = null;	
+	}
 }
  /*************************************************************************************/
  interface ResamplerFP
